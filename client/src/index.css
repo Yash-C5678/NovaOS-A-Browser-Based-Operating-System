@@ -1,0 +1,353 @@
+:root {
+  /* =========================================================
+     NOVAOS THEME VARIABLES
+     ========================================================= */
+
+  --nova-accent: #7c5cff;
+  --nova-accent-soft: rgba(124, 92, 255, 0.12);
+  --nova-accent-border: rgba(124, 92, 255, 0.5);
+
+  /* Backward-compatible aliases.
+     Existing NovaOS components can continue using these. */
+  --accent: var(--nova-accent);
+  --accent-bg: var(--nova-accent-soft);
+  --accent-border: var(--nova-accent-border);
+
+  /* Dark theme defaults */
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --social-bg: rgba(47, 48, 58, 0.5);
+
+  --shadow:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px,
+    rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* =========================================================
+   NOVAOS LIGHT THEME
+   Settings.jsx applies:
+   document.documentElement.dataset.novaAppearance = "light"
+   ========================================================= */
+
+:root[data-nova-appearance="light"] {
+  --text: #4b5563;
+  --text-h: #111827;
+  --bg: #f5f6fa;
+  --border: #dfe2e8;
+  --code-bg: #eef0f4;
+  --social-bg: rgba(238, 240, 244, 0.7);
+
+  color-scheme: light;
+}
+
+
+/* =========================================================
+   NOVAOS DARK THEME
+   ========================================================= */
+
+:root[data-nova-appearance="dark"] {
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --social-bg: rgba(47, 48, 58, 0.5);
+
+  color-scheme: dark;
+}
+
+
+/* =========================================================
+   ACCENT COLOR BRIDGE
+   Settings.jsx updates --nova-accent dynamically.
+
+   These aliases ensure older components using --accent
+   automatically receive the selected Settings accent.
+   ========================================================= */
+
+:root {
+  --accent: var(--nova-accent);
+  --accent-bg: var(--nova-accent-soft);
+  --accent-border: var(--nova-accent-border);
+}
+
+
+/* =========================================================
+   DENSITY
+   Settings.jsx applies:
+   document.documentElement.dataset.novaDensity
+   ========================================================= */
+
+:root[data-nova-density="compact"] {
+  --nova-density-unit: 0.85;
+  --nova-density-gap: 8px;
+  --nova-density-padding: 10px;
+}
+
+:root[data-nova-density="comfortable"] {
+  --nova-density-unit: 1;
+  --nova-density-gap: 12px;
+  --nova-density-padding: 14px;
+}
+
+
+/* =========================================================
+   REDUCE WINDOW ANIMATIONS
+   Settings.jsx controls --nova-window-animation
+   ========================================================= */
+
+:root {
+  --nova-window-animation: 1;
+}
+
+:root[data-nova-appearance] {
+  --nova-window-transition-duration: calc(180ms * var(--nova-window-animation));
+}
+
+
+/* =========================================================
+   RESPONSIVE FONT SIZE
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  :root {
+    font-size: 16px;
+  }
+}
+
+
+/* =========================================================
+   GLOBAL PAGE RESET
+   ========================================================= */
+
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+
+  transition:
+    background-color var(--nova-window-transition-duration, 180ms) ease,
+    color var(--nova-window-transition-duration, 180ms) ease;
+}
+
+
+/* =========================================================
+   REACT ROOT
+   ========================================================= */
+
+#root {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  text-align: left;
+
+  background: var(--bg);
+  color: var(--text);
+}
+
+
+/* =========================================================
+   GLOBAL BOX SIZING
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading);
+  color: var(--text-h);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  transition:
+    color var(--nova-window-transition-duration, 180ms) ease;
+}
+
+h1,
+h2 {
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+}
+
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+}
+
+@media (max-width: 1024px) {
+  h2 {
+    font-size: 20px;
+  }
+}
+
+p {
+  margin: 0;
+}
+
+
+/* =========================================================
+   CODE
+   ========================================================= */
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+   ========================================================= */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--nova-accent);
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   GLOBAL ACCENT HELPERS
+   ========================================================= */
+
+::selection {
+  background: var(--nova-accent-soft);
+  color: var(--text-h);
+}
+
+a {
+  color: var(--nova-accent);
+}
+
+a:hover {
+  color: var(--nova-accent);
+}
+
+button,
+input,
+textarea,
+select {
+  accent-color: var(--nova-accent);
+}
+
+
+/* =========================================================
+   THEME TRANSITIONS
+   ========================================================= */
+
+body,
+#root,
+button,
+input,
+textarea,
+select {
+  transition:
+    background-color var(--nova-window-transition-duration, 180ms) ease,
+    border-color var(--nova-window-transition-duration, 180ms) ease,
+    color var(--nova-window-transition-duration, 180ms) ease,
+    box-shadow var(--nova-window-transition-duration, 180ms) ease;
+}

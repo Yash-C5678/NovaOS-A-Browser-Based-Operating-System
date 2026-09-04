@@ -1,0 +1,2202 @@
+﻿import { NovaRuntime } from "../runtime/NovaRuntime.js";
+import { MemoryManager } from "../memory/MemoryManager.js";
+import { PagingManager } from "../memory/paging/PagingManager.js";
+import { SegmentationManager } from "../memory/segmentation/SegmentationManager.js";
+import { VirtualMemoryManager } from "../memory/virtual/VirtualMemoryManager.js";
+import { PageReplacementManager } from "../memory/paging/PageReplacementManager.js";
+import { DeviceManager } from "../io/devices/DeviceManager.js";
+import { IOController } from "../io/core/IOController.js";
+import { ProcessIOManager } from "../io/integration/ProcessIOManager.js";
+import { SynchronizationManager } from "../synchronization/core/SynchronizationManager.js";
+import { DeadlockManager } from "../deadlock/core/DeadlockManager.js";
+import { FileSystemManager } from "../filesystem/FileSystemManager.js";
+import { NotificationManager } from "../notifications/NotificationManager.js";
+import { UserManager } from "../authentication/UserManager.js";
+import { SystemLogManager } from "../logging/SystemLogManager.js";
+
+
+export class Kernel {
+
+    constructor({
+        totalMemory = 1024,
+        memoryAlgorithm = "first-fit",
+        pageSize = 64,
+        pageReplacementAlgorithm = "fifo"
+    } = {}) {
+
+        this.runtime =
+            new NovaRuntime();
+
+
+        /*
+         * =========================================================
+         * NOTIFICATIONS
+         * =========================================================
+         */
+
+        this.notificationManager =
+            new NotificationManager();
+
+
+        /*
+         * =========================================================
+         * AUTHENTICATION / USER SYSTEM
+         * =========================================================
+         */
+
+        this.userManager =
+            new UserManager();
+
+
+        /*
+         * =========================================================
+         * SYSTEM LOGGING
+         * =========================================================
+         *
+         * SystemLogManager consumes the existing NovaOS
+         * SystemEvent stream. It does not replace SystemEvent.
+         */
+
+        this.systemLogManager =
+            new SystemLogManager();
+
+
+        /*
+         * =========================================================
+         * MEMORY
+         * =========================================================
+         */
+
+        this.memoryManager =
+            new MemoryManager({
+                totalMemory,
+
+                algorithm:
+                    memoryAlgorithm
+            });
+
+
+        /*
+         * =========================================================
+         * PAGING
+         * =========================================================
+         */
+
+        this.pagingManager =
+            new PagingManager({
+                physicalMemorySize:
+                    totalMemory,
+
+                pageSize
+            });
+
+
+        /*
+         * =========================================================
+         * PAGE REPLACEMENT
+         * =========================================================
+         */
+
+        this.pageReplacementManager =
+            new PageReplacementManager({
+                defaultAlgorithm:
+                    pageReplacementAlgorithm
+            });
+
+
+        /*
+         * =========================================================
+         * VIRTUAL MEMORY
+         * =========================================================
+         */
+
+        this.virtualMemoryManager =
+            new VirtualMemoryManager({
+                pagingManager:
+                    this.pagingManager,
+
+                pageReplacementManager:
+                    this.pageReplacementManager,
+
+                defaultEvictionPolicy:
+                    pageReplacementAlgorithm
+            });
+
+
+        /*
+         * =========================================================
+         * SEGMENTATION
+         * =========================================================
+         */
+
+        this.segmentationManager =
+            new SegmentationManager({
+                physicalMemorySize:
+                    totalMemory
+            });
+
+
+        /*
+         * =========================================================
+         * I/O DEVICES
+         * =========================================================
+         */
+
+        this.deviceManager =
+            new DeviceManager();
+
+
+        this.deviceManager.registerDevice({
+            id:
+                "disk-0",
+
+            name:
+                "System Disk",
+
+            type:
+                "storage"
+        });
+
+
+        this.deviceManager.registerDevice({
+            id:
+                "keyboard-0",
+
+            name:
+                "Keyboard",
+
+            type:
+                "input"
+        });
+
+
+        this.deviceManager.registerDevice({
+            id:
+                "display-0",
+
+            name:
+                "Display",
+
+            type:
+                "output"
+        });
+
+
+        this.deviceManager.registerDevice({
+            id:
+                "network-0",
+
+            name:
+                "Network Adapter",
+
+            type:
+                "network"
+        });
+
+
+        /*
+         * =========================================================
+         * I/O CONTROLLER
+         * =========================================================
+         */
+
+        this.ioController =
+            new IOController({
+                deviceManager:
+                    this.deviceManager
+            });
+
+
+        /*
+         * =========================================================
+         * PROCESS I/O
+         * =========================================================
+         */
+
+        this.processIOManager =
+            new ProcessIOManager({
+                processManager:
+                    this.runtime.processManager,
+
+                ioController:
+                    this.ioController
+            });
+
+
+        /*
+         * =========================================================
+         * SYNCHRONIZATION
+         * =========================================================
+         */
+
+        this.synchronizationManager =
+            new SynchronizationManager();
+
+
+        /*
+         * =========================================================
+         * DEADLOCK
+         * =========================================================
+         */
+
+        this.deadlockManager =
+            new DeadlockManager();
+
+
+        /*
+         * =========================================================
+         * FILESYSTEM
+         * =========================================================
+         */
+
+        this.fileSystemManager =
+            new FileSystemManager();
+
+
+        /*
+         * =========================================================
+         * KERNEL STATE
+         * ========================================================= */
+
+        this.booted =
+            false;
+
+        this.bootTime =
+            null;
+
+
+        /*
+         * =========================================================
+         * BUILT-IN APPLICATIONS
+         * ========================================================= */
+
+        this.registerBuiltInApplications();
+    }
+
+
+    /*
+     * =========================================================
+     * RUNTIME EVENT HELPERS
+     * =========================================================
+     */
+
+    getRuntimeEventCount() {
+
+        if (
+            !Array.isArray(
+                this.runtime.events
+            )
+        ) {
+            return 0;
+        }
+
+
+        return this.runtime.events.length;
+    }
+
+
+    /*
+     * =========================================================
+     * RUNTIME EVENT → NOTIFICATION + LOGGING BRIDGE
+     * =========================================================
+     *
+     * Every runtime event is consumed by both subsystems.
+     */
+
+    ingestRuntimeEventsFrom(
+        startIndex
+    ) {
+
+        if (
+            !Array.isArray(
+                this.runtime.events
+            )
+        ) {
+            return [];
+        }
+
+
+        const normalizedStartIndex =
+            Math.max(
+                0,
+                Number.isInteger(
+                    startIndex
+                )
+                    ? startIndex
+                    : 0
+            );
+
+
+        const events =
+            this.runtime.events.slice(
+                normalizedStartIndex
+            );
+
+
+        const notifications = [];
+
+
+        for (
+            const event
+            of events
+        ) {
+
+            /*
+             * -----------------------------------------------------
+             * NOTIFICATION INGESTION
+             * -----------------------------------------------------
+             */
+
+            try {
+
+                const notification =
+                    this.notificationManager
+                        .ingestEvent(
+                            event
+                        );
+
+
+                if (
+                    notification
+                ) {
+                    notifications.push(
+                        notification
+                    );
+                }
+
+            } catch (
+            error
+            ) {
+
+                console.error(
+                    "NovaOS notification event processing error:",
+                    error
+                );
+            }
+
+
+            /*
+             * -----------------------------------------------------
+             * SYSTEM LOG INGESTION
+             * -----------------------------------------------------
+             */
+
+            try {
+
+                this.systemLogManager
+                    .ingestEvent(
+                        event,
+                        {
+                            level:
+                                this.getLogLevelForEvent(
+                                    event
+                                )
+                        }
+                    );
+
+            } catch (
+            error
+            ) {
+
+                console.error(
+                    "NovaOS system log event processing error:",
+                    error
+                );
+            }
+        }
+
+
+        return notifications;
+    }
+
+
+    /*
+     * =========================================================
+     * EVENT → LOG LEVEL
+     * =========================================================
+     *
+     * Most runtime events are informational.
+     * Failure/termination events are classified separately.
+     */
+
+    getLogLevelForEvent(
+        event
+    ) {
+
+        const type =
+            String(
+                event?.type ??
+                ""
+            )
+                .trim()
+                .toUpperCase();
+
+
+        if (
+            type.includes(
+                "ERROR"
+            ) ||
+            type.includes(
+                "FAILED"
+            ) ||
+            type.includes(
+                "FAILURE"
+            )
+        ) {
+            return "error";
+        }
+
+
+        if (
+            type.includes(
+                "WARNING"
+            ) ||
+            type.includes(
+                "WARN"
+            )
+        ) {
+            return "warning";
+        }
+
+
+        if (
+            type.includes(
+                "CRITICAL"
+            )
+        ) {
+            return "critical";
+        }
+
+
+        return "info";
+    }
+
+
+    /*
+     * =========================================================
+     * DIRECT SYSTEM NOTIFICATION
+     * =========================================================
+     */
+
+    createSystemNotification({
+        title,
+        message,
+        type = "info",
+        source = "system",
+        applicationId = null,
+        processId = null,
+        eventType = null,
+        metadata = {}
+    } = {}) {
+
+        return this.notificationManager
+            .createNotification({
+
+                title,
+
+                message,
+
+                type,
+
+                source,
+
+                applicationId,
+
+                processId,
+
+                eventType,
+
+                metadata
+            });
+    }
+
+
+    /*
+     * =========================================================
+     * DIRECT SYSTEM LOG
+     * =========================================================
+     */
+
+    createSystemLog({
+        level = "info",
+        source = "system",
+        type = "SYSTEM",
+        message = "",
+        payload = {},
+        timestamp = new Date()
+    } = {}) {
+
+        return this.systemLogManager
+            .createLog({
+
+                level,
+
+                source,
+
+                type,
+
+                message,
+
+                payload,
+
+                timestamp
+            });
+    }
+
+
+    /*
+     * =========================================================
+     * BUILT-IN APPLICATIONS
+     * =========================================================
+     */
+
+    registerBuiltInApplications() {
+
+        if (
+            !this.runtime.getApplication(
+                "terminal"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "terminal",
+
+                name:
+                    "Terminal",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "NovaOS command-line terminal",
+
+                icon:
+                    "terminal",
+
+                entryPoint:
+                    "/apps/terminal",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "scheduler"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "scheduler",
+
+                name:
+                    "Scheduler",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "CPU scheduling algorithm simulator",
+
+                icon:
+                    "scheduler",
+
+                entryPoint:
+                    "/apps/scheduler",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "process-manager"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "process-manager",
+
+                name:
+                    "Process Manager",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Monitor and control NovaOS processes",
+
+                icon:
+                    "process",
+
+                entryPoint:
+                    "/apps/process-manager",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "memory-manager"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "memory-manager",
+
+                name:
+                    "Memory Manager",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Dynamic memory allocation and fragmentation simulator",
+
+                icon:
+                    "memory",
+
+                entryPoint:
+                    "/apps/memory-manager",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "io-manager"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "io-manager",
+
+                name:
+                    "I/O Manager",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Monitor devices and manage I/O requests",
+
+                icon:
+                    "io",
+
+                entryPoint:
+                    "/apps/io-manager",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "synchronization"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "synchronization",
+
+                name:
+                    "Synchronization",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Manage mutexes and semaphores",
+
+                icon:
+                    "synchronization",
+
+                entryPoint:
+                    "/apps/synchronization",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "deadlock"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "deadlock",
+
+                name:
+                    "Deadlock",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Deadlock detection and Banker's algorithm visualizer",
+
+                icon:
+                    "deadlock",
+
+                entryPoint:
+                    "/apps/deadlock",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "file-explorer"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "file-explorer",
+
+                name:
+                    "File Explorer",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Browse and manage the NovaOS virtual filesystem",
+
+                icon:
+                    "file-explorer",
+
+                entryPoint:
+                    "/apps/file-explorer",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "notepad"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "notepad",
+
+                name:
+                    "Notepad",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Create and edit text files",
+
+                icon:
+                    "notepad",
+
+                entryPoint:
+                    "/apps/notepad",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "calculator"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "calculator",
+
+                name:
+                    "Calculator",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Basic arithmetic calculator",
+
+                icon:
+                    "calculator",
+
+                entryPoint:
+                    "/apps/calculator",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "resource-monitor"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "resource-monitor",
+
+                name:
+                    "Resource Monitor",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Monitor NovaOS system resources",
+
+                icon:
+                    "resource-monitor",
+
+                entryPoint:
+                    "/apps/resource-monitor",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "paging"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "paging",
+
+                name:
+                    "Paging",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Virtual memory paging simulator",
+
+                icon:
+                    "paging",
+
+                entryPoint:
+                    "/apps/paging",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "segmentation"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "segmentation",
+
+                name:
+                    "Segmentation",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Memory segmentation simulator",
+
+                icon:
+                    "segmentation",
+
+                entryPoint:
+                    "/apps/segmentation",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "virtual-memory"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "virtual-memory",
+
+                name:
+                    "Virtual Memory",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Demand paging and virtual memory simulator",
+
+                icon:
+                    "virtual-memory",
+
+                entryPoint:
+                    "/apps/virtual-memory",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "page-replacement"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "page-replacement",
+
+                name:
+                    "Page Replacement",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "FIFO, LRU, Optimal, Second Chance and Clock page replacement simulator",
+
+                icon:
+                    "page-replacement",
+
+                entryPoint:
+                    "/apps/page-replacement",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "camera"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "camera",
+
+                name:
+                    "Camera",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Capture photos and record videos using the system camera",
+
+                icon:
+                    "camera",
+
+                entryPoint:
+                    "/apps/camera",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "gallery"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "gallery",
+
+                name:
+                    "Gallery",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "View and manage photos and videos stored in the NovaOS filesystem",
+
+                icon:
+                    "gallery",
+
+                entryPoint:
+                    "/apps/gallery",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        if (
+            !this.runtime.getApplication(
+                "settings"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "settings",
+
+                name:
+                    "Settings",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "Configure NovaOS system and desktop preferences",
+
+                icon:
+                    "settings",
+
+                entryPoint:
+                    "/apps/settings",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        /*
+         * =========================================================
+         * SYSTEM LOGS
+         * =========================================================
+         */
+
+        if (
+            !this.runtime.getApplication(
+                "system-logs"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "system-logs",
+
+                name:
+                    "System Logs",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "View and analyze NovaOS kernel and runtime system logs",
+
+                icon:
+                    "system-logs",
+
+                entryPoint:
+                    "/apps/system-logs",
+
+                singleton:
+                    true
+            });
+        }
+
+
+        /*
+         * =========================================================
+         * BROWSER
+         * =========================================================
+         *
+         * Browser is a normal NovaOS application.
+         *
+         * Its offline Dino Game is handled entirely by the
+         * Browser frontend when navigator.onLine becomes false.
+         *
+         * It is intentionally NOT registered as a separate
+         * Dino Game application.
+         */
+
+        if (
+            !this.runtime.getApplication(
+                "browser"
+            )
+        ) {
+
+            this.runtime.registerApplication({
+                id:
+                    "browser",
+
+                name:
+                    "Browser",
+
+                version:
+                    "1.0.0",
+
+                description:
+                    "NovaOS web browser with offline Dino Game",
+
+                icon:
+                    "browser",
+
+                entryPoint:
+                    "/apps/browser",
+
+                singleton:
+                    true
+            });
+        }
+    }
+
+
+    /*
+     * =========================================================
+     * KERNEL CONTROL
+     * =========================================================
+     */
+
+    boot() {
+
+        if (
+            this.booted
+        ) {
+            return false;
+        }
+
+
+        this.registerBuiltInApplications();
+
+
+        if (
+            this.virtualMemoryManager &&
+            typeof this.virtualMemoryManager
+                .setPageReplacementManager ===
+            "function"
+        ) {
+
+            this.virtualMemoryManager
+                .setPageReplacementManager(
+                    this.pageReplacementManager
+                );
+        }
+
+
+        this.booted =
+            true;
+
+
+        this.bootTime =
+            new Date();
+
+
+        this.createSystemNotification({
+
+            title:
+                "NovaOS Started",
+
+            message:
+                "NovaOS kernel boot completed successfully.",
+
+            type:
+                "success",
+
+            source:
+                "system",
+
+            eventType:
+                "KERNEL_BOOT"
+        });
+
+
+        this.createSystemLog({
+
+            level:
+                "info",
+
+            source:
+                "kernel",
+
+            type:
+                "KERNEL_BOOT",
+
+            message:
+                "NovaOS kernel boot completed successfully."
+        });
+
+
+        return true;
+    }
+
+
+    shutdown() {
+
+        if (
+            !this.booted
+        ) {
+            return false;
+        }
+
+
+        this.createSystemNotification({
+
+            title:
+                "NovaOS Shutdown",
+
+            message:
+                "NovaOS kernel shutdown completed.",
+
+            type:
+                "info",
+
+            source:
+                "system",
+
+            eventType:
+                "KERNEL_SHUTDOWN"
+        });
+
+
+        this.createSystemLog({
+
+            level:
+                "info",
+
+            source:
+                "kernel",
+
+            type:
+                "KERNEL_SHUTDOWN",
+
+            message:
+                "NovaOS kernel shutdown completed."
+        });
+
+
+        this.booted =
+            false;
+
+
+        return true;
+    }
+
+
+    isBooted() {
+        return this.booted;
+    }
+
+
+    /*
+     * =========================================================
+     * APPLICATIONS
+     * =========================================================
+     */
+
+    registerApplication(
+        applicationDefinition
+    ) {
+
+        const eventStart =
+            this.getRuntimeEventCount();
+
+
+        const application =
+            this.runtime.registerApplication(
+                applicationDefinition
+            );
+
+
+        this.ingestRuntimeEventsFrom(
+            eventStart
+        );
+
+
+        return application;
+    }
+
+
+    launchApplication(
+        applicationId
+    ) {
+
+        this.ensureBooted();
+
+
+        const eventStart =
+            this.getRuntimeEventCount();
+
+
+        try {
+
+            const result =
+                this.runtime.launchApplication(
+                    applicationId
+                );
+
+
+            const process =
+                result.process;
+
+
+            if (
+                process.memoryLimit !== null &&
+                process.memoryLimit !== undefined
+            ) {
+
+                try {
+
+                    this.memoryManager.allocate(
+                        process.pid,
+                        process.memoryLimit
+                    );
+
+
+                    this.ensurePagingProcess(
+                        process
+                    );
+
+
+                    this.ensureVirtualMemoryProcess(
+                        process
+                    );
+
+
+                    this.ensureSegmentationProcess(
+                        process
+                    );
+
+                } catch (error) {
+
+                    try {
+                        this.removeVirtualMemoryProcess(
+                            process.pid
+                        );
+                    } catch {
+                        // Ignore rollback errors.
+                    }
+
+
+                    try {
+                        this.removePagingProcess(
+                            process.pid
+                        );
+                    } catch {
+                        // Ignore rollback errors.
+                    }
+
+
+                    try {
+                        this.removeSegmentationProcess(
+                            process.pid
+                        );
+                    } catch {
+                        // Ignore rollback errors.
+                    }
+
+
+                    try {
+
+                        if (
+                            this.memoryManager.hasAllocation(
+                                process.pid
+                            )
+                        ) {
+                            this.memoryManager.deallocate(
+                                process.pid
+                            );
+                        }
+
+                    } catch {
+                        // Ignore rollback errors.
+                    }
+
+
+                    try {
+                        this.runtime.terminateProcess(
+                            process.pid
+                        );
+                    } catch {
+                        // Ignore rollback errors.
+                    }
+
+
+                    throw error;
+                }
+            }
+
+
+            this.ingestRuntimeEventsFrom(
+                eventStart
+            );
+
+
+            return result;
+
+        } catch (error) {
+
+            this.ingestRuntimeEventsFrom(
+                eventStart
+            );
+
+
+            this.createSystemLog({
+
+                level:
+                    "error",
+
+                source:
+                    "kernel",
+
+                type:
+                    "APPLICATION_LAUNCH_ERROR",
+
+                message:
+                    error?.message ??
+                    "Application launch failed.",
+
+                payload: {
+                    applicationId
+                }
+            });
+
+
+            throw error;
+        }
+    }
+
+
+    /*
+     * =========================================================
+     * PROCESS CONTROL
+     * =========================================================
+     */
+
+    terminateProcess(
+        pid
+    ) {
+
+        this.ensureBooted();
+
+
+        const eventStart =
+            this.getRuntimeEventCount();
+
+
+        try {
+
+            if (
+                this.memoryManager.hasAllocation(
+                    pid
+                )
+            ) {
+
+                this.memoryManager.deallocate(
+                    pid
+                );
+            }
+
+
+            this.removeVirtualMemoryProcess(
+                pid
+            );
+
+
+            this.removePagingProcess(
+                pid
+            );
+
+
+            this.removeSegmentationProcess(
+                pid
+            );
+
+
+            const result =
+                this.runtime.terminateProcess(
+                    pid
+                );
+
+
+            this.ingestRuntimeEventsFrom(
+                eventStart
+            );
+
+
+            return result;
+
+        } catch (error) {
+
+            this.ingestRuntimeEventsFrom(
+                eventStart
+            );
+
+
+            this.createSystemLog({
+
+                level:
+                    "error",
+
+                source:
+                    "kernel",
+
+                type:
+                    "PROCESS_TERMINATION_ERROR",
+
+                message:
+                    error?.message ??
+                    "Process termination failed.",
+
+                payload: {
+                    pid
+                }
+            });
+
+
+            throw error;
+        }
+    }
+
+
+    getProcessManager() {
+        return this.runtime.processManager;
+    }
+
+
+    /*
+     * =========================================================
+     * PAGING PROCESS INTEGRATION
+     * =========================================================
+     */
+
+    ensurePagingProcess(
+        process
+    ) {
+
+        if (
+            !process
+        ) {
+            return null;
+        }
+
+
+        const pid =
+            String(
+                process.pid
+            );
+
+
+        const memoryLimit =
+            Number(
+                process.memoryLimit
+            );
+
+
+        if (
+            !pid ||
+            !Number.isFinite(
+                memoryLimit
+            ) ||
+            memoryLimit <= 0
+        ) {
+            return null;
+        }
+
+
+        const pageSize =
+            this.pagingManager.pageSize;
+
+
+        if (
+            !Number.isInteger(
+                pageSize
+            ) ||
+            pageSize <= 0
+        ) {
+            throw new Error(
+                "Paging page size is invalid."
+            );
+        }
+
+
+        const virtualMemorySize =
+            Math.ceil(
+                memoryLimit /
+                pageSize
+            ) *
+            pageSize;
+
+
+        const existingProcesses =
+            this.pagingManager
+                .getSnapshot()
+                ?.processes ??
+            [];
+
+
+        const existing =
+            existingProcesses.find(
+                (pagingProcess) =>
+                    String(
+                        pagingProcess.pid
+                    ) ===
+                    pid
+            );
+
+
+        if (
+            existing
+        ) {
+            return existing;
+        }
+
+
+        return this.pagingManager.createProcess(
+            pid,
+            virtualMemorySize
+        );
+    }
+
+
+    removePagingProcess(
+        pid
+    ) {
+
+        const normalizedPid =
+            String(
+                pid
+            );
+
+
+        const existingProcesses =
+            this.pagingManager
+                .getSnapshot()
+                ?.processes ??
+            [];
+
+
+        const exists =
+            existingProcesses.some(
+                (process) =>
+                    String(
+                        process.pid
+                    ) ===
+                    normalizedPid
+            );
+
+
+        if (
+            !exists
+        ) {
+            return false;
+        }
+
+
+        return this.pagingManager.removeProcess(
+            normalizedPid
+        );
+    }
+
+
+    /*
+     * =========================================================
+     * VIRTUAL MEMORY PROCESS INTEGRATION
+     * =========================================================
+     */
+
+    ensureVirtualMemoryProcess(
+        process
+    ) {
+
+        if (
+            !process
+        ) {
+            return null;
+        }
+
+
+        const pid =
+            String(
+                process.pid
+            );
+
+
+        const memoryLimit =
+            Number(
+                process.memoryLimit
+            );
+
+
+        if (
+            !pid ||
+            !Number.isFinite(
+                memoryLimit
+            ) ||
+            memoryLimit <= 0
+        ) {
+            return null;
+        }
+
+
+        const pagingProcess =
+            this.pagingManager.getProcess(
+                pid
+            );
+
+
+        if (
+            !pagingProcess
+        ) {
+
+            this.ensurePagingProcess(
+                process
+            );
+        }
+
+
+        this.virtualMemoryManager
+            .setPageReplacementManager(
+                this.pageReplacementManager
+            );
+
+
+        return this.virtualMemoryManager.syncProcess(
+            pid
+        );
+    }
+
+
+    removeVirtualMemoryProcess(
+        pid
+    ) {
+
+        const normalizedPid =
+            String(
+                pid
+            );
+
+
+        if (
+            !this.virtualMemoryManager.hasProcess(
+                normalizedPid
+            )
+        ) {
+            return false;
+        }
+
+
+        return this.virtualMemoryManager.removeProcess(
+            normalizedPid
+        );
+    }
+
+
+    /*
+     * =========================================================
+     * SEGMENTATION PROCESS INTEGRATION
+     * =========================================================
+     */
+
+    ensureSegmentationProcess(
+        process
+    ) {
+
+        if (
+            !process
+        ) {
+            return null;
+        }
+
+
+        const pid =
+            String(
+                process.pid
+            );
+
+
+        const memoryLimit =
+            Number(
+                process.memoryLimit
+            );
+
+
+        if (
+            !pid ||
+            !Number.isFinite(
+                memoryLimit
+            ) ||
+            memoryLimit <= 0
+        ) {
+            return null;
+        }
+
+
+        const existing =
+            this.segmentationManager.getProcess(
+                pid
+            );
+
+
+        if (
+            existing
+        ) {
+            return existing;
+        }
+
+
+        return this.segmentationManager.createProcess(
+            pid,
+            memoryLimit
+        );
+    }
+
+
+    removeSegmentationProcess(
+        pid
+    ) {
+
+        const normalizedPid =
+            String(
+                pid
+            );
+
+
+        if (
+            !this.segmentationManager.hasProcess(
+                normalizedPid
+            )
+        ) {
+            return false;
+        }
+
+
+        return this.segmentationManager.removeProcess(
+            normalizedPid
+        );
+    }
+
+
+    /*
+     * =========================================================
+     * FILESYSTEM
+     * =========================================================
+     */
+
+    getFileSystemManager() {
+        return this.fileSystemManager;
+    }
+
+
+    /*
+     * =========================================================
+     * AUTHENTICATION / USERS
+     * =========================================================
+     */
+
+    getUserManager() {
+        return this.userManager;
+    }
+
+
+    /*
+     * =========================================================
+     * NOTIFICATIONS
+     * =========================================================
+     */
+
+    getNotificationManager() {
+        return this.notificationManager;
+    }
+
+
+    /*
+     * =========================================================
+     * SYSTEM LOGGING
+     * =========================================================
+     */
+
+    getSystemLogManager() {
+        return this.systemLogManager;
+    }
+
+
+    /*
+     * =========================================================
+     * SUBSYSTEM ACCESS
+     * =========================================================
+     */
+
+    getMemoryManager() {
+        return this.memoryManager;
+    }
+
+
+    getPagingManager() {
+        return this.pagingManager;
+    }
+
+
+    getPageReplacementManager() {
+        return this.pageReplacementManager;
+    }
+
+
+    getSegmentationManager() {
+        return this.segmentationManager;
+    }
+
+
+    getVirtualMemoryManager() {
+        return this.virtualMemoryManager;
+    }
+
+
+    getDeviceManager() {
+        return this.deviceManager;
+    }
+
+
+    getIOController() {
+        return this.ioController;
+    }
+
+
+    getProcessIOManager() {
+        return this.processIOManager;
+    }
+
+
+    getSynchronizationManager() {
+        return this.synchronizationManager;
+    }
+
+
+    getDeadlockManager() {
+        return this.deadlockManager;
+    }
+
+
+    getRuntime() {
+        return this.runtime;
+    }
+
+
+    /*
+     * =========================================================
+     * SYSTEM STATE
+     * =========================================================
+     */
+
+    getSystemState() {
+
+        return {
+            booted:
+                this.booted,
+
+            bootTime:
+                this.bootTime,
+
+            applications:
+                this.runtime
+                    .listApplications()
+                    .length,
+
+            processes:
+                this.runtime
+                    .getProcesses(),
+
+            windows:
+                this.runtime
+                    .getWindows(),
+
+            memory:
+                this.memoryManager
+                    .getStatistics(),
+
+            paging:
+                this.pagingManager
+                    .getStatistics(),
+
+            pageReplacement:
+                this.pageReplacementManager
+                    .getStatistics(),
+
+            virtualMemory:
+                this.virtualMemoryManager
+                    .getStatistics(),
+
+            segmentation:
+                this.segmentationManager
+                    .getStatistics(),
+
+            devices:
+                this.deviceManager
+                    .getStatistics(),
+
+            io:
+                this.ioController
+                    .getStatistics(),
+
+            processIO:
+                this.processIOManager
+                    .getStatistics(),
+
+            synchronization:
+                this.synchronizationManager
+                    .getStatistics(),
+
+            deadlock:
+                this.deadlockManager
+                    .getStatistics(),
+
+            authentication:
+                this.userManager
+                    .getSnapshot(),
+
+            notifications:
+                this.notificationManager
+                    .getSnapshot(),
+
+            logging:
+                this.systemLogManager
+                    .getSnapshot()
+        };
+    }
+
+
+    /*
+     * =========================================================
+     * RESET
+     * =========================================================
+     */
+
+    reset() {
+
+        this.processIOManager.reset();
+
+        this.synchronizationManager.reset();
+
+        this.deadlockManager.reset();
+
+        this.pageReplacementManager.reset();
+
+        this.virtualMemoryManager.reset();
+
+        this.pagingManager.reset();
+
+        this.segmentationManager.reset();
+
+        this.memoryManager.reset();
+
+        this.deviceManager.reset();
+
+        this.fileSystemManager.reset();
+
+        this.notificationManager.reset();
+
+        this.systemLogManager.reset();
+
+
+        /*
+         * Authentication state belongs to the current
+         * NovaOS session.
+         */
+
+        this.userManager.reset();
+
+
+        /*
+         * Runtime.
+         */
+
+        this.runtime.events =
+            [];
+
+        this.runtime.windows.clear();
+
+        this.runtime.applications.clear();
+
+        this.runtime.processManager.reset();
+
+        this.runtime.nextWindowId =
+            1;
+
+
+        /*
+         * Kernel state.
+         */
+
+        this.booted =
+            false;
+
+        this.bootTime =
+            null;
+
+
+        this.registerBuiltInApplications();
+    }
+
+
+    /*
+     * =========================================================
+     * KERNEL VALIDATION
+     * =========================================================
+     */
+
+    ensureBooted() {
+
+        if (
+            !this.booted
+        ) {
+            throw new Error(
+                "NovaOS kernel is not booted."
+            );
+        }
+    }
+}
+
+
+export const kernel =
+    new Kernel();

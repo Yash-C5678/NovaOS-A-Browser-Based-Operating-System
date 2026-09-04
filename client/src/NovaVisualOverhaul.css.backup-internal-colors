@@ -1,0 +1,2000 @@
+/* ============================================================
+   NOVAOS — VISUAL OVERHAUL
+   ============================================================
+   Purpose:
+   - Professional futuristic OS simulator appearance
+   - Neutral-dominant dark UI
+   - Subsystem-specific semantic accents
+   - macOS / Windows 11 inspired surfaces
+   - Preserves existing NovaOS functionality
+   - Preserves window layering, resizing and taskbar behavior
+   - Designed as an override layer after App.css + NovaTheme.css
+   ============================================================ */
+
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+
+:root {
+    /* ---------- Core surfaces ---------- */
+
+    --nova-primary: #6366f1;
+    --nova-primary-strong: #8b5cf6;
+    --nova-primary-soft: rgba(99, 102, 241, 0.12);
+    --nova-primary-border: rgba(99, 102, 241, 0.34);
+
+    --nova-bg-0: #080d18;
+    --nova-bg-1: #0b1020;
+    --nova-bg-2: #10172a;
+
+    --nova-surface: #12182a;
+    --nova-surface-strong: #171e32;
+    --nova-surface-soft: #0f1525;
+    --nova-surface-highlight: #1b243b;
+
+    --nova-text: #f4f7ff;
+    --nova-text-secondary: #aab6ca;
+    --nova-text-muted: #77859d;
+    --nova-text-subtle: #59677f;
+
+    --nova-border: #26304a;
+    --nova-border-soft: rgba(148, 163, 184, 0.10);
+    --nova-border-strong: #34405d;
+
+    /* ---------- Subsystems ---------- */
+
+    --nova-cpu: #38bdf8;
+    --nova-cpu-soft: rgba(56, 189, 248, 0.12);
+    --nova-cpu-border: rgba(56, 189, 248, 0.34);
+
+    --nova-memory: #8b5cf6;
+    --nova-memory-soft: rgba(139, 92, 246, 0.12);
+    --nova-memory-border: rgba(139, 92, 246, 0.34);
+
+    --nova-io: #f59e0b;
+    --nova-io-soft: rgba(245, 158, 11, 0.12);
+    --nova-io-border: rgba(245, 158, 11, 0.34);
+
+    --nova-sync: #14b8a6;
+    --nova-sync-soft: rgba(20, 184, 166, 0.12);
+    --nova-sync-border: rgba(20, 184, 166, 0.34);
+
+    --nova-deadlock: #fb7185;
+    --nova-deadlock-soft: rgba(251, 113, 133, 0.12);
+    --nova-deadlock-border: rgba(251, 113, 133, 0.34);
+
+    --nova-filesystem: #facc15;
+    --nova-filesystem-soft: rgba(250, 204, 21, 0.12);
+    --nova-filesystem-border: rgba(250, 204, 21, 0.34);
+
+    --nova-terminal: #4ade80;
+    --nova-terminal-soft: rgba(74, 222, 128, 0.12);
+    --nova-terminal-border: rgba(74, 222, 128, 0.34);
+
+    --nova-network: #60a5fa;
+    --nova-network-soft: rgba(96, 165, 250, 0.12);
+    --nova-network-border: rgba(96, 165, 250, 0.34);
+
+    --nova-media: #ec4899;
+    --nova-media-soft: rgba(236, 72, 153, 0.12);
+    --nova-media-border: rgba(236, 72, 153, 0.34);
+
+    --nova-settings: #94a3b8;
+    --nova-settings-soft: rgba(148, 163, 184, 0.12);
+    --nova-settings-border: rgba(148, 163, 184, 0.30);
+
+    /* ---------- Semantic status ---------- */
+
+    --nova-success: #34d399;
+    --nova-success-soft: rgba(52, 211, 153, 0.11);
+    --nova-success-border: rgba(52, 211, 153, 0.30);
+
+    --nova-warning: #fbbf24;
+    --nova-warning-soft: rgba(251, 191, 36, 0.11);
+    --nova-warning-border: rgba(251, 191, 36, 0.30);
+
+    --nova-danger: #fb7185;
+    --nova-danger-soft: rgba(251, 113, 133, 0.11);
+    --nova-danger-border: rgba(251, 113, 133, 0.30);
+
+    --nova-info: #38bdf8;
+    --nova-info-soft: rgba(56, 189, 248, 0.11);
+    --nova-info-border: rgba(56, 189, 248, 0.30);
+
+    /* ---------- Layout ---------- */
+
+    --nova-radius-xs: 6px;
+    --nova-radius-sm: 8px;
+    --nova-radius-md: 12px;
+    --nova-radius-lg: 16px;
+    --nova-radius-xl: 20px;
+
+    --nova-shadow-sm:
+        0 4px 14px rgba(0, 0, 0, 0.20);
+
+    --nova-shadow-md:
+        0 12px 30px rgba(0, 0, 0, 0.30),
+        0 2px 8px rgba(0, 0, 0, 0.18);
+
+    --nova-shadow-lg:
+        0 24px 60px rgba(0, 0, 0, 0.42),
+        0 8px 24px rgba(0, 0, 0, 0.24);
+
+    --nova-shadow-window:
+        0 22px 60px rgba(0, 0, 0, 0.46),
+        0 4px 18px rgba(0, 0, 0, 0.26);
+
+    --nova-glow-primary:
+        0 0 22px rgba(99, 102, 241, 0.16);
+
+    --nova-glow-cyan:
+        0 0 22px rgba(34, 211, 238, 0.14);
+
+    --nova-transition-fast:
+        140ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    --nova-transition:
+        220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+
+/* ============================================================
+   2. GLOBAL NOVAOS SURFACE
+   ============================================================ */
+
+html,
+body,
+#root {
+    background:
+        radial-gradient(
+            circle at 12% 10%,
+            rgba(99, 102, 241, 0.075),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 88% 18%,
+            rgba(6, 182, 212, 0.045),
+            transparent 28%
+        ),
+        linear-gradient(
+            145deg,
+            var(--nova-bg-0),
+            var(--nova-bg-1) 48%,
+            var(--nova-bg-2)
+        );
+}
+
+body {
+    color: var(--nova-text);
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+
+/* ============================================================
+   3. DESKTOP
+   ============================================================ */
+
+.nova-desktop,
+.nova-desktop-shell,
+.nova-desktop-background,
+.nova-shell {
+    color: var(--nova-text);
+}
+
+.nova-desktop {
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(99, 102, 241, 0.055),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(6, 182, 212, 0.035),
+            transparent 30%
+        ),
+        linear-gradient(
+            145deg,
+            var(--nova-bg-0),
+            var(--nova-bg-1)
+        ) !important;
+}
+
+
+/* ============================================================
+   4. SUBTLE DESKTOP GRID
+   ============================================================ */
+
+.nova-desktop::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            rgba(148, 163, 184, 0.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(148, 163, 184, 0.018) 1px,
+            transparent 1px
+        );
+
+    background-size: 42px 42px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.5),
+            transparent 75%
+        );
+}
+
+
+/* ============================================================
+   5. TOP BAR
+   ============================================================ */
+
+.nova-topbar,
+.nova-top-bar,
+.nova-header {
+    background:
+        rgba(11, 16, 32, 0.82) !important;
+
+    border-bottom:
+        1px solid var(--nova-border-soft) !important;
+
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.018),
+        0 8px 28px rgba(0, 0, 0, 0.14);
+
+    backdrop-filter: blur(20px) saturate(125%);
+    -webkit-backdrop-filter: blur(20px) saturate(125%);
+}
+
+.nova-topbar *,
+.nova-top-bar *,
+.nova-header * {
+    color: inherit;
+}
+
+
+/* ============================================================
+   6. NOVA BRAND
+   ============================================================ */
+
+.nova-logo,
+.nova-brand,
+.nova-brand-name {
+    color: var(--nova-text-strong, var(--nova-text)) !important;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.nova-logo::first-letter,
+.nova-brand::first-letter {
+    color: var(--nova-primary);
+}
+
+
+/* ============================================================
+   7. CONTROL CENTER / SYSTEM STATUS
+   ============================================================ */
+
+.nova-control-center,
+.nova-control-panel,
+.nova-system-status {
+    background:
+        rgba(18, 24, 42, 0.88) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    border-radius:
+        var(--nova-radius-lg) !important;
+
+    box-shadow:
+        var(--nova-shadow-lg) !important;
+
+    backdrop-filter: blur(24px) saturate(130%);
+    -webkit-backdrop-filter: blur(24px) saturate(130%);
+}
+
+.nova-control-center button,
+.nova-control-panel button {
+    border-radius: var(--nova-radius-sm);
+}
+
+
+/* ============================================================
+   8. APPLICATION LAUNCHER
+   ============================================================ */
+
+.nova-app-launcher {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(23, 30, 50, 0.97),
+            rgba(13, 19, 34, 0.97)
+        ) !important;
+
+    border:
+        1px solid var(--nova-border-strong) !important;
+
+    border-radius:
+        var(--nova-radius-xl) !important;
+
+    box-shadow:
+        var(--nova-shadow-lg),
+        0 0 0 1px rgba(99, 102, 241, 0.025) !important;
+
+    backdrop-filter:
+        blur(26px) saturate(135%) !important;
+
+    -webkit-backdrop-filter:
+        blur(26px) saturate(135%) !important;
+
+    overflow: hidden;
+}
+
+.nova-app-launcher::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(99, 102, 241, 0.10),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            rgba(6, 182, 212, 0.055),
+            transparent 28%
+        );
+}
+
+.nova-app-launcher-title {
+    color: var(--nova-text) !important;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+}
+
+.nova-app-launcher-subtitle {
+    color: var(--nova-text-muted) !important;
+}
+
+.nova-app-launcher-item {
+    background:
+        rgba(255, 255, 255, 0.018) !important;
+
+    border:
+        1px solid transparent !important;
+
+    border-radius:
+        var(--nova-radius-md) !important;
+
+    transition:
+        transform var(--nova-transition-fast),
+        background var(--nova-transition-fast),
+        border-color var(--nova-transition-fast),
+        box-shadow var(--nova-transition-fast) !important;
+}
+
+.nova-app-launcher-item:hover {
+    background:
+        rgba(99, 102, 241, 0.085) !important;
+
+    border-color:
+        rgba(99, 102, 241, 0.24) !important;
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.16) !important;
+
+    transform:
+        translateY(-1px);
+}
+
+.nova-app-launcher-item:active {
+    transform:
+        translateY(0) scale(0.985);
+}
+
+.nova-app-launcher-icon {
+    border-radius: var(--nova-radius-md);
+}
+
+.nova-app-launcher-name {
+    color: var(--nova-text) !important;
+    font-weight: 600;
+}
+
+.nova-app-launcher-description {
+    color: var(--nova-text-muted) !important;
+}
+
+
+/* ============================================================
+   9. TASKBAR
+   ============================================================ */
+
+.nova-taskbar {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    background:
+        rgba(9, 14, 26, 0.86) !important;
+
+    border-top:
+        1px solid var(--nova-border-soft) !important;
+
+    box-shadow:
+        0 -8px 30px rgba(0, 0, 0, 0.16) !important;
+
+    backdrop-filter:
+        blur(22px) saturate(130%) !important;
+
+    -webkit-backdrop-filter:
+        blur(22px) saturate(130%) !important;
+
+    z-index: 900 !important;
+}
+
+.nova-taskbar::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 12%;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(99, 102, 241, 0.20),
+            rgba(6, 182, 212, 0.14),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+.nova-taskbar-center {
+    color: var(--nova-text-secondary);
+}
+
+.nova-taskbar-apps {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nova-taskbar-window {
+    background:
+        rgba(18, 24, 42, 0.78) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    color:
+        var(--nova-text-secondary) !important;
+
+    border-radius:
+        var(--nova-radius-sm) !important;
+
+    transition:
+        background var(--nova-transition-fast),
+        border-color var(--nova-transition-fast),
+        color var(--nova-transition-fast),
+        transform var(--nova-transition-fast) !important;
+}
+
+.nova-taskbar-window:hover {
+    background:
+        rgba(99, 102, 241, 0.10) !important;
+
+    border-color:
+        rgba(99, 102, 241, 0.30) !important;
+
+    color:
+        var(--nova-text) !important;
+
+    transform:
+        translateY(-1px);
+}
+
+.nova-taskbar-window.active,
+.nova-taskbar-window.focused {
+    background:
+        rgba(99, 102, 241, 0.14) !important;
+
+    border-color:
+        rgba(99, 102, 241, 0.38) !important;
+
+    color:
+        var(--nova-text) !important;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(99, 102, 241, 0.04);
+}
+
+
+/* ============================================================
+   10. WINDOWS
+   ============================================================ */
+
+.nova-window-layer {
+    z-index: 500 !important;
+}
+
+.nova-window {
+    z-index: 600 !important;
+
+    min-width: 520px;
+    min-height: 320px;
+
+    background:
+        var(--nova-surface) !important;
+
+    border:
+        1px solid var(--nova-border-strong) !important;
+
+    border-radius:
+        var(--nova-radius-lg) !important;
+
+    box-shadow:
+        var(--nova-shadow-window) !important;
+
+    overflow: visible;
+
+    isolation: isolate;
+
+    transition:
+        box-shadow var(--nova-transition),
+        border-color var(--nova-transition);
+}
+
+.nova-window:hover {
+    border-color:
+        rgba(148, 163, 184, 0.22) !important;
+}
+
+.nova-window.maximized {
+    z-index: 700 !important;
+
+    border-radius:
+        12px !important;
+}
+
+.nova-window.focused,
+.nova-window.active {
+    border-color:
+        rgba(99, 102, 241, 0.34) !important;
+
+    box-shadow:
+        var(--nova-shadow-window),
+        0 0 0 1px rgba(99, 102, 241, 0.035) !important;
+}
+
+
+/* ============================================================
+   11. WINDOW TITLEBAR
+   ============================================================ */
+
+.nova-window-titlebar {
+    position: relative;
+    z-index: 701;
+
+    min-height: 44px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(26, 34, 56, 0.92),
+            rgba(18, 24, 42, 0.94)
+        ) !important;
+
+    border-bottom:
+        1px solid var(--nova-border) !important;
+
+    border-radius:
+        var(--nova-radius-lg) var(--nova-radius-lg) 0 0 !important;
+
+    color:
+        var(--nova-text) !important;
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+}
+
+.nova-window-title,
+.nova-window-titlebar-title {
+    color:
+        var(--nova-text) !important;
+
+    font-weight:
+        600 !important;
+
+    letter-spacing:
+        -0.012em;
+}
+
+
+/* ============================================================
+   12. WINDOW CONTROLS
+   ============================================================ */
+
+.nova-window-controls {
+    position: relative;
+    z-index: 702;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nova-window-controls button {
+    width: 30px;
+    height: 30px;
+
+    border-radius:
+        var(--nova-radius-sm) !important;
+
+    border:
+        1px solid transparent !important;
+
+    background:
+        transparent !important;
+
+    color:
+        var(--nova-text-muted) !important;
+
+    transition:
+        background var(--nova-transition-fast),
+        border-color var(--nova-transition-fast),
+        color var(--nova-transition-fast),
+        transform var(--nova-transition-fast) !important;
+}
+
+.nova-window-controls button:hover {
+    background:
+        rgba(255, 255, 255, 0.055) !important;
+
+    border-color:
+        rgba(255, 255, 255, 0.07) !important;
+
+    color:
+        var(--nova-text) !important;
+}
+
+.nova-window-controls button:active {
+    transform:
+        scale(0.94);
+}
+
+.nova-window-controls button:last-child:hover {
+    background:
+        var(--nova-danger-soft) !important;
+
+    border-color:
+        var(--nova-danger-border) !important;
+
+    color:
+        var(--nova-danger) !important;
+}
+
+
+/* ============================================================
+   13. WINDOW CONTENT
+   ============================================================ */
+
+.nova-window-content {
+    min-width: 0;
+    min-height: 0;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18, 24, 42, 0.98),
+            rgba(15, 21, 37, 0.98)
+        ) !important;
+
+    color:
+        var(--nova-text) !important;
+
+    border-radius:
+        0 0 var(--nova-radius-lg) var(--nova-radius-lg) !important;
+
+    overflow:
+        auto;
+}
+
+.nova-window-content::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+.nova-window-content::-webkit-scrollbar-track {
+    background:
+        transparent;
+}
+
+.nova-window-content::-webkit-scrollbar-thumb {
+    background:
+        rgba(148, 163, 184, 0.18);
+
+    border:
+        2px solid transparent;
+
+    background-clip:
+        padding-box;
+
+    border-radius:
+        999px;
+}
+
+.nova-window-content::-webkit-scrollbar-thumb:hover {
+    background:
+        rgba(148, 163, 184, 0.30);
+
+    border:
+        2px solid transparent;
+
+    background-clip:
+        padding-box;
+}
+
+
+/* ============================================================
+   14. GENERIC CARDS
+   ============================================================ */
+
+.nova-card,
+.nova-panel,
+.nova-section,
+.nova-widget,
+.nova-stat-card,
+.nova-info-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(26, 34, 56, 0.74),
+            rgba(18, 24, 42, 0.78)
+        ) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    border-radius:
+        var(--nova-radius-md) !important;
+
+    box-shadow:
+        var(--nova-shadow-sm) !important;
+
+    color:
+        var(--nova-text) !important;
+
+    transition:
+        border-color var(--nova-transition-fast),
+        background var(--nova-transition-fast),
+        box-shadow var(--nova-transition-fast),
+        transform var(--nova-transition-fast);
+}
+
+.nova-card:hover,
+.nova-panel:hover,
+.nova-widget:hover,
+.nova-stat-card:hover,
+.nova-info-card:hover {
+    border-color:
+        rgba(148, 163, 184, 0.20) !important;
+
+    box-shadow:
+        var(--nova-shadow-md) !important;
+}
+
+
+/* ============================================================
+   15. GENERIC HEADINGS
+   ============================================================ */
+
+.nova-card h1,
+.nova-card h2,
+.nova-card h3,
+.nova-card h4,
+.nova-panel h1,
+.nova-panel h2,
+.nova-panel h3,
+.nova-panel h4,
+.nova-section h1,
+.nova-section h2,
+.nova-section h3,
+.nova-section h4 {
+    color:
+        var(--nova-text) !important;
+}
+
+.nova-card p,
+.nova-panel p,
+.nova-section p {
+    color:
+        var(--nova-text-secondary);
+}
+
+
+/* ============================================================
+   16. BUTTON SYSTEM
+   ============================================================ */
+
+button,
+.nova-button,
+.nova-btn {
+    font-family:
+        inherit;
+
+    transition:
+        background var(--nova-transition-fast),
+        border-color var(--nova-transition-fast),
+        color var(--nova-transition-fast),
+        box-shadow var(--nova-transition-fast),
+        transform var(--nova-transition-fast);
+}
+
+button:not(:disabled):hover,
+.nova-button:not(:disabled):hover,
+.nova-btn:not(:disabled):hover {
+    transform:
+        translateY(-1px);
+}
+
+button:not(:disabled):active,
+.nova-button:not(:disabled):active,
+.nova-btn:not(:disabled):active {
+    transform:
+        translateY(0) scale(0.985);
+}
+
+button:focus-visible,
+.nova-button:focus-visible,
+.nova-btn:focus-visible {
+    outline:
+        2px solid rgba(99, 102, 241, 0.65);
+
+    outline-offset:
+        2px;
+}
+
+
+/* Primary buttons */
+
+.nova-button.primary,
+.nova-btn.primary,
+button.primary {
+    background:
+        linear-gradient(
+            135deg,
+            var(--nova-primary),
+            var(--nova-primary-strong)
+        ) !important;
+
+    border:
+        1px solid rgba(139, 92, 246, 0.50) !important;
+
+    color:
+        #ffffff !important;
+
+    box-shadow:
+        0 6px 18px rgba(99, 102, 241, 0.18);
+}
+
+.nova-button.primary:hover,
+.nova-btn.primary:hover,
+button.primary:hover {
+    box-shadow:
+        0 8px 24px rgba(99, 102, 241, 0.25);
+}
+
+
+/* Secondary buttons */
+
+.nova-button.secondary,
+.nova-btn.secondary,
+button.secondary {
+    background:
+        rgba(255, 255, 255, 0.035) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    color:
+        var(--nova-text-secondary) !important;
+}
+
+.nova-button.secondary:hover,
+.nova-btn.secondary:hover,
+button.secondary:hover {
+    background:
+        rgba(99, 102, 241, 0.08) !important;
+
+    border-color:
+        var(--nova-primary-border) !important;
+
+    color:
+        var(--nova-text) !important;
+}
+
+
+/* ============================================================
+   17. INPUTS
+   ============================================================ */
+
+input,
+textarea,
+select,
+.nova-input,
+.nova-select,
+.nova-textarea {
+    background:
+        rgba(8, 13, 24, 0.64) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    border-radius:
+        var(--nova-radius-sm) !important;
+
+    color:
+        var(--nova-text) !important;
+
+    caret-color:
+        var(--nova-primary);
+
+    outline:
+        none;
+
+    transition:
+        border-color var(--nova-transition-fast),
+        box-shadow var(--nova-transition-fast),
+        background var(--nova-transition-fast);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color:
+        var(--nova-text-subtle) !important;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+    border-color:
+        var(--nova-border-strong) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color:
+        rgba(99, 102, 241, 0.55) !important;
+
+    box-shadow:
+        0 0 0 3px rgba(99, 102, 241, 0.09) !important;
+
+    background:
+        rgba(11, 16, 32, 0.78) !important;
+}
+
+
+/* ============================================================
+   18. TABLES
+   ============================================================ */
+
+table {
+    color:
+        var(--nova-text) !important;
+
+    border-collapse:
+        separate;
+
+    border-spacing:
+        0;
+}
+
+th {
+    color:
+        var(--nova-text-secondary) !important;
+
+    background:
+        rgba(255, 255, 255, 0.025) !important;
+
+    border-bottom:
+        1px solid var(--nova-border) !important;
+
+    font-weight:
+        600;
+}
+
+td {
+    color:
+        var(--nova-text-secondary) !important;
+
+    border-bottom:
+        1px solid var(--nova-border-soft) !important;
+}
+
+tr:hover td {
+    background:
+        rgba(99, 102, 241, 0.035) !important;
+}
+
+
+/* ============================================================
+   19. STATUS BADGES
+   ============================================================ */
+
+.nova-status,
+.nova-badge,
+.status-badge {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 6px;
+
+    min-height: 24px;
+
+    padding:
+        3px 9px;
+
+    border-radius:
+        999px;
+
+    border:
+        1px solid var(--nova-border);
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    color:
+        var(--nova-text-secondary);
+
+    font-size:
+        12px;
+
+    font-weight:
+        600;
+}
+
+.nova-status.success,
+.nova-badge.success,
+.status-badge.success {
+    background:
+        var(--nova-success-soft) !important;
+
+    border-color:
+        var(--nova-success-border) !important;
+
+    color:
+        var(--nova-success) !important;
+}
+
+.nova-status.warning,
+.nova-badge.warning,
+.status-badge.warning {
+    background:
+        var(--nova-warning-soft) !important;
+
+    border-color:
+        var(--nova-warning-border) !important;
+
+    color:
+        var(--nova-warning) !important;
+}
+
+.nova-status.danger,
+.nova-badge.danger,
+.status-badge.danger {
+    background:
+        var(--nova-danger-soft) !important;
+
+    border-color:
+        var(--nova-danger-border) !important;
+
+    color:
+        var(--nova-danger) !important;
+}
+
+.nova-status.info,
+.nova-badge.info,
+.status-badge.info {
+    background:
+        var(--nova-info-soft) !important;
+
+    border-color:
+        var(--nova-info-border) !important;
+
+    color:
+        var(--nova-info) !important;
+}
+
+
+/* ============================================================
+   20. ICON CONTAINERS
+   ============================================================ */
+
+.nova-icon,
+.nova-app-icon,
+.nova-icon-container {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius:
+        var(--nova-radius-md);
+
+    background:
+        rgba(99, 102, 241, 0.10);
+
+    border:
+        1px solid rgba(99, 102, 241, 0.20);
+
+    color:
+        var(--nova-primary);
+
+    transition:
+        transform var(--nova-transition-fast),
+        background var(--nova-transition-fast),
+        border-color var(--nova-transition-fast);
+}
+
+.nova-icon:hover,
+.nova-app-icon:hover,
+.nova-icon-container:hover {
+    background:
+        rgba(99, 102, 241, 0.15);
+
+    border-color:
+        rgba(99, 102, 241, 0.32);
+}
+
+
+/* ============================================================
+   21. CPU / SCHEDULER
+   ============================================================ */
+
+.nova-cpu,
+.nova-scheduler,
+[data-subsystem="cpu"],
+[data-subsystem="scheduler"] {
+    --nova-local-accent: var(--nova-cpu);
+    --nova-local-soft: var(--nova-cpu-soft);
+    --nova-local-border: var(--nova-cpu-border);
+}
+
+.nova-cpu .nova-icon,
+.nova-scheduler .nova-icon,
+[data-subsystem="cpu"] .nova-icon,
+[data-subsystem="scheduler"] .nova-icon {
+    background:
+        var(--nova-cpu-soft);
+
+    border-color:
+        var(--nova-cpu-border);
+
+    color:
+        var(--nova-cpu);
+}
+
+
+/* ============================================================
+   22. MEMORY
+   ============================================================ */
+
+.nova-memory,
+.nova-memory-manager,
+[data-subsystem="memory"] {
+    --nova-local-accent: var(--nova-memory);
+    --nova-local-soft: var(--nova-memory-soft);
+    --nova-local-border: var(--nova-memory-border);
+}
+
+.nova-memory .nova-icon,
+.nova-memory-manager .nova-icon,
+[data-subsystem="memory"] .nova-icon {
+    background:
+        var(--nova-memory-soft);
+
+    border-color:
+        var(--nova-memory-border);
+
+    color:
+        var(--nova-memory);
+}
+
+
+/* ============================================================
+   23. I/O
+   ============================================================ */
+
+.nova-io,
+.nova-io-manager,
+[data-subsystem="io"] {
+    --nova-local-accent: var(--nova-io);
+    --nova-local-soft: var(--nova-io-soft);
+    --nova-local-border: var(--nova-io-border);
+}
+
+.nova-io .nova-icon,
+.nova-io-manager .nova-icon,
+[data-subsystem="io"] .nova-icon {
+    background:
+        var(--nova-io-soft);
+
+    border-color:
+        var(--nova-io-border);
+
+    color:
+        var(--nova-io);
+}
+
+
+/* ============================================================
+   24. SYNCHRONIZATION
+   ============================================================ */
+
+.nova-sync,
+.nova-synchronization,
+[data-subsystem="sync"],
+[data-subsystem="synchronization"] {
+    --nova-local-accent: var(--nova-sync);
+    --nova-local-soft: var(--nova-sync-soft);
+    --nova-local-border: var(--nova-sync-border);
+}
+
+.nova-sync .nova-icon,
+.nova-synchronization .nova-icon,
+[data-subsystem="sync"] .nova-icon,
+[data-subsystem="synchronization"] .nova-icon {
+    background:
+        var(--nova-sync-soft);
+
+    border-color:
+        var(--nova-sync-border);
+
+    color:
+        var(--nova-sync);
+}
+
+
+/* ============================================================
+   25. DEADLOCK
+   ============================================================ */
+
+.nova-deadlock,
+[data-subsystem="deadlock"] {
+    --nova-local-accent: var(--nova-deadlock);
+    --nova-local-soft: var(--nova-deadlock-soft);
+    --nova-local-border: var(--nova-deadlock-border);
+}
+
+.nova-deadlock .nova-icon,
+[data-subsystem="deadlock"] .nova-icon {
+    background:
+        var(--nova-deadlock-soft);
+
+    border-color:
+        var(--nova-deadlock-border);
+
+    color:
+        var(--nova-deadlock);
+}
+
+
+/* ============================================================
+   26. FILESYSTEM
+   ============================================================ */
+
+.nova-filesystem,
+.nova-file-system,
+.nova-file-explorer,
+[data-subsystem="filesystem"] {
+    --nova-local-accent: var(--nova-filesystem);
+    --nova-local-soft: var(--nova-filesystem-soft);
+    --nova-local-border: var(--nova-filesystem-border);
+}
+
+.nova-filesystem .nova-icon,
+.nova-file-system .nova-icon,
+.nova-file-explorer .nova-icon,
+[data-subsystem="filesystem"] .nova-icon {
+    background:
+        var(--nova-filesystem-soft);
+
+    border-color:
+        var(--nova-filesystem-border);
+
+    color:
+        var(--nova-filesystem);
+}
+
+
+/* ============================================================
+   27. TERMINAL
+   ============================================================ */
+
+.nova-terminal,
+[data-subsystem="terminal"] {
+    --nova-local-accent: var(--nova-terminal);
+    --nova-local-soft: var(--nova-terminal-soft);
+    --nova-local-border: var(--nova-terminal-border);
+}
+
+.nova-terminal .nova-icon,
+[data-subsystem="terminal"] .nova-icon {
+    background:
+        var(--nova-terminal-soft);
+
+    border-color:
+        var(--nova-terminal-border);
+
+    color:
+        var(--nova-terminal);
+}
+
+
+/* ============================================================
+   28. NETWORK / BROWSER
+   ============================================================ */
+
+.nova-network,
+.nova-browser,
+[data-subsystem="network"],
+[data-subsystem="browser"] {
+    --nova-local-accent: var(--nova-network);
+    --nova-local-soft: var(--nova-network-soft);
+    --nova-local-border: var(--nova-network-border);
+}
+
+.nova-network .nova-icon,
+.nova-browser .nova-icon,
+[data-subsystem="network"] .nova-icon,
+[data-subsystem="browser"] .nova-icon {
+    background:
+        var(--nova-network-soft);
+
+    border-color:
+        var(--nova-network-border);
+
+    color:
+        var(--nova-network);
+}
+
+
+/* ============================================================
+   29. CAMERA / GALLERY
+   ============================================================ */
+
+.nova-camera,
+.nova-gallery,
+[data-subsystem="media"] {
+    --nova-local-accent: var(--nova-media);
+    --nova-local-soft: var(--nova-media-soft);
+    --nova-local-border: var(--nova-media-border);
+}
+
+.nova-camera .nova-icon,
+.nova-gallery .nova-icon,
+[data-subsystem="media"] .nova-icon {
+    background:
+        var(--nova-media-soft);
+
+    border-color:
+        var(--nova-media-border);
+
+    color:
+        var(--nova-media);
+}
+
+
+/* ============================================================
+   30. SETTINGS
+   ============================================================ */
+
+.nova-settings,
+[data-subsystem="settings"] {
+    --nova-local-accent: var(--nova-settings);
+    --nova-local-soft: var(--nova-settings-soft);
+    --nova-local-border: var(--nova-settings-border);
+}
+
+.nova-settings .nova-icon,
+[data-subsystem="settings"] .nova-icon {
+    background:
+        var(--nova-settings-soft);
+
+    border-color:
+        var(--nova-settings-border);
+
+    color:
+        var(--nova-settings);
+}
+
+
+/* ============================================================
+   31. PROGRESS BARS
+   ============================================================ */
+
+.nova-progress,
+.progress-bar,
+.progress {
+    background:
+        rgba(255, 255, 255, 0.06) !important;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.04);
+
+    border-radius:
+        999px;
+
+    overflow:
+        hidden;
+}
+
+.nova-progress > *,
+.progress-bar > *,
+.progress > * {
+    background:
+        linear-gradient(
+            90deg,
+            var(--nova-primary),
+            var(--nova-primary-strong)
+        ) !important;
+
+    border-radius:
+        inherit;
+
+    box-shadow:
+        0 0 12px rgba(99, 102, 241, 0.16);
+}
+
+
+/* ============================================================
+   32. DIVIDERS
+   ============================================================ */
+
+hr,
+.nova-divider {
+    border:
+        0 !important;
+
+    border-top:
+        1px solid var(--nova-border-soft) !important;
+
+    opacity:
+        1;
+}
+
+
+/* ============================================================
+   33. TOOLTIPS / POPOVERS
+   ============================================================ */
+
+.nova-tooltip,
+.nova-popover,
+[role="tooltip"] {
+    background:
+        rgba(18, 24, 42, 0.96) !important;
+
+    border:
+        1px solid var(--nova-border-strong) !important;
+
+    color:
+        var(--nova-text) !important;
+
+    border-radius:
+        var(--nova-radius-sm) !important;
+
+    box-shadow:
+        var(--nova-shadow-md) !important;
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+}
+
+
+/* ============================================================
+   34. MODALS / OVERLAYS
+   ============================================================ */
+
+.nova-modal-backdrop,
+.nova-overlay,
+.modal-backdrop {
+    background:
+        rgba(3, 6, 14, 0.62) !important;
+
+    backdrop-filter:
+        blur(5px);
+
+    -webkit-backdrop-filter:
+        blur(5px);
+}
+
+.nova-modal,
+.modal {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(23, 30, 50, 0.98),
+            rgba(14, 20, 35, 0.98)
+        ) !important;
+
+    border:
+        1px solid var(--nova-border-strong) !important;
+
+    border-radius:
+        var(--nova-radius-lg) !important;
+
+    box-shadow:
+        var(--nova-shadow-lg) !important;
+
+    color:
+        var(--nova-text) !important;
+}
+
+
+/* ============================================================
+   35. NOTIFICATION CENTER
+   ============================================================ */
+
+.nova-notification-center,
+.nova-notification-panel,
+.notification-center {
+    background:
+        rgba(18, 24, 42, 0.94) !important;
+
+    border:
+        1px solid var(--nova-border-strong) !important;
+
+    border-radius:
+        var(--nova-radius-lg) !important;
+
+    box-shadow:
+        var(--nova-shadow-lg) !important;
+
+    backdrop-filter:
+        blur(24px) saturate(130%);
+
+    -webkit-backdrop-filter:
+        blur(24px) saturate(130%);
+}
+
+.nova-notification,
+.notification-item {
+    background:
+        rgba(255, 255, 255, 0.025) !important;
+
+    border:
+        1px solid var(--nova-border-soft) !important;
+
+    border-radius:
+        var(--nova-radius-md) !important;
+
+    color:
+        var(--nova-text-secondary) !important;
+}
+
+.nova-notification:hover,
+.notification-item:hover {
+    background:
+        rgba(99, 102, 241, 0.065) !important;
+
+    border-color:
+        rgba(99, 102, 241, 0.18) !important;
+}
+
+
+/* ============================================================
+   36. SYSTEM LOGS
+   ============================================================ */
+
+.nova-log-entry,
+.system-log-entry,
+.log-entry {
+    background:
+        rgba(8, 13, 24, 0.34) !important;
+
+    border-bottom:
+        1px solid var(--nova-border-soft) !important;
+
+    color:
+        var(--nova-text-secondary);
+}
+
+.nova-log-entry:hover,
+.system-log-entry:hover,
+.log-entry:hover {
+    background:
+        rgba(99, 102, 241, 0.035) !important;
+}
+
+
+/* ============================================================
+   37. TERMINAL VISUAL LANGUAGE
+   ============================================================ */
+
+.nova-terminal,
+.terminal-app {
+    --terminal-green: var(--nova-terminal);
+}
+
+.nova-terminal pre,
+.nova-terminal code,
+.terminal-app pre,
+.terminal-app code {
+    font-family:
+        "Cascadia Code",
+        "Cascadia Mono",
+        "JetBrains Mono",
+        "Fira Code",
+        Consolas,
+        monospace;
+}
+
+.nova-terminal .prompt,
+.terminal-app .prompt {
+    color:
+        var(--nova-terminal) !important;
+}
+
+.nova-terminal .command,
+.terminal-app .command {
+    color:
+        var(--nova-text) !important;
+}
+
+
+/* ============================================================
+   38. SCROLLBARS
+   ============================================================ */
+
+* {
+    scrollbar-width:
+        thin;
+
+    scrollbar-color:
+        rgba(148, 163, 184, 0.22)
+        transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+*::-webkit-scrollbar-track {
+    background:
+        transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background:
+        rgba(148, 163, 184, 0.20);
+
+    border:
+        2px solid transparent;
+
+    background-clip:
+        padding-box;
+
+    border-radius:
+        999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background:
+        rgba(148, 163, 184, 0.32);
+
+    border:
+        2px solid transparent;
+
+    background-clip:
+        padding-box;
+}
+
+
+/* ============================================================
+   39. SELECTION
+   ============================================================ */
+
+::selection {
+    background:
+        rgba(99, 102, 241, 0.30);
+
+    color:
+        #ffffff;
+}
+
+
+/* ============================================================
+   40. LINKS
+   ============================================================ */
+
+a {
+    color:
+        #818cf8;
+
+    transition:
+        color var(--nova-transition-fast);
+}
+
+a:hover {
+    color:
+        #a5b4fc;
+}
+
+
+/* ============================================================
+   41. DISABLED ELEMENTS
+   ============================================================ */
+
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+    opacity:
+        0.48 !important;
+
+    cursor:
+        not-allowed !important;
+
+    transform:
+        none !important;
+}
+
+
+/* ============================================================
+   42. RESIZE HANDLES
+   ============================================================ */
+
+.nova-resize-handle,
+.nova-window-resize-handle {
+    background:
+        transparent !important;
+}
+
+.nova-resize-handle:hover,
+.nova-window-resize-handle:hover {
+    background:
+        rgba(99, 102, 241, 0.045) !important;
+}
+
+
+/* ============================================================
+   43. MOBILE / SMALL WINDOWS
+   ============================================================ */
+
+@media (max-width: 800px) {
+    .nova-window {
+        left:
+            12px !important;
+
+        top:
+            12px !important;
+
+        width:
+            calc(100vw - 24px) !important;
+
+        height:
+            calc(100vh - 90px) !important;
+
+        min-width:
+            0 !important;
+
+        min-height:
+            0 !important;
+
+        border-radius:
+            var(--nova-radius-md) !important;
+    }
+
+    .nova-window-titlebar {
+        border-radius:
+            var(--nova-radius-md)
+            var(--nova-radius-md)
+            0
+            0 !important;
+    }
+
+    .nova-taskbar-center {
+        display:
+            none !important;
+    }
+
+    .nova-taskbar {
+        height:
+            54px;
+    }
+}
+
+
+/* ============================================================
+   44. LAUNCHER MOBILE
+   ============================================================ */
+
+@media (max-width: 560px) {
+    .nova-app-launcher {
+        left:
+            12px !important;
+
+        bottom:
+            68px !important;
+
+        width:
+            calc(100vw - 24px) !important;
+
+        max-width:
+            calc(100vw - 24px) !important;
+
+        border-radius:
+            var(--nova-radius-lg) !important;
+    }
+}
+
+
+/* ============================================================
+   45. REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        scroll-behavior:
+            auto !important;
+
+        transition-duration:
+            0.01ms !important;
+    }
+}
+
+
+/* ============================================================
+   46. LIGHT THEME COMPATIBILITY
+   ============================================================ */
+
+[data-theme="light"],
+.light-theme {
+    --nova-bg-0: #eef2f8;
+    --nova-bg-1: #f5f7fb;
+    --nova-bg-2: #ffffff;
+
+    --nova-surface: #ffffff;
+    --nova-surface-strong: #f8faff;
+    --nova-surface-soft: #f1f4f9;
+    --nova-surface-highlight: #e9edf5;
+
+    --nova-text: #172033;
+    --nova-text-secondary: #4c5870;
+    --nova-text-muted: #68758b;
+    --nova-text-subtle: #8792a5;
+
+    --nova-border: #dce2ec;
+    --nova-border-soft: rgba(71, 85, 105, 0.10);
+    --nova-border-strong: #c8d1df;
+}
+
+[data-theme="light"] body,
+.light-theme body {
+    background:
+        linear-gradient(
+            145deg,
+            #eef2f8,
+            #f8faff
+        );
+}
+
+[data-theme="light"] .nova-taskbar,
+.light-theme .nova-taskbar {
+    background:
+        rgba(248, 250, 255, 0.88) !important;
+
+    border-top-color:
+        rgba(71, 85, 105, 0.12) !important;
+
+    box-shadow:
+        0 -8px 30px rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .nova-window,
+.light-theme .nova-window {
+    box-shadow:
+        0 18px 48px rgba(15, 23, 42, 0.16),
+        0 3px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+
+/* ============================================================
+   47. FINAL LAYER SAFETY
+   ============================================================ */
+
+/*
+ * These rules intentionally preserve the working NovaOS
+ * window-management architecture.
+ */
+
+.nova-window-layer {
+    z-index:
+        500 !important;
+}
+
+.nova-window {
+    z-index:
+        600 !important;
+}
+
+.nova-window.maximized {
+    z-index:
+        700 !important;
+}
+
+.nova-window-titlebar {
+    position:
+        relative;
+
+    z-index:
+        701;
+}
+
+.nova-window-controls {
+    position:
+        relative;
+
+    z-index:
+        702;
+}
+
+
+/* ============================================================
+   END — NOVAOS VISUAL OVERHAUL
+   ============================================================ */

@@ -1,0 +1,2074 @@
+/* =========================================================
+   NOVAOS AURORA DESIGN SYSTEM
+   Global visual layer
+   Cohesive Futuristic OS Theme
+   ========================================================= */
+
+
+/* =========================================================
+   CORE DESIGN TOKENS
+   ========================================================= */
+
+:root {
+    /* -----------------------------------------------------
+       NovaOS identity
+       ----------------------------------------------------- */
+
+    --nova-primary:
+        var(--nova-ui-accent, var(--nova-accent, #6366f1));
+
+    --nova-primary-strong:
+        #4f46e5;
+
+    --nova-primary-soft:
+        rgba(99, 102, 241, 0.14);
+
+    --nova-primary-light:
+        #818cf8;
+
+    --nova-primary-dark:
+        #4338ca;
+
+    --nova-violet:
+        #8b5cf6;
+
+    --nova-violet-soft:
+        rgba(139, 92, 246, 0.13);
+
+    --nova-cyan:
+        #06b6d4;
+
+    --nova-cyan-soft:
+        rgba(6, 182, 212, 0.12);
+
+    --nova-blue:
+        #3b82f6;
+
+    --nova-blue-soft:
+        rgba(59, 130, 246, 0.12);
+
+
+    /* -----------------------------------------------------
+       Background hierarchy
+       ----------------------------------------------------- */
+
+    --nova-bg-0:
+        var(--nova-ui-bg, #080c18);
+
+    --nova-bg-1:
+        var(--nova-ui-surface, #0d1324);
+
+    --nova-bg-2:
+        var(--nova-ui-surface-2, #141b30);
+
+    --nova-bg-3:
+        #1a2239;
+
+
+    /* -----------------------------------------------------
+       Surface hierarchy
+       ----------------------------------------------------- */
+
+    --nova-surface:
+        var(--nova-ui-surface, #0d1324);
+
+    --nova-surface-soft:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.035)
+        );
+
+    --nova-surface-strong:
+        var(--nova-ui-surface-2, #141b30);
+
+    --nova-surface-elevated:
+        #19223a;
+
+    --nova-surface-hover:
+        #202a45;
+
+
+    /* -----------------------------------------------------
+       Borders
+       ----------------------------------------------------- */
+
+    --nova-border:
+        var(--nova-ui-border, #252f48);
+
+    --nova-border-soft:
+        rgba(148, 163, 184, 0.10);
+
+    --nova-border-strong:
+        var(--nova-ui-border-strong, #34405f);
+
+    --nova-border-focus:
+        rgba(99, 102, 241, 0.48);
+
+
+    /* -----------------------------------------------------
+       Typography
+       ----------------------------------------------------- */
+
+    --nova-text:
+        var(--nova-ui-text, #f1f5ff);
+
+    --nova-text-strong:
+        var(--nova-ui-text-strong, #f8faff);
+
+    --nova-text-secondary:
+        var(--nova-ui-text-soft, #aebbd1);
+
+    --nova-text-muted:
+        var(--nova-ui-muted, #71809a);
+
+    --nova-text-subtle:
+        #56647d;
+
+
+    /* =====================================================
+       SUBSYSTEM COLOR SYSTEM
+       ===================================================== */
+
+    /* CPU / Scheduler */
+    --nova-cpu:
+        #38bdf8;
+
+    --nova-cpu-soft:
+        rgba(56, 189, 248, 0.12);
+
+
+    /* Memory */
+    --nova-memory:
+        #8b5cf6;
+
+    --nova-memory-soft:
+        rgba(139, 92, 246, 0.12);
+
+
+    /* I/O */
+    --nova-io:
+        #f59e0b;
+
+    --nova-io-soft:
+        rgba(245, 158, 11, 0.12);
+
+
+    /* Synchronization */
+    --nova-sync:
+        #14b8a6;
+
+    --nova-sync-soft:
+        rgba(20, 184, 166, 0.12);
+
+
+    /* Deadlock */
+    --nova-deadlock:
+        #f43f5e;
+
+    --nova-deadlock-soft:
+        rgba(244, 63, 94, 0.12);
+
+
+    /* Filesystem */
+    --nova-filesystem:
+        #eab308;
+
+    --nova-filesystem-soft:
+        rgba(234, 179, 8, 0.12);
+
+
+    /* Terminal */
+    --nova-terminal:
+        #4ade80;
+
+    --nova-terminal-soft:
+        rgba(74, 222, 128, 0.12);
+
+
+    /* Network / Browser */
+    --nova-network:
+        #38bdf8;
+
+    --nova-network-soft:
+        rgba(56, 189, 248, 0.12);
+
+
+    /* Camera / Gallery */
+    --nova-media:
+        #ec4899;
+
+    --nova-media-soft:
+        rgba(236, 72, 153, 0.12);
+
+
+    /* Settings */
+    --nova-settings:
+        #94a3b8;
+
+    --nova-settings-soft:
+        rgba(148, 163, 184, 0.12);
+
+
+    /* -----------------------------------------------------
+       Semantic status colors
+       ----------------------------------------------------- */
+
+    --nova-success:
+        var(--nova-ui-success, #34d399);
+
+    --nova-success-soft:
+        rgba(52, 211, 153, 0.12);
+
+    --nova-warning:
+        var(--nova-ui-warning, #fbbf24);
+
+    --nova-warning-soft:
+        rgba(251, 191, 36, 0.12);
+
+    --nova-danger:
+        var(--nova-ui-danger, #fb7185);
+
+    --nova-danger-soft:
+        rgba(251, 113, 133, 0.12);
+
+    --nova-info:
+        var(--nova-ui-info, #38bdf8);
+
+    --nova-info-soft:
+        rgba(56, 189, 248, 0.12);
+
+
+    /* -----------------------------------------------------
+       Existing Settings compatibility
+       ----------------------------------------------------- */
+
+    --nova-accent-soft-local:
+        var(
+            --nova-ui-accent-soft,
+            var(
+                --nova-accent-soft,
+                rgba(99, 102, 241, 0.14)
+            )
+        );
+
+    --nova-accent-border-local:
+        var(
+            --nova-ui-accent-border,
+            var(
+                --nova-accent-border,
+                rgba(99, 102, 241, 0.42)
+            )
+        );
+
+
+    /* -----------------------------------------------------
+       Glows
+       ----------------------------------------------------- */
+
+    --nova-glow-primary:
+        0 0 30px color-mix(
+            in srgb,
+            var(--nova-primary) 18%,
+            transparent
+        );
+
+    --nova-glow-cyan:
+        0 0 30px color-mix(
+            in srgb,
+            var(--nova-cyan) 15%,
+            transparent
+        );
+
+    --nova-glow-success:
+        0 0 20px color-mix(
+            in srgb,
+            var(--nova-success) 18%,
+            transparent
+        );
+
+
+    /* -----------------------------------------------------
+       Radii
+       ----------------------------------------------------- */
+
+    --nova-radius-xs:
+        6px;
+
+    --nova-radius-sm:
+        8px;
+
+    --nova-radius-md:
+        12px;
+
+    --nova-radius-lg:
+        16px;
+
+    --nova-radius-xl:
+        20px;
+
+
+    /* -----------------------------------------------------
+       Shadows
+       ----------------------------------------------------- */
+
+    --nova-shadow:
+        0 24px 70px
+        var(
+            --nova-ui-shadow,
+            rgba(0, 0, 0, 0.46)
+        );
+
+    --nova-shadow-soft:
+        0 12px 36px
+        var(
+            --nova-ui-shadow-soft,
+            rgba(0, 0, 0, 0.28)
+        );
+
+    --nova-shadow-window:
+        0 32px 90px
+        rgba(0, 0, 0, 0.58);
+
+
+    /* -----------------------------------------------------
+       Motion
+       ----------------------------------------------------- */
+
+    --nova-transition-fast:
+        0.16s ease;
+
+    --nova-transition:
+        0.22s ease;
+
+    --nova-transition-slow:
+        0.32s ease;
+}
+
+
+/* =========================================================
+   LIGHT MODE
+   ========================================================= */
+
+:root[data-nova-appearance="light"] {
+    --nova-bg-0:
+        var(--nova-ui-bg, #f3f6fb);
+
+    --nova-bg-1:
+        var(--nova-ui-surface, #ffffff);
+
+    --nova-bg-2:
+        var(--nova-ui-surface-2, #eef2f8);
+
+    --nova-bg-3:
+        #e5eaf3;
+
+    --nova-surface:
+        var(--nova-ui-surface, #ffffff);
+
+    --nova-surface-strong:
+        var(--nova-ui-surface-2, #eef2f8);
+
+    --nova-surface-elevated:
+        #ffffff;
+
+    --nova-surface-hover:
+        #e8edf6;
+
+    --nova-border:
+        var(--nova-ui-border, #d6deeb);
+
+    --nova-border-soft:
+        rgba(15, 23, 42, 0.08);
+
+    --nova-border-strong:
+        var(--nova-ui-border-strong, #c2ccdc);
+
+    --nova-text:
+        var(--nova-ui-text, #172033);
+
+    --nova-text-strong:
+        var(--nova-ui-text-strong, #0f172a);
+
+    --nova-text-secondary:
+        var(--nova-ui-text-soft, #475569);
+
+    --nova-text-muted:
+        var(--nova-ui-muted, #64748b);
+
+    --nova-text-subtle:
+        #94a3b8;
+
+    --nova-primary:
+        var(--nova-ui-accent, var(--nova-accent, #4f46e5));
+
+    --nova-primary-strong:
+        #4338ca;
+
+    --nova-primary-light:
+        #6366f1;
+
+    --nova-primary-dark:
+        #3730a3;
+
+    --nova-violet:
+        #7c3aed;
+
+    --nova-cyan:
+        #0891b2;
+
+    --nova-blue:
+        #2563eb;
+
+    --nova-cpu:
+        #0284c7;
+
+    --nova-memory:
+        #7c3aed;
+
+    --nova-io:
+        #b45309;
+
+    --nova-sync:
+        #0f766e;
+
+    --nova-deadlock:
+        #be123c;
+
+    --nova-filesystem:
+        #a16207;
+
+    --nova-terminal:
+        #15803d;
+
+    --nova-network:
+        #0369a1;
+
+    --nova-media:
+        #be185d;
+
+    --nova-settings:
+        #475569;
+
+    --nova-success:
+        var(--nova-ui-success, #16834f);
+
+    --nova-warning:
+        var(--nova-ui-warning, #a16207);
+
+    --nova-danger:
+        var(--nova-ui-danger, #b42332);
+
+    --nova-info:
+        var(--nova-ui-info, #0369a1);
+
+    --nova-shadow:
+        0 24px 70px rgba(15, 23, 42, 0.12);
+
+    --nova-shadow-soft:
+        0 12px 36px rgba(15, 23, 42, 0.08);
+
+    --nova-shadow-window:
+        0 28px 80px rgba(15, 23, 42, 0.18);
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+:root[data-nova-appearance="dark"] {
+    --nova-primary:
+        var(--nova-ui-accent, var(--nova-accent, #6366f1));
+
+    --nova-primary-strong:
+        #4f46e5;
+
+    --nova-primary-light:
+        #818cf8;
+
+    --nova-primary-dark:
+        #4338ca;
+
+    --nova-violet:
+        #8b5cf6;
+
+    --nova-cyan:
+        #06b6d4;
+
+    --nova-blue:
+        #3b82f6;
+
+    --nova-cpu:
+        #38bdf8;
+
+    --nova-memory:
+        #8b5cf6;
+
+    --nova-io:
+        #f59e0b;
+
+    --nova-sync:
+        #14b8a6;
+
+    --nova-deadlock:
+        #f43f5e;
+
+    --nova-filesystem:
+        #eab308;
+
+    --nova-terminal:
+        #4ade80;
+
+    --nova-network:
+        #38bdf8;
+
+    --nova-media:
+        #ec4899;
+
+    --nova-settings:
+        #94a3b8;
+}
+
+
+/* =========================================================
+   GLOBAL FOUNDATION
+   ========================================================= */
+
+html,
+body,
+#root {
+    min-height:
+        100%;
+
+    background:
+        radial-gradient(
+            circle at 12% 10%,
+            color-mix(
+                in srgb,
+                var(--nova-primary) 9%,
+                transparent
+            ),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 88% 18%,
+            color-mix(
+                in srgb,
+                var(--nova-cyan) 6%,
+                transparent
+            ),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 52% 92%,
+            color-mix(
+                in srgb,
+                var(--nova-violet) 5%,
+                transparent
+            ),
+            transparent 30%
+        ),
+        var(--nova-bg-0);
+
+    color:
+        var(--nova-text);
+
+    font-synthesis:
+        none;
+
+    text-rendering:
+        optimizeLegibility;
+}
+
+
+/* =========================================================
+   CONTROL CENTER
+   ========================================================= */
+
+.nova-control-center {
+    background:
+        linear-gradient(
+            145deg,
+            color-mix(
+                in srgb,
+                var(--nova-bg-1) 96%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-bg-2) 94%,
+                transparent
+            )
+        );
+
+    color:
+        var(--nova-text);
+
+    border-color:
+        var(--nova-border);
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+    background:
+        linear-gradient(
+            90deg,
+            color-mix(
+                in srgb,
+                var(--nova-bg-1) 98%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-primary) 7%,
+                var(--nova-bg-1)
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-bg-2) 98%,
+                transparent
+            )
+        ) !important;
+
+    border-bottom:
+        1px solid var(--nova-border) !important;
+
+    box-shadow:
+        0 8px 30px
+        var(
+            --nova-ui-shadow-soft,
+            rgba(0, 0, 0, 0.22)
+        );
+
+    backdrop-filter:
+        blur(20px);
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand-mark,
+.brand .brand-mark {
+    background:
+        linear-gradient(
+            135deg,
+            var(--nova-primary),
+            var(--nova-violet) 55%,
+            var(--nova-cyan)
+        ) !important;
+
+    box-shadow:
+        0 0 24px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 28%,
+            transparent
+        );
+}
+
+
+.brand-name {
+    color:
+        var(--nova-text-strong) !important;
+
+    letter-spacing:
+        -0.02em;
+}
+
+
+.brand-version {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.status-badge {
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.035)
+        ) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    color:
+        var(--nova-text-secondary) !important;
+
+    backdrop-filter:
+        blur(12px);
+
+    transition:
+        var(--nova-transition);
+}
+
+
+.status-badge.active {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--nova-success) 30%,
+            var(--nova-border)
+        ) !important;
+
+    color:
+        var(--nova-success) !important;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--nova-success) 6%,
+            transparent
+        ) !important;
+}
+
+
+.status-badge .status-dot {
+    background:
+        var(--nova-success) !important;
+
+    box-shadow:
+        0 0 10px
+        color-mix(
+            in srgb,
+            var(--nova-success) 65%,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    background:
+        linear-gradient(
+            180deg,
+            var(--nova-surface-strong),
+            var(--nova-bg-0)
+        ) !important;
+
+    border-right:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--nova-primary) 12%,
+            var(--nova-border)
+        ) !important;
+
+    box-shadow:
+        12px 0 40px
+        var(
+            --nova-ui-shadow-soft,
+            rgba(0, 0, 0, 0.18)
+        );
+}
+
+
+.sidebar-heading {
+    color:
+        var(--nova-text-muted) !important;
+
+    letter-spacing:
+        0.16em !important;
+}
+
+
+.nav-item {
+    color:
+        var(--nova-text-secondary) !important;
+
+    border:
+        1px solid transparent !important;
+
+    border-radius:
+        var(--nova-radius-sm);
+
+    transition:
+        color var(--nova-transition-fast),
+        background var(--nova-transition-fast),
+        border-color var(--nova-transition-fast),
+        transform var(--nova-transition-fast);
+}
+
+
+.nav-item:hover {
+    color:
+        var(--nova-text-strong) !important;
+
+    background:
+        var(--nova-accent-soft-local) !important;
+
+    border-color:
+        var(--nova-accent-border-local) !important;
+
+    transform:
+        translateX(2px);
+}
+
+
+.nav-item.active {
+    color:
+        var(--nova-text-strong) !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            color-mix(
+                in srgb,
+                var(--nova-primary) 18%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-cyan) 5%,
+                transparent
+            )
+        ) !important;
+
+    border-color:
+        var(--nova-accent-border-local) !important;
+
+    box-shadow:
+        inset 3px 0 0 var(--nova-primary),
+        0 0 24px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 7%,
+            transparent
+        );
+}
+
+
+.nav-item.active .nav-icon {
+    color:
+        var(--nova-primary-light) !important;
+}
+
+
+/* =========================================================
+   KERNEL CONTROL
+   ========================================================= */
+
+.control-button {
+    border:
+        1px solid var(--nova-border) !important;
+
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.035)
+        ) !important;
+
+    color:
+        var(--nova-text-secondary) !important;
+
+    border-radius:
+        var(--nova-radius-sm);
+
+    transition:
+        background var(--nova-transition-fast),
+        border-color var(--nova-transition-fast),
+        color var(--nova-transition-fast),
+        box-shadow var(--nova-transition-fast),
+        transform var(--nova-transition-fast);
+}
+
+
+.control-button:hover:not(:disabled) {
+    background:
+        var(--nova-accent-soft-local) !important;
+
+    border-color:
+        var(--nova-accent-border-local) !important;
+
+    color:
+        var(--nova-text-strong) !important;
+
+    box-shadow:
+        0 0 20px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 8%,
+            transparent
+        );
+
+    transform:
+        translateY(-1px);
+}
+
+
+.control-button.boot {
+    color:
+        var(--nova-success) !important;
+}
+
+
+.control-button.shutdown {
+    color:
+        var(--nova-danger) !important;
+}
+
+
+.control-button.reset {
+    color:
+        var(--nova-info) !important;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.main-content {
+    background:
+        radial-gradient(
+            circle at 70% 0%,
+            color-mix(
+                in srgb,
+                var(--nova-primary) 5%,
+                transparent
+            ),
+            transparent 30%
+        ),
+        transparent !important;
+}
+
+
+.eyebrow {
+    color:
+        var(--nova-primary-light) !important;
+
+    letter-spacing:
+        0.12em;
+}
+
+
+.page-heading h1 {
+    color:
+        var(--nova-text-strong) !important;
+
+    letter-spacing:
+        -0.025em;
+}
+
+
+.page-heading p,
+.refresh-info {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+.refresh-indicator {
+    background:
+        var(--nova-success) !important;
+
+    box-shadow:
+        0 0 10px
+        color-mix(
+            in srgb,
+            var(--nova-success) 65%,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
+.stat-card {
+    position:
+        relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            color-mix(
+                in srgb,
+                var(--nova-surface-strong) 84%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-bg-1) 92%,
+                transparent
+            )
+        ) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    border-radius:
+        var(--nova-radius-lg);
+
+    box-shadow:
+        var(--nova-shadow-soft);
+
+    overflow:
+        hidden;
+
+    transition:
+        transform var(--nova-transition),
+        border-color var(--nova-transition),
+        box-shadow var(--nova-transition);
+}
+
+
+.stat-card::before {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    height:
+        2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--nova-primary),
+            var(--nova-violet),
+            var(--nova-cyan)
+        );
+
+    opacity:
+        0.8;
+}
+
+
+.stat-card:hover {
+    transform:
+        translateY(-3px);
+
+    border-color:
+        var(--nova-accent-border-local) !important;
+
+    box-shadow:
+        var(--nova-shadow-soft),
+        0 0 28px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 7%,
+            transparent
+        );
+}
+
+
+.stat-label {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+.stat-value {
+    color:
+        var(--nova-text-strong) !important;
+}
+
+
+.stat-detail {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+.stat-icon {
+    color:
+        var(--nova-primary-light) !important;
+}
+
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.panel {
+    background:
+        linear-gradient(
+            145deg,
+            color-mix(
+                in srgb,
+                var(--nova-surface-strong) 80%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-bg-1) 90%,
+                transparent
+            )
+        ) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    border-radius:
+        var(--nova-radius-lg);
+
+    box-shadow:
+        var(--nova-shadow-soft);
+
+    backdrop-filter:
+        blur(16px);
+}
+
+
+.section-header {
+    border-bottom:
+        1px solid var(--nova-border) !important;
+}
+
+
+.section-header h2 {
+    color:
+        var(--nova-text-strong) !important;
+}
+
+
+.section-header p {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+.section-icon {
+    color:
+        var(--nova-primary-light) !important;
+}
+
+
+/* =========================================================
+   PROCESS STATE
+   ========================================================= */
+
+.state-row {
+    border-bottom:
+        1px solid var(--nova-border) !important;
+
+    color:
+        var(--nova-text-secondary) !important;
+}
+
+
+.state-name {
+    color:
+        var(--nova-text-secondary) !important;
+}
+
+
+.running-row {
+    background:
+        linear-gradient(
+            90deg,
+            color-mix(
+                in srgb,
+                var(--nova-success) 7%,
+                transparent
+            ),
+            transparent
+        ) !important;
+}
+
+
+.running-row .state-name {
+    color:
+        var(--nova-success) !important;
+}
+
+
+/* =========================================================
+   MEMORY
+   ========================================================= */
+
+.memory-meter-value {
+    color:
+        var(--nova-memory) !important;
+}
+
+
+.progress-track {
+    background:
+        var(
+            --nova-ui-overlay-strong,
+            rgba(255, 255, 255, 0.065)
+        ) !important;
+
+    border:
+        1px solid var(--nova-border-soft);
+}
+
+
+.progress-fill {
+    background:
+        linear-gradient(
+            90deg,
+            var(--nova-memory),
+            var(--nova-primary-light),
+            var(--nova-cyan)
+        ) !important;
+
+    box-shadow:
+        0 0 16px
+        color-mix(
+            in srgb,
+            var(--nova-memory) 28%,
+            transparent
+        );
+}
+
+
+.metric-grid div {
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.025)
+        ) !important;
+
+    border:
+        1px solid var(--nova-border);
+}
+
+
+.metric-grid span {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+.metric-grid strong {
+    color:
+        var(--nova-text) !important;
+}
+
+
+/* =========================================================
+   SUBSYSTEM BOXES
+   ========================================================= */
+
+.info-box {
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.028)
+        ) !important;
+
+    border:
+        1px solid var(--nova-border) !important;
+
+    border-radius:
+        var(--nova-radius-md);
+}
+
+
+.info-box span {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+.info-box strong {
+    color:
+        var(--nova-text) !important;
+}
+
+
+/* =========================================================
+   SYNCHRONIZATION
+   ========================================================= */
+
+.sync-item {
+    background:
+        color-mix(
+            in srgb,
+            var(--nova-sync) 5%,
+            transparent
+        ) !important;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--nova-sync) 12%,
+            var(--nova-border)
+        ) !important;
+}
+
+
+.sync-value {
+    color:
+        var(--nova-sync) !important;
+}
+
+
+.sync-label {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+/* =========================================================
+   DEADLOCK
+   ========================================================= */
+
+.deadlock-banner {
+    border:
+        1px solid var(--nova-border) !important;
+
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.025)
+        ) !important;
+
+    border-radius:
+        var(--nova-radius-md);
+}
+
+
+.deadlock-banner.safe {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--nova-success) 20%,
+            var(--nova-border)
+        ) !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            color-mix(
+                in srgb,
+                var(--nova-success) 8%,
+                transparent
+            ),
+            transparent
+        ) !important;
+}
+
+
+.deadlock-banner.danger {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--nova-deadlock) 28%,
+            var(--nova-border)
+        ) !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            color-mix(
+                in srgb,
+                var(--nova-deadlock) 10%,
+                transparent
+            ),
+            transparent
+        ) !important;
+}
+
+
+.deadlock-banner strong {
+    color:
+        var(--nova-text) !important;
+}
+
+
+.deadlock-banner p {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+.table-wrapper {
+    border:
+        1px solid var(--nova-border) !important;
+
+    border-radius:
+        var(--nova-radius-md);
+
+    overflow:
+        hidden;
+}
+
+
+table thead {
+    background:
+        var(--nova-accent-soft-local) !important;
+}
+
+
+table th {
+    color:
+        var(--nova-text-muted) !important;
+
+    border-bottom-color:
+        var(--nova-border) !important;
+}
+
+
+table td {
+    color:
+        var(--nova-text-secondary) !important;
+
+    border-bottom-color:
+        var(--nova-border) !important;
+}
+
+
+table tbody tr {
+    transition:
+        background var(--nova-transition-fast);
+}
+
+
+table tbody tr:hover {
+    background:
+        var(--nova-accent-soft-local) !important;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error-banner {
+    background:
+        color-mix(
+            in srgb,
+            var(--nova-danger) 8%,
+            transparent
+        ) !important;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--nova-danger) 22%,
+            var(--nova-border)
+        ) !important;
+
+    color:
+        var(--nova-danger) !important;
+
+    border-radius:
+        var(--nova-radius-md);
+}
+
+
+/* =========================================================
+   BOTTOM SYSTEM BAR
+   ========================================================= */
+
+.bottom-system-bar {
+    background:
+        linear-gradient(
+            90deg,
+            var(--nova-bg-0),
+            var(--nova-bg-1),
+            var(--nova-bg-0)
+        ) !important;
+
+    border-top:
+        1px solid var(--nova-border) !important;
+
+    box-shadow:
+        0 -10px 30px
+        var(
+            --nova-ui-shadow-soft,
+            rgba(0, 0, 0, 0.22)
+        );
+
+    backdrop-filter:
+        blur(18px);
+}
+
+
+.system-label {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+.system-value {
+    color:
+        var(--nova-text-secondary) !important;
+}
+
+
+.system-value.online {
+    color:
+        var(--nova-success) !important;
+
+    text-shadow:
+        0 0 12px
+        color-mix(
+            in srgb,
+            var(--nova-success) 28%,
+            transparent
+        );
+}
+
+
+.nova-clock {
+    color:
+        var(--nova-text-secondary) !important;
+}
+
+
+/* =========================================================
+   WINDOW SYSTEM
+   ========================================================= */
+
+.nova-window {
+    background:
+        linear-gradient(
+            145deg,
+            color-mix(
+                in srgb,
+                var(--nova-surface-strong) 97%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-bg-1) 98%,
+                transparent
+            )
+        ) !important;
+
+    border:
+        1px solid var(--nova-border-strong) !important;
+
+    border-radius:
+        var(--nova-radius-lg);
+
+    box-shadow:
+        var(--nova-shadow-window),
+        0 0 0 1px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 3%,
+            transparent
+        );
+
+    backdrop-filter:
+        blur(22px);
+}
+
+
+.nova-window.focused {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--nova-primary) 42%,
+            var(--nova-border)
+        ) !important;
+
+    box-shadow:
+        var(--nova-shadow-window),
+        0 0 40px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 9%,
+            transparent
+        );
+}
+
+
+.nova-window-titlebar {
+    background:
+        linear-gradient(
+            90deg,
+            color-mix(
+                in srgb,
+                var(--nova-bg-2) 98%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-primary) 7%,
+                var(--nova-bg-2)
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-bg-1) 98%,
+                transparent
+            )
+        ) !important;
+
+    border-bottom:
+        1px solid var(--nova-border) !important;
+}
+
+
+.nova-window-title {
+    color:
+        var(--nova-text-strong) !important;
+}
+
+
+.nova-window-controls button {
+    border:
+        1px solid var(--nova-border) !important;
+
+    color:
+        var(--nova-text-secondary) !important;
+
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.035)
+        ) !important;
+
+    border-radius:
+        var(--nova-radius-xs);
+
+    transition:
+        var(--nova-transition-fast);
+}
+
+
+.nova-window-controls button:hover {
+    background:
+        var(--nova-accent-soft-local) !important;
+
+    border-color:
+        var(--nova-accent-border-local) !important;
+
+    color:
+        var(--nova-text-strong) !important;
+}
+
+
+.nova-window-controls button.close:hover {
+    background:
+        color-mix(
+            in srgb,
+            var(--nova-danger) 70%,
+            transparent
+        ) !important;
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--nova-danger) 55%,
+            transparent
+        ) !important;
+}
+
+
+/* =========================================================
+   APPLICATION LAUNCHER
+   ========================================================= */
+
+.nova-app-launcher {
+    background:
+        linear-gradient(
+            145deg,
+            color-mix(
+                in srgb,
+                var(--nova-surface-strong) 98%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-primary) 6%,
+                var(--nova-bg-1)
+            )
+        ) !important;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--nova-primary) 24%,
+            var(--nova-border)
+        ) !important;
+
+    border-radius:
+        var(--nova-radius-xl);
+
+    box-shadow:
+        0 28px 70px
+        var(
+            --nova-ui-shadow,
+            rgba(0, 0, 0, 0.58)
+        ),
+        0 0 45px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 8%,
+            transparent
+        );
+
+    backdrop-filter:
+        blur(24px);
+}
+
+
+.nova-app-launcher-title {
+    color:
+        var(--nova-text-strong) !important;
+}
+
+
+.nova-app-launcher-subtitle {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+.nova-app-launcher-item {
+    border:
+        1px solid transparent !important;
+
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.025)
+        ) !important;
+
+    color:
+        var(--nova-text) !important;
+
+    border-radius:
+        var(--nova-radius-md);
+
+    transition:
+        var(--nova-transition);
+}
+
+
+.nova-app-launcher-item:hover {
+    background:
+        linear-gradient(
+            90deg,
+            color-mix(
+                in srgb,
+                var(--nova-primary) 13%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-cyan) 5%,
+                transparent
+            )
+        ) !important;
+
+    border-color:
+        var(--nova-accent-border-local) !important;
+
+    box-shadow:
+        0 0 22px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 6%,
+            transparent
+        );
+}
+
+
+.nova-app-launcher-icon {
+    background:
+        linear-gradient(
+            135deg,
+            var(--nova-primary),
+            var(--nova-violet),
+            var(--nova-cyan)
+        ) !important;
+
+    box-shadow:
+        0 0 16px
+        color-mix(
+            in srgb,
+            var(--nova-primary) 20%,
+            transparent
+        );
+}
+
+
+.nova-app-launcher-name {
+    color:
+        var(--nova-text-strong) !important;
+}
+
+
+.nova-app-launcher-description {
+    color:
+        var(--nova-text-muted) !important;
+}
+
+
+/* =========================================================
+   TASKBAR
+   ========================================================= */
+
+.nova-taskbar-window {
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.035)
+        ) !important;
+
+    border-color:
+        var(--nova-border) !important;
+
+    color:
+        var(--nova-text-secondary) !important;
+
+    border-radius:
+        var(--nova-radius-sm);
+
+    transition:
+        var(--nova-transition-fast);
+}
+
+
+.nova-taskbar-window:hover {
+    background:
+        var(--nova-accent-soft-local) !important;
+
+    border-color:
+        var(--nova-accent-border-local) !important;
+
+    color:
+        var(--nova-text-strong) !important;
+}
+
+
+.nova-taskbar-window-icon {
+    background:
+        linear-gradient(
+            135deg,
+            var(--nova-primary),
+            var(--nova-violet),
+            var(--nova-cyan)
+        ) !important;
+}
+
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+* {
+    scrollbar-width:
+        thin;
+
+    scrollbar-color:
+        color-mix(
+            in srgb,
+            var(--nova-primary) 48%,
+            transparent
+        )
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.035)
+        );
+}
+
+
+*::-webkit-scrollbar {
+    width:
+        8px;
+
+    height:
+        8px;
+}
+
+
+*::-webkit-scrollbar-track {
+    background:
+        var(
+            --nova-ui-overlay,
+            rgba(255, 255, 255, 0.025)
+        );
+}
+
+
+*::-webkit-scrollbar-thumb {
+    background:
+        linear-gradient(
+            180deg,
+            color-mix(
+                in srgb,
+                var(--nova-primary) 55%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-cyan) 40%,
+                transparent
+            )
+        );
+
+    border-radius:
+        20px;
+}
+
+
+*::-webkit-scrollbar-thumb:hover {
+    background:
+        linear-gradient(
+            180deg,
+            color-mix(
+                in srgb,
+                var(--nova-primary-light) 75%,
+                transparent
+            ),
+            color-mix(
+                in srgb,
+                var(--nova-cyan) 60%,
+                transparent
+            )
+        );
+}
+
+
+/* =========================================================
+   SUBTLE AMBIENT ANIMATION
+   ========================================================= */
+
+@keyframes nova-aurora-pulse {
+    0%,
+    100% {
+        opacity:
+            0.55;
+    }
+
+    50% {
+        opacity:
+            0.85;
+    }
+}
+
+
+.nova-system-dot {
+    animation:
+        nova-aurora-pulse 2.8s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+    }
+}
+
+
+/* =========================================================
+   NATIVE FORM CONTROLS
+   ========================================================= */
+
+:root[data-nova-appearance="light"] select,
+:root[data-nova-appearance="light"] option,
+:root[data-nova-appearance="light"] input,
+:root[data-nova-appearance="light"] textarea {
+    color-scheme:
+        light !important;
+}
+
+
+:root[data-nova-appearance="light"] select {
+    background:
+        var(--nova-ui-surface-2) !important;
+
+    color:
+        var(--nova-ui-text-strong) !important;
+
+    border-color:
+        var(--nova-ui-border) !important;
+}
+
+
+:root[data-nova-appearance="light"] select option {
+    background:
+        var(--nova-ui-surface) !important;
+
+    color:
+        var(--nova-ui-text-strong) !important;
+}
+
+
+:root[data-nova-appearance="dark"] select,
+:root[data-nova-appearance="dark"] option,
+:root[data-nova-appearance="dark"] input,
+:root[data-nova-appearance="dark"] textarea {
+    color-scheme:
+        dark !important;
+}
+
+
+:root[data-nova-appearance="dark"] select {
+    background:
+        var(--nova-ui-surface-2) !important;
+
+    color:
+        var(--nova-ui-text-strong) !important;
+
+    border-color:
+        var(--nova-ui-border) !important;
+}
+
+
+:root[data-nova-appearance="dark"] select option {
+    background:
+        var(--nova-ui-surface) !important;
+
+    color:
+        var(--nova-ui-text-strong) !important;
+}
+
+
+:root[data-nova-appearance="light"] select:focus,
+:root[data-nova-appearance="dark"] select:focus {
+    border-color:
+        var(--nova-accent) !important;
+
+    box-shadow:
+        0 0 0 2px var(--nova-accent-soft),
+        0 0 18px
+        color-mix(
+            in srgb,
+            var(--nova-accent) 12%,
+            transparent
+        ) !important;
+}

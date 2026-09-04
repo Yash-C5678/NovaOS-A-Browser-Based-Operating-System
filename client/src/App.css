@@ -1,0 +1,8115 @@
+/* =========================================================
+   NOVAOS GLOBAL THEME BRIDGE
+   ---------------------------------------------------------
+   This file keeps the existing NovaOS UI structure but routes
+   the hard-coded visual palette through the settings variables.
+
+   Settings.jsx controls:
+     --nova-accent
+     --nova-accent-soft
+     --nova-accent-border
+     [data-nova-appearance="light|dark"]
+
+   Do not remove this block.
+   ========================================================= */
+
+:root {
+    --nova-ui-bg: #07111f;
+    --nova-ui-surface: #091a29;
+    --nova-ui-surface-2: #0d2131;
+    --nova-ui-surface-3: #111b27;
+    --nova-ui-surface-4: #162536;
+
+    --nova-ui-text: #dcecff;
+    --nova-ui-text-strong: #edf6ff;
+    --nova-ui-text-soft: #b9cce0;
+    --nova-ui-muted: #71829a;
+    --nova-ui-subtle: #587087;
+
+    --nova-ui-border: #20364b;
+    --nova-ui-border-soft: #1b3043;
+    --nova-ui-border-strong: #29455e;
+
+    --nova-ui-accent: var(--nova-accent, #7c5cff);
+    --nova-ui-accent-soft: var(--nova-accent-soft, rgba(124, 92, 255, 0.14));
+    --nova-ui-accent-border: var(--nova-accent-border, rgba(124, 92, 255, 0.45));
+    --nova-ui-accent-text: var(--nova-accent, #7c5cff);
+
+    --nova-ui-success: #42d392;
+    --nova-ui-success-bg: rgba(66, 211, 146, 0.09);
+    --nova-ui-success-border: rgba(66, 211, 146, 0.28);
+
+    --nova-ui-danger: #df8795;
+    --nova-ui-danger-bg: rgba(220, 90, 100, 0.09);
+    --nova-ui-danger-border: rgba(220, 90, 100, 0.35);
+
+    --nova-ui-warning: #d5b76d;
+    --nova-ui-warning-bg: rgba(210, 170, 80, 0.09);
+    --nova-ui-warning-border: rgba(210, 170, 80, 0.30);
+
+    --nova-ui-overlay: rgba(255, 255, 255, 0.05);
+    --nova-ui-overlay-strong: rgba(255, 255, 255, 0.09);
+    --nova-ui-shadow: rgba(0, 0, 0, 0.45);
+    --nova-ui-shadow-soft: rgba(0, 0, 0, 0.18);
+}
+
+:root[data-nova-appearance="dark"] {
+    --nova-ui-bg: #07111f;
+    --nova-ui-surface: #091a29;
+    --nova-ui-surface-2: #0d2131;
+    --nova-ui-surface-3: #111b27;
+    --nova-ui-surface-4: #162536;
+
+    --nova-ui-text: #dcecff;
+    --nova-ui-text-strong: #edf6ff;
+    --nova-ui-text-soft: #b9cce0;
+    --nova-ui-muted: #71829a;
+    --nova-ui-subtle: #587087;
+
+    --nova-ui-border: #20364b;
+    --nova-ui-border-soft: #1b3043;
+    --nova-ui-border-strong: #29455e;
+}
+
+:root[data-nova-appearance="light"] {
+    --nova-ui-bg: #f4f7fb;
+    --nova-ui-surface: #ffffff;
+    --nova-ui-surface-2: #f0f4f8;
+    --nova-ui-surface-3: #e9eef4;
+    --nova-ui-surface-4: #dde5ee;
+
+    --nova-ui-text: #253244;
+    --nova-ui-text-strong: #111827;
+    --nova-ui-text-soft: #475569;
+    --nova-ui-muted: #64748b;
+    --nova-ui-subtle: #7b8ba0;
+
+    --nova-ui-border: #d4dce6;
+    --nova-ui-border-soft: #e1e7ef;
+    --nova-ui-border-strong: #bcc9d8;
+
+    --nova-ui-success: #16804a;
+    --nova-ui-success-bg: rgba(22, 128, 74, 0.08);
+    --nova-ui-success-border: rgba(22, 128, 74, 0.28);
+
+    --nova-ui-danger: #b42332;
+    --nova-ui-danger-bg: rgba(180, 35, 50, 0.07);
+    --nova-ui-danger-border: rgba(180, 35, 50, 0.28);
+
+    --nova-ui-warning: #956f18;
+    --nova-ui-warning-bg: rgba(149, 111, 24, 0.08);
+    --nova-ui-warning-border: rgba(149, 111, 24, 0.25);
+
+    --nova-ui-overlay: rgba(15, 23, 42, 0.035);
+    --nova-ui-overlay-strong: rgba(15, 23, 42, 0.075);
+    --nova-ui-shadow: rgba(15, 23, 42, 0.18);
+    --nova-ui-shadow-soft: rgba(15, 23, 42, 0.10);
+}
+
+/* Keep the old generic names compatible with the new settings system. */
+:root {
+    --accent: var(--nova-ui-accent);
+    --accent-bg: var(--nova-ui-accent-soft);
+    --accent-border: var(--nova-ui-accent-border);
+}
+
+:root {
+    font-family: Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    color: var(--nova-ui-text-strong);
+    background: var(--nova-ui-surface-2);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: radial-gradient(circle at 70% -10%,
+            color-mix(in srgb, var(--nova-ui-accent) 10%, transparent),
+            transparent 35%),
+        var(--nova-ui-surface-2);
+}
+
+button {
+    font: inherit;
+}
+
+.nova-shell {
+    min-height: 100vh;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.015),
+            transparent 30%);
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 28px;
+
+    border-bottom: 1px solid var(--nova-ui-border);
+
+    background: color-mix(in srgb, var(--nova-ui-accent) 75%, transparent);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-mark {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--nova-ui-border);
+    border-radius: 8px;
+
+    background: var(--nova-ui-surface-2);
+
+    color: var(--nova-ui-text-strong);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.brand-name {
+    color: var(--nova-ui-text-strong);
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+}
+
+.brand-version {
+    margin-top: 2px;
+
+    color: var(--nova-ui-muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.status-badge {
+    height: 27px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 0 10px;
+
+    border: 1px solid var(--nova-ui-border);
+    border-radius: 5px;
+
+    color: var(--nova-ui-text-soft);
+
+    background: var(--nova-ui-surface-2);
+
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+}
+
+.status-badge.active {
+    color: var(--nova-ui-text-strong);
+    border-color: var(--nova-ui-success-border);
+    background: var(--nova-ui-success-bg);
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--nova-ui-surface-2);
+}
+
+.status-badge.active .status-dot {
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 8px rgba(80, 200, 120, 0.5);
+}
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.app-layout {
+    display: flex;
+    min-height: calc(100vh - 72px);
+}
+
+.sidebar {
+    width: 224px;
+    flex: 0 0 224px;
+
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px solid var(--nova-ui-border);
+
+    background: var(--nova-ui-surface-2);
+}
+
+.sidebar-heading {
+    padding: 23px 18px 10px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.navigation {
+    padding: 0 9px;
+}
+
+.nav-item {
+    width: 100%;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    padding: 0 10px;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: var(--nova-ui-text-soft);
+
+    cursor: pointer;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-align: left;
+
+    transition: background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.nav-item:hover {
+    color: var(--nova-ui-text-strong);
+    background: var(--nova-ui-surface-2);
+}
+
+.nav-item.active {
+    color: var(--nova-ui-text-strong);
+
+    border-color: var(--nova-ui-border);
+
+    background: var(--nova-ui-surface-2);
+}
+
+.nav-icon {
+    width: 18px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 14px;
+    text-align: center;
+}
+
+.nav-item.active .nav-icon {
+    color: var(--nova-ui-text-strong);
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+
+    padding-bottom: 18px;
+}
+
+.control-button {
+    width: calc(100% - 18px);
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin: 5px 9px;
+
+    padding: 0 11px;
+
+    border: 1px solid var(--nova-ui-border);
+    border-radius: 5px;
+
+    background: var(--nova-ui-surface-2);
+
+    color: var(--nova-ui-text-soft);
+
+    cursor: pointer;
+
+    font-size: 11px;
+    font-weight: 650;
+
+    transition: 0.15s ease;
+}
+
+.control-button:hover:not(:disabled) {
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    border-color: var(--nova-ui-border);
+}
+
+.control-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.control-button.boot span {
+    color: var(--nova-ui-success);
+}
+
+.control-button.shutdown span {
+    color: var(--nova-ui-danger);
+}
+
+.control-button.reset span {
+    color: var(--nova-ui-text-soft);
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main-content {
+    min-width: 0;
+    flex: 1;
+
+    padding: 34px 36px 72px;
+}
+
+.page-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+.eyebrow {
+    margin-bottom: 7px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+.page-heading h1 {
+    margin: 0;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 27px;
+    font-weight: 720;
+    letter-spacing: -0.04em;
+}
+
+.page-heading p {
+    margin: 7px 0 0;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 12px;
+}
+
+.refresh-info {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.refresh-indicator {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--nova-ui-surface-2);
+}
+
+.error-banner {
+    display: flex;
+    gap: 11px;
+
+    margin-bottom: 20px;
+    padding: 12px 14px;
+
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 6px;
+
+    background: var(--nova-ui-danger-bg);
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.error-banner>span {
+    color: var(--nova-ui-danger);
+}
+
+.error-banner strong {
+    display: block;
+    margin-bottom: 2px;
+
+    color: var(--nova-ui-text-strong);
+}
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+
+    margin-bottom: 14px;
+}
+
+.stats-grid.compact {
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    min-height: 122px;
+
+    padding: 17px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+
+    background: var(--nova-ui-surface-2);
+
+    transition: border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--nova-ui-border);
+    transform: translateY(-1px);
+}
+
+.stat-card.danger {
+    border-color: var(--nova-ui-danger-border);
+}
+
+.stat-card.safe {
+    border-color: var(--nova-ui-success-border);
+}
+
+.stat-card-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-icon {
+    color: var(--nova-ui-text-soft);
+    font-size: 13px;
+}
+
+.stat-label {
+    color: var(--nova-ui-muted);
+
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    margin-top: 14px;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 24px;
+    font-weight: 720;
+    letter-spacing: -0.04em;
+}
+
+.stat-detail {
+    margin-top: 4px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 10px;
+}
+
+.stat-card.danger .stat-value {
+    color: var(--nova-ui-danger);
+}
+
+.stat-card.safe .stat-value {
+    color: var(--nova-ui-success);
+}
+
+/* =========================================================
+   DASHBOARD PANELS
+   ========================================================= */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.panel {
+    min-width: 0;
+
+    padding: 20px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+
+    background: var(--nova-ui-surface-2);
+}
+
+.large-panel {
+    min-height: 300px;
+}
+
+.full-panel {
+    min-height: 420px;
+}
+
+.section-header {
+    margin-bottom: 22px;
+}
+
+.section-title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.section-icon {
+    color: var(--nova-ui-text-soft);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.section-header h2 {
+    margin: 0;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.section-header p {
+    margin: 4px 0 0;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 10px;
+}
+
+/* =========================================================
+   PROCESS STATE
+   ========================================================= */
+
+.process-state-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.state-row {
+    min-height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 11px;
+}
+
+.state-row:last-child {
+    border-bottom: 0;
+}
+
+.state-row>span {
+    min-width: 27px;
+
+    padding: 4px 7px;
+
+    border: 1px solid var(--nova-ui-border);
+    border-radius: 4px;
+
+    background: var(--nova-ui-surface-2);
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.running-row .state-name {
+    color: var(--nova-ui-text-strong);
+}
+
+.running-row>span {
+    border-color: var(--nova-ui-success-border);
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-text-strong);
+}
+
+/* =========================================================
+   MEMORY
+   ========================================================= */
+
+.memory-meter {
+    margin-bottom: 23px;
+}
+
+.memory-meter-value {
+    margin-bottom: 10px;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 25px;
+    font-weight: 720;
+}
+
+.progress-track {
+    width: 100%;
+    height: 5px;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    background: var(--nova-ui-surface-2);
+}
+
+.progress-fill {
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: #798596;
+
+    transition: width 0.3s ease;
+}
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 22px;
+}
+
+.metric-grid.four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.metric-grid div {
+    min-width: 0;
+}
+
+.metric-grid span,
+.info-box span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.metric-grid strong,
+.info-box strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 12px;
+    font-weight: 650;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.memory-overview {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 38px;
+    align-items: start;
+}
+
+.big-memory-stat>span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+/* =========================================================
+   SUBSYSTEMS
+   ========================================================= */
+
+.sync-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+.sync-item {
+    padding: 17px 10px;
+
+    border-right: 1px solid var(--nova-ui-accent-border);
+
+    text-align: center;
+}
+
+.sync-item:last-child {
+    border-right: 0;
+}
+
+.sync-value {
+    display: block;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.sync-label {
+    display: block;
+
+    margin-top: 5px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 9px;
+    font-weight: 650;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.subsystem-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.info-box {
+    padding: 15px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+
+    background: var(--nova-ui-surface-2);
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 11px;
+}
+
+thead {
+    background: var(--nova-ui-surface-2);
+}
+
+th {
+    padding: 11px 13px;
+
+    border-bottom: 1px solid var(--nova-ui-border);
+
+    color: var(--nova-ui-muted);
+
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+td {
+    padding: 12px 13px;
+
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+
+    color: var(--nova-ui-text-soft);
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+tbody tr:hover {
+    background: var(--nova-ui-surface-2);
+}
+
+.mono {
+    color: var(--nova-ui-text-strong);
+    font-family: "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+    font-size: 10px;
+}
+
+.process-badge {
+    display: inline-flex;
+
+    min-width: 65px;
+
+    justify-content: center;
+
+    padding: 4px 7px;
+
+    border: 1px solid var(--nova-ui-border);
+    border-radius: 4px;
+
+    background: var(--nova-ui-surface-2);
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 8px;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.process-badge.running {
+    border-color: var(--nova-ui-success-border);
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-text-strong);
+}
+
+.process-badge.ready {
+    color: var(--nova-ui-text-soft);
+}
+
+.process-badge.waiting {
+    border-color: var(--nova-ui-warning-border);
+    background: var(--nova-ui-warning-bg);
+    color: var(--nova-ui-warning);
+}
+
+.process-badge.terminated {
+    color: var(--nova-ui-muted);
+}
+
+.process-badge.new {
+    color: var(--nova-ui-text-soft);
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+    min-height: 280px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px dashed var(--nova-ui-accent-border);
+    border-radius: 6px;
+}
+
+.empty-icon {
+    color: var(--nova-ui-muted);
+
+    font-size: 26px;
+}
+
+.empty-state h3 {
+    margin: 13px 0 5px;
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 13px;
+}
+
+.empty-state p {
+    max-width: 380px;
+
+    margin: 0;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   DEADLOCK
+   ========================================================= */
+
+.deadlock-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin-bottom: 22px;
+    padding: 17px;
+
+    border: 1px solid var(--nova-ui-border);
+    border-radius: 6px;
+
+    background: var(--nova-ui-bg);
+}
+
+.deadlock-banner.danger {
+    border-color: var(--nova-ui-danger-border);
+    background: var(--nova-ui-danger-bg);
+}
+
+.deadlock-symbol {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--nova-ui-border);
+    border-radius: 50%;
+
+    color: var(--nova-ui-success);
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.deadlock-banner.danger .deadlock-symbol {
+    border-color: var(--nova-ui-danger-border);
+    color: var(--nova-ui-danger);
+}
+
+.deadlock-banner strong {
+    display: block;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 12px;
+}
+
+.deadlock-banner.danger strong {
+    color: var(--nova-ui-text-strong);
+}
+
+.deadlock-banner p {
+    margin: 4px 0 0;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 10px;
+}
+
+.sequence {
+    font-family: "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace !important;
+
+    font-size: 10px !important;
+}
+
+/* =========================================================
+   BOTTOM SYSTEM BAR
+   ========================================================= */
+
+.bottom-system-bar {
+    position: fixed;
+
+    left: 224px;
+    right: 0;
+    bottom: 0;
+
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    padding: 0 18px;
+
+    border-top: 1px solid var(--nova-ui-border);
+
+    background: color-mix(in srgb, var(--nova-ui-accent) 75%, transparent);
+
+    z-index: 50;
+}
+
+.bottom-system-bar>div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.system-label {
+    color: var(--nova-ui-muted);
+
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.system-value {
+    color: var(--nova-ui-text-soft);
+
+    font-family: "SFMono-Regular",
+        Consolas,
+        monospace;
+
+    font-size: 9px;
+    font-weight: 650;
+}
+
+.system-value.online {
+    color: var(--nova-ui-success);
+}
+
+.nova-clock {
+    margin-left: auto;
+
+    color: var(--nova-ui-muted);
+
+    font-family: "SFMono-Regular",
+        Consolas,
+        monospace;
+
+    font-size: 9px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .memory-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-grid.four,
+    .subsystem-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .brand-version {
+        display: none;
+    }
+
+    .topbar-right {
+        gap: 5px;
+    }
+
+    .status-badge {
+        font-size: 8px;
+        padding: 0 7px;
+    }
+
+    .sidebar {
+        width: 62px;
+        flex-basis: 62px;
+    }
+
+    .sidebar-heading {
+        display: none;
+    }
+
+    .navigation {
+        padding: 10px 7px;
+    }
+
+    .nav-item {
+        justify-content: center;
+        padding: 0;
+    }
+
+    .nav-item span:last-child {
+        display: none;
+    }
+
+    .sidebar-bottom {
+        padding-bottom: 10px;
+    }
+
+    .control-button {
+        justify-content: center;
+        width: 46px;
+        padding: 0;
+    }
+
+    .control-button {
+        font-size: 0;
+    }
+
+    .control-button span {
+        font-size: 12px;
+    }
+
+    .main-content {
+        padding: 24px 18px 65px;
+    }
+
+    .page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .bottom-system-bar {
+        left: 62px;
+
+        gap: 13px;
+
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .nova-clock {
+        display: none !important;
+    }
+}
+
+@media (max-width: 560px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-grid,
+    .metric-grid.four,
+    .subsystem-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .page-heading h1 {
+        font-size: 23px;
+    }
+
+    .bottom-system-bar {
+        display: none;
+    }
+}
+
+/* =========================================================
+   NOVAOS PHASE 2 — DESKTOP SHELL
+   ========================================================= */
+
+.nova-desktop {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at 20% 20%,
+            color-mix(in srgb, var(--nova-ui-accent) 18%, transparent),
+            transparent 35%),
+        radial-gradient(circle at 80% 70%,
+            color-mix(in srgb, var(--nova-ui-accent) 16%, transparent),
+            transparent 35%),
+        var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-desktop-background {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.nova-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-image: linear-gradient(color-mix(in srgb, var(--nova-ui-accent) 12%, transparent) 1px,
+            transparent 1px),
+        linear-gradient(90deg,
+            color-mix(in srgb, var(--nova-ui-accent) 12%, transparent) 1px,
+            transparent 1px);
+    background-size: 48px 48px;
+}
+
+.nova-glow {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.16;
+}
+
+.nova-glow-one {
+    top: -180px;
+    left: -120px;
+    background: var(--nova-ui-accent);
+}
+
+.nova-glow-two {
+    right: -140px;
+    bottom: -180px;
+    background: var(--nova-ui-accent);
+}
+
+.nova-desktop-content {
+    position: relative;
+    z-index: 1;
+    min-height: calc(100vh - 58px);
+    padding-bottom: 58px;
+}
+
+/* =========================================================
+   TASKBAR
+   ========================================================= */
+
+.nova-taskbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    background: color-mix(in srgb, var(--nova-ui-accent) 75%, transparent);
+    border-top: 1px solid color-mix(in srgb, var(--nova-ui-accent) 18%, transparent);
+    backdrop-filter: blur(18px);
+    z-index: 10000;
+    box-sizing: border-box;
+}
+
+.nova-start-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.nova-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 6px;
+    background: linear-gradient(135deg,
+            var(--nova-ui-accent),
+            var(--nova-ui-accent));
+    color: white;
+    font-weight: 800;
+}
+
+.nova-taskbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+}
+
+.nova-system-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 10px rgba(66, 211, 146, 0.8);
+}
+
+.nova-taskbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+}
+
+.nova-status {
+    color: var(--nova-ui-success);
+}
+
+/* =========================================================
+   WINDOW LAYER
+   ========================================================= */
+
+.nova-window-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.nova-window {
+    position: absolute;
+    width: 720px;
+    height: 480px;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    pointer-events: auto;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--nova-ui-accent) 75%, transparent);
+    border: 1px solid color-mix(in srgb, var(--nova-ui-accent) 22%, transparent);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(20px);
+}
+
+.nova-window.focused {
+    border-color: color-mix(in srgb, var(--nova-ui-accent) 55%, transparent);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5),
+        0 0 35px color-mix(in srgb, var(--nova-ui-accent) 12%, transparent);
+}
+
+.nova-window.maximized {
+    position: fixed;
+    inset: 18px 18px 76px 18px;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    border-radius: 8px;
+}
+
+/* =========================================================
+   WINDOW TITLE BAR
+   ========================================================= */
+
+.nova-window-titlebar {
+    height: 46px;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 0 14px;
+    background: rgba(255, 255, 255, 0.035);
+    border-bottom: 1px solid color-mix(in srgb, var(--nova-ui-accent) 13%, transparent);
+    cursor: grab;
+    user-select: none;
+}
+
+.nova-window-titlebar:active {
+    cursor: grabbing;
+}
+
+.nova-window-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+    color: var(--nova-ui-text-strong);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nova-window-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    background: linear-gradient(135deg,
+            var(--nova-ui-accent),
+            var(--nova-ui-accent));
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.nova-window-controls {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.nova-window-controls button {
+    width: 34px;
+    height: 30px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--nova-ui-text-strong);
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.nova-window-controls button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+.nova-window-controls button.close:hover {
+    background: rgba(220, 70, 80, 0.75);
+    color: white;
+}
+
+/* =========================================================
+   WINDOW CONTENT
+   ========================================================= */
+
+.nova-window-content {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+.nova-window-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--nova-ui-text-soft);
+}
+
+.nova-placeholder-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 18px;
+    border-radius: 18px;
+    background: linear-gradient(135deg,
+            var(--nova-ui-accent),
+            var(--nova-ui-accent));
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+    box-shadow: 0 15px 40px color-mix(in srgb, var(--nova-ui-accent) 25%, transparent);
+}
+
+.nova-window-placeholder h3 {
+    margin: 0 0 7px;
+    color: var(--nova-ui-text-strong);
+    font-size: 20px;
+}
+
+.nova-window-placeholder p {
+    margin: 0 0 12px;
+    color: var(--nova-ui-text-soft);
+}
+
+.nova-window-placeholder span {
+    font-family: monospace;
+    color: var(--nova-ui-accent-text);
+    font-size: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+    .nova-window {
+        left: 12px !important;
+        top: 12px !important;
+        width: calc(100vw - 24px);
+        height: calc(100vh - 90px);
+    }
+
+    .nova-taskbar-center {
+        display: none;
+    }
+}
+
+/* =========================================================
+   NOVAOS PHASE 2 — APPLICATION LAUNCHER
+   ========================================================= */
+
+.nova-app-launcher {
+    position: fixed;
+    left: 18px;
+    bottom: 68px;
+    width: 320px;
+    max-width: calc(100vw - 36px);
+    padding: 16px;
+    border: 1px solid color-mix(in srgb, var(--nova-ui-accent) 22%, transparent);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--nova-ui-accent) 75%, transparent);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55),
+        0 0 30px color-mix(in srgb, var(--nova-ui-accent) 8%, transparent);
+    backdrop-filter: blur(20px);
+    z-index: 20000;
+}
+
+.nova-app-launcher-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.nova-app-launcher-title {
+    color: var(--nova-ui-text-strong);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.nova-app-launcher-subtitle {
+    margin-top: 3px;
+    color: var(--nova-ui-muted);
+    font-size: 9px;
+}
+
+.nova-app-launcher-close {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-soft);
+    cursor: pointer;
+}
+
+.nova-app-launcher-close:hover {
+    background: var(--nova-ui-surface-2);
+    color: #ffffff;
+}
+
+.nova-app-launcher-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.nova-app-launcher-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.nova-app-launcher-item:hover {
+    background: var(--nova-ui-surface-2);
+    border-color: var(--nova-ui-accent-border);
+    transform: translateX(2px);
+}
+
+.nova-app-launcher-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    background: linear-gradient(135deg,
+            var(--nova-ui-accent),
+            var(--nova-ui-accent));
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.nova-app-launcher-info {
+    min-width: 0;
+}
+
+.nova-app-launcher-name {
+    display: block;
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.nova-app-launcher-description {
+    display: block;
+    margin-top: 3px;
+    overflow: hidden;
+    color: var(--nova-ui-muted);
+    font-size: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-app-launcher-empty {
+    padding: 22px 12px;
+    border: 1px dashed var(--nova-ui-accent-border);
+    border-radius: 7px;
+    color: var(--nova-ui-muted);
+    font-size: 10px;
+    text-align: center;
+}
+
+.nova-start-button {
+    cursor: pointer;
+}
+
+.nova-start-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: color-mix(in srgb, var(--nova-ui-accent) 25%, transparent);
+}
+
+@media (max-width: 560px) {
+    .nova-app-launcher {
+        left: 12px;
+        bottom: 68px;
+        width: calc(100vw - 24px);
+    }
+}
+
+/* Fix Phase 2 window layering */
+.nova-window-layer {
+    z-index: 500 !important;
+}
+
+.nova-window {
+    z-index: 600 !important;
+}
+
+.nova-window.maximized {
+    z-index: 700 !important;
+}
+
+.nova-window-titlebar {
+    position: relative;
+    z-index: 701;
+}
+
+.nova-window-controls {
+    position: relative;
+    z-index: 702;
+}
+
+.nova-window-controls button {
+    color: var(--nova-ui-text-strong);
+    background: color-mix(in srgb, var(--nova-ui-accent) 40%, transparent);
+}
+
+.nova-window-controls button:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+/* =========================================================
+   PHASE 2 — MINIMIZED WINDOW TASKBAR
+   ========================================================= */
+
+.nova-taskbar-apps {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 12px;
+}
+
+.nova-taskbar-window {
+    height: 38px;
+    min-width: 120px;
+    max-width: 180px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 0 11px;
+
+    border: 1px solid color-mix(in srgb, var(--nova-ui-accent) 16%, transparent);
+    border-radius: 7px;
+
+    background: rgba(255, 255, 255, 0.045);
+
+    color: var(--nova-ui-text-strong);
+
+    cursor: pointer;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    transition: background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.nova-taskbar-window:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: color-mix(in srgb, var(--nova-ui-accent) 35%, transparent);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-taskbar-window-icon {
+    width: 22px;
+    height: 22px;
+
+    flex: 0 0 22px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 5px;
+
+    background: linear-gradient(135deg,
+            var(--nova-ui-accent),
+            var(--nova-ui-accent));
+
+    color: white;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+@media (max-width: 800px) {
+    .nova-taskbar-apps {
+        margin-left: 7px;
+        max-width: 40vw;
+        overflow-x: auto;
+    }
+
+    .nova-taskbar-window {
+        min-width: 90px;
+    }
+}
+
+/* =========================================================
+   NOVAOS WINDOW RESIZING
+   ========================================================= */
+
+.nova-window {
+    min-width: 520px;
+    min-height: 320px;
+    overflow: visible;
+}
+
+.nova-window-content {
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+}
+
+/*
+ * Invisible resize zones.
+ *
+ * They are intentionally slightly larger than the
+ * visible border so resizing is easy to grab.
+ */
+
+.nova-resize-handle {
+    position: absolute;
+    z-index: 50;
+}
+
+/* Top */
+
+.nova-resize-top {
+    top: -4px;
+    left: 8px;
+    right: 8px;
+    height: 8px;
+    cursor: ns-resize;
+}
+
+/* Bottom */
+
+.nova-resize-bottom {
+    bottom: -4px;
+    left: 8px;
+    right: 8px;
+    height: 8px;
+    cursor: ns-resize;
+}
+
+/* Left */
+
+.nova-resize-left {
+    top: 8px;
+    bottom: 8px;
+    left: -4px;
+    width: 8px;
+    cursor: ew-resize;
+}
+
+/* Right */
+
+.nova-resize-right {
+    top: 8px;
+    bottom: 8px;
+    right: -4px;
+    width: 8px;
+    cursor: ew-resize;
+}
+
+/* Top-left */
+
+.nova-resize-top-left {
+    top: -5px;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    cursor: nwse-resize;
+}
+
+/* Top-right */
+
+.nova-resize-top-right {
+    top: -5px;
+    right: -5px;
+    width: 12px;
+    height: 12px;
+    cursor: nesw-resize;
+}
+
+/* Bottom-left */
+
+.nova-resize-bottom-left {
+    bottom: -5px;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    cursor: nesw-resize;
+}
+
+/* Bottom-right */
+
+.nova-resize-bottom-right {
+    bottom: -5px;
+    right: -5px;
+    width: 12px;
+    height: 12px;
+    cursor: nwse-resize;
+}
+
+/*
+ * Keep maximized windows completely viewport-bound.
+ */
+
+.nova-window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0;
+    min-height: 0;
+}
+
+/* =========================================================
+   SCHEDULER RESPONSIVE CONTENT
+   ========================================================= */
+
+.nova-scheduler {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.nova-scheduler *,
+.nova-scheduler *::before,
+.nova-scheduler *::after {
+    box-sizing: border-box;
+}
+
+.nova-scheduler table {
+    width: 100%;
+    max-width: 100%;
+}
+
+.nova-scheduler input,
+.nova-scheduler select,
+.nova-scheduler button {
+    max-width: 100%;
+}
+
+.nova-scheduler {
+    overflow-x: auto;
+}
+
+/* =========================================================
+   NOVAOS WINDOW RESIZING
+   ========================================================= */
+
+.nova-window {
+    min-width: 360px;
+    min-height: 240px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.nova-window-content {
+    width: 100%;
+    height: calc(100% - 42px);
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+/*
+ * Resize handles
+ */
+
+.nova-resize-handle {
+    position: absolute;
+    z-index: 50;
+    user-select: none;
+}
+
+/*
+ * Edge handles
+ */
+
+.nova-resize-top {
+    top: -4px;
+    left: 8px;
+    right: 8px;
+    height: 8px;
+    cursor: ns-resize;
+}
+
+.nova-resize-bottom {
+    bottom: -4px;
+    left: 8px;
+    right: 8px;
+    height: 8px;
+    cursor: ns-resize;
+}
+
+.nova-resize-left {
+    top: 8px;
+    bottom: 8px;
+    left: -4px;
+    width: 8px;
+    cursor: ew-resize;
+}
+
+.nova-resize-right {
+    top: 8px;
+    bottom: 8px;
+    right: -4px;
+    width: 8px;
+    cursor: ew-resize;
+}
+
+/*
+ * Corner handles
+ */
+
+.nova-resize-top-left {
+    top: -5px;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    cursor: nwse-resize;
+}
+
+.nova-resize-top-right {
+    top: -5px;
+    right: -5px;
+    width: 12px;
+    height: 12px;
+    cursor: nesw-resize;
+}
+
+.nova-resize-bottom-left {
+    bottom: -5px;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    cursor: nesw-resize;
+}
+
+.nova-resize-bottom-right {
+    bottom: -5px;
+    right: -5px;
+    width: 14px;
+    height: 14px;
+    cursor: nwse-resize;
+}
+
+/*
+ * Prevent resize handles from affecting maximized windows.
+ */
+
+.nova-window.maximized .nova-resize-handle {
+    display: none;
+}
+
+/*
+ * Better behavior while resizing.
+ */
+
+body.nova-window-resizing {
+    user-select: none;
+}
+
+/* =========================================================
+   NOVAOS SCHEDULER — COMPLETE UI THEME
+   ========================================================= */
+
+.nova-scheduler {
+    width: 100%;
+    min-height: 100%;
+    padding: 24px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: radial-gradient(circle at 0% 0%,
+            color-mix(in srgb, var(--nova-ui-accent) 8%, transparent),
+            transparent 32%),
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent));
+
+    color: var(--nova-ui-text-strong);
+    font-family: Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.nova-scheduler *,
+.nova-scheduler *::before,
+.nova-scheduler *::after {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.nova-scheduler h1,
+.nova-scheduler h2,
+.nova-scheduler h3,
+.nova-scheduler h4,
+.nova-scheduler p {
+    margin-top: 0;
+}
+
+.nova-scheduler>h1,
+.nova-scheduler .scheduler-title {
+    margin: 0 0 6px;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 25px;
+    font-weight: 750;
+    letter-spacing: -0.035em;
+}
+
+.nova-scheduler>p,
+.nova-scheduler .scheduler-subtitle {
+    margin-bottom: 24px;
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   GENERAL SECTIONS / CARDS
+   ========================================================= */
+
+.nova-scheduler>section,
+.nova-scheduler .scheduler-section,
+.nova-scheduler .scheduler-panel,
+.nova-scheduler .scheduler-card {
+    margin-bottom: 16px;
+    padding: 18px;
+
+    border: 1px solid color-mix(in srgb, var(--nova-ui-accent) 16%, transparent);
+    border-radius: 9px;
+
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--nova-ui-accent) 74%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 74%, transparent));
+
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025),
+        0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.nova-scheduler section>h2,
+.nova-scheduler .scheduler-section>h2,
+.nova-scheduler .scheduler-panel>h2,
+.nova-scheduler .scheduler-card>h2 {
+    margin-bottom: 6px;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.nova-scheduler section>p,
+.nova-scheduler .scheduler-section>p,
+.nova-scheduler .scheduler-panel>p,
+.nova-scheduler .scheduler-card>p {
+    margin-bottom: 14px;
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 10px;
+    line-height: 1.55;
+}
+
+/* =========================================================
+   ALGORITHM AREA
+   ========================================================= */
+
+.nova-scheduler select {
+    min-height: 36px;
+
+    padding: 0 34px 0 11px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+
+    outline: none;
+
+    background: linear-gradient(180deg,
+            var(--nova-ui-surface-2),
+            var(--nova-ui-surface-2));
+
+    color: var(--nova-ui-text-strong);
+
+    font: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.nova-scheduler select:hover {
+    border-color: var(--nova-ui-accent-border);
+}
+
+.nova-scheduler select:focus {
+    border-color: var(--nova-ui-accent-border);
+
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--nova-ui-accent) 12%, transparent);
+}
+
+.nova-scheduler option {
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+/* Algorithm buttons/cards */
+
+.nova-scheduler button {
+    min-height: 34px;
+
+    padding: 7px 12px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent));
+
+    color: var(--nova-ui-text-strong);
+
+    font: inherit;
+    font-size: 10px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition: background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease,
+        transform 0.12s ease,
+        box-shadow 0.15s ease;
+}
+
+.nova-scheduler button:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent));
+
+    color: var(--nova-ui-text-strong);
+
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.nova-scheduler button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.nova-scheduler button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Selected algorithm */
+
+.nova-scheduler button[aria-pressed="true"],
+.nova-scheduler button.selected,
+.nova-scheduler .selected {
+    border-color: var(--nova-ui-accent-border);
+
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent));
+
+    color: var(--nova-ui-text-strong);
+
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--nova-ui-accent) 16%, transparent),
+        0 8px 24px color-mix(in srgb, var(--nova-ui-accent) 10%, transparent);
+}
+
+/* =========================================================
+   FORM LABELS
+   ========================================================= */
+
+.nova-scheduler label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 9px;
+    font-weight: 750;
+
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.nova-scheduler input {
+    width: 100%;
+    min-width: 0;
+    min-height: 35px;
+
+    padding: 0 10px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+
+    outline: none;
+
+    background: linear-gradient(180deg,
+            var(--nova-ui-surface-2),
+            var(--nova-ui-surface-2));
+
+    color: var(--nova-ui-text-strong);
+
+    font: inherit;
+    font-size: 11px;
+
+    transition: border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+}
+
+.nova-scheduler input:hover {
+    border-color: var(--nova-ui-accent-border);
+}
+
+.nova-scheduler input:focus {
+    border-color: var(--nova-ui-accent-border);
+
+    background: var(--nova-ui-surface-2);
+
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--nova-ui-accent) 12%, transparent);
+}
+
+.nova-scheduler input::placeholder {
+    color: var(--nova-ui-accent-text);
+}
+
+/* =========================================================
+   PROCESS TABLE
+   ========================================================= */
+
+.nova-scheduler table {
+    width: 100%;
+    min-width: 650px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    overflow: hidden;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+
+    background: color-mix(in srgb, var(--nova-ui-accent) 55%, transparent);
+}
+
+.nova-scheduler thead {
+    background: linear-gradient(180deg,
+            var(--nova-ui-surface-2),
+            var(--nova-ui-surface-2));
+}
+
+.nova-scheduler th {
+    height: 38px;
+
+    padding: 0 12px;
+
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 0.09em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.nova-scheduler td {
+    padding: 9px 10px;
+
+    border-bottom: 1px solid color-mix(in srgb, var(--nova-ui-accent) 65%, transparent);
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 10px;
+}
+
+.nova-scheduler tbody tr {
+    transition: background 0.12s ease;
+}
+
+.nova-scheduler tbody tr:hover {
+    background: color-mix(in srgb, var(--nova-ui-accent) 7%, transparent);
+}
+
+.nova-scheduler tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.nova-scheduler td input {
+    width: 100%;
+}
+
+/* =========================================================
+   PROCESS DELETE BUTTON
+   ========================================================= */
+
+.nova-scheduler td button,
+.nova-scheduler button.remove-process,
+.nova-scheduler button.delete-process {
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+    min-height: 28px;
+
+    display: inline-grid;
+    place-items: center;
+
+    padding: 0;
+
+    border-color: rgba(180, 75, 85, 0.35);
+
+    background: rgba(85, 30, 37, 0.28);
+
+    color: var(--nova-ui-danger);
+
+    font-size: 11px;
+}
+
+.nova-scheduler td button:hover,
+.nova-scheduler button.remove-process:hover,
+.nova-scheduler button.delete-process:hover {
+    border-color: rgba(220, 85, 95, 0.65);
+
+    background: rgba(130, 38, 47, 0.45);
+
+    color: var(--nova-ui-text-strong);
+}
+
+/* =========================================================
+   BUTTON TOOLBAR
+   ========================================================= */
+
+.nova-scheduler .scheduler-actions,
+.nova-scheduler .actions,
+.nova-scheduler .button-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-top: 14px;
+}
+
+/* Add process */
+
+.nova-scheduler button.add-process,
+.nova-scheduler button[class*="add"] {
+    border-color: color-mix(in srgb, var(--nova-ui-accent) 35%, transparent);
+
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent));
+
+    color: var(--nova-ui-text-strong);
+}
+
+/* Run simulation */
+
+.nova-scheduler button.run-simulation,
+.nova-scheduler button[class*="run"] {
+    border-color: rgba(66, 211, 146, 0.32);
+
+    background: linear-gradient(180deg,
+            rgba(20, 70, 55, 0.95),
+            rgba(12, 42, 34, 0.95));
+
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-scheduler button.run-simulation:hover,
+.nova-scheduler button[class*="run"]:hover {
+    border-color: rgba(66, 211, 146, 0.58);
+
+    color: var(--nova-ui-text-strong);
+}
+
+/* Reset */
+
+.nova-scheduler button.reset,
+.nova-scheduler button[class*="reset"] {
+    color: var(--nova-ui-text-soft);
+}
+
+/* =========================================================
+   ROUND ROBIN QUANTUM
+   ========================================================= */
+
+.nova-scheduler input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.nova-scheduler input[type="number"]::-webkit-inner-spin-button,
+.nova-scheduler input[type="number"]::-webkit-outer-spin-button {
+    opacity: 0.55;
+}
+
+/* =========================================================
+   STATUS / BADGES
+   ========================================================= */
+
+.nova-scheduler .status,
+.nova-scheduler .badge,
+.nova-scheduler [class*="status"] {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 24px;
+
+    padding: 4px 8px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+
+    background: var(--nova-ui-surface-2);
+
+    color: var(--nova-ui-text-soft);
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.nova-scheduler .success,
+.nova-scheduler .completed {
+    border-color: rgba(66, 211, 146, 0.28);
+
+    background: rgba(19, 60, 45, 0.45);
+
+    color: var(--nova-ui-success);
+}
+
+.nova-scheduler .error {
+    border-color: rgba(220, 90, 100, 0.35);
+
+    background: rgba(70, 25, 31, 0.5);
+
+    color: var(--nova-ui-danger);
+}
+
+/* =========================================================
+   RESULTS
+   ========================================================= */
+
+.nova-scheduler .results,
+.nova-scheduler .scheduler-results,
+.nova-scheduler .simulation-results {
+    margin-top: 18px;
+}
+
+.nova-scheduler .results h2,
+.nova-scheduler .scheduler-results h2,
+.nova-scheduler .simulation-results h2 {
+    margin-bottom: 14px;
+
+    color: var(--nova-ui-text-strong);
+
+    font-size: 16px;
+}
+
+/* =========================================================
+   GANTT CHART / TIMELINE
+   ========================================================= */
+
+.nova-scheduler .gantt,
+.nova-scheduler .timeline,
+.nova-scheduler [class*="gantt"],
+.nova-scheduler [class*="timeline"] {
+    width: 100%;
+    overflow-x: auto;
+
+    padding-bottom: 4px;
+}
+
+.nova-scheduler .gantt>*,
+.nova-scheduler .timeline>* {
+    min-width: max-content;
+}
+
+/* =========================================================
+   METRICS
+   ========================================================= */
+
+.nova-scheduler .metrics,
+.nova-scheduler .statistics,
+.nova-scheduler .averages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,
+            minmax(130px, 1fr));
+
+    gap: 10px;
+
+    margin-top: 14px;
+}
+
+.nova-scheduler .metric,
+.nova-scheduler .statistic,
+.nova-scheduler .average {
+    padding: 13px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+
+    background: color-mix(in srgb, var(--nova-ui-accent) 75%, transparent);
+}
+
+.nova-scheduler .metric span,
+.nova-scheduler .statistic span,
+.nova-scheduler .average span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--nova-ui-muted);
+
+    font-size: 8px;
+    font-weight: 750;
+
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.nova-scheduler .metric strong,
+.nova-scheduler .statistic strong,
+.nova-scheduler .average strong {
+    color: var(--nova-ui-text-strong);
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+.nova-scheduler::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+.nova-scheduler::-webkit-scrollbar-track {
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-scheduler::-webkit-scrollbar-thumb {
+    border: 2px solid var(--nova-ui-accent-border);
+    border-radius: 10px;
+
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-scheduler::-webkit-scrollbar-thumb:hover {
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-scheduler *::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.nova-scheduler *::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.nova-scheduler *::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: var(--nova-ui-surface-2);
+}
+
+/* =========================================================
+   RESPONSIVE SCHEDULER
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .nova-scheduler {
+        padding: 18px;
+    }
+
+    .nova-scheduler>section,
+    .nova-scheduler .scheduler-section,
+    .nova-scheduler .scheduler-panel,
+    .nova-scheduler .scheduler-card {
+        padding: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nova-scheduler {
+        padding: 12px;
+    }
+
+    .nova-scheduler>h1,
+    .nova-scheduler .scheduler-title {
+        font-size: 20px;
+    }
+
+    .nova-scheduler .metrics,
+    .nova-scheduler .statistics,
+    .nova-scheduler .averages {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* =========================================================
+   IMPORTANT — PREVENT NATIVE WHITE FORM CONTROLS
+   ========================================================= */
+
+.nova-scheduler input,
+.nova-scheduler select,
+.nova-scheduler textarea {
+    color-scheme: dark;
+}
+
+.nova-scheduler button {
+    color-scheme: dark;
+}
+
+/* =========================================================
+   CLEAN ALGORITHM GRID
+   ========================================================= */
+
+.nova-scheduler :is(.algorithm-grid,
+    .algorithms,
+    .algorithm-list,
+    [class*="algorithm-grid"],
+    [class*="algorithm-list"]) {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit,
+            minmax(210px, 1fr));
+
+    gap: 10px;
+}
+
+.nova-scheduler :is(.algorithm-card,
+    .algorithm-option,
+    [class*="algorithm-card"],
+    [class*="algorithm-option"]) {
+    min-height: 72px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 13px 14px;
+
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent));
+
+    color: var(--nova-ui-text-strong);
+
+    cursor: pointer;
+
+    transition: border-color 0.15s ease,
+        background 0.15s ease,
+        transform 0.12s ease;
+}
+
+.nova-scheduler :is(.algorithm-card,
+    .algorithm-option,
+    [class*="algorithm-card"],
+    [class*="algorithm-option"]):hover {
+    border-color: var(--nova-ui-accent-border);
+
+    background: linear-gradient(180deg,
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 75%, transparent));
+
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   FINAL OVERRIDES
+   ========================================================= */
+
+.nova-window-content:has(.nova-scheduler) {
+    overflow: hidden;
+}
+
+.nova-window-content .nova-scheduler {
+    height: 100%;
+    min-height: 0;
+}
+
+/* =========================================================
+   NOVAOS SCHEDULER — FINAL POLISH
+   ========================================================= */
+
+.nova-scheduler {
+    padding: 20px 24px;
+}
+
+/* Compact header */
+
+.nova-scheduler>h1,
+.nova-scheduler .scheduler-title {
+    margin-bottom: 4px;
+}
+
+.nova-scheduler>p,
+.nova-scheduler .scheduler-subtitle {
+    margin-bottom: 12px;
+}
+
+/* Ready / status badge */
+
+.nova-scheduler>.status,
+.nova-scheduler>.badge,
+.nova-scheduler>[class*="status"] {
+    width: fit-content;
+    margin: 2px 0 12px;
+}
+
+/* Compact section spacing */
+
+.nova-scheduler>section,
+.nova-scheduler .scheduler-section,
+.nova-scheduler .scheduler-panel,
+.nova-scheduler .scheduler-card {
+    margin-bottom: 12px;
+    padding: 15px;
+}
+
+/* Algorithm heading */
+
+.nova-scheduler h2 {
+    margin-bottom: 5px;
+}
+
+.nova-scheduler section>p,
+.nova-scheduler .scheduler-section>p,
+.nova-scheduler .scheduler-panel>p,
+.nova-scheduler .scheduler-card>p {
+    margin-bottom: 9px;
+}
+
+/* Algorithm cards */
+
+.nova-scheduler :is(.algorithm-grid,
+    .algorithms,
+    .algorithm-list,
+    [class*="algorithm-grid"],
+    [class*="algorithm-list"]) {
+    gap: 8px;
+}
+
+.nova-scheduler :is(.algorithm-card,
+    .algorithm-option,
+    [class*="algorithm-card"],
+    [class*="algorithm-option"]) {
+    min-height: 66px;
+    padding: 10px 12px;
+}
+
+/* Process controls */
+
+.nova-scheduler .scheduler-actions,
+.nova-scheduler .actions,
+.nova-scheduler .button-row {
+    margin-top: 9px;
+}
+
+/* Process table */
+
+.nova-scheduler table {
+    min-width: 620px;
+}
+
+.nova-scheduler th {
+    height: 34px;
+    padding: 0 10px;
+}
+
+.nova-scheduler td {
+    padding: 7px 10px;
+}
+
+/* Inputs */
+
+.nova-scheduler input {
+    min-height: 32px;
+    height: 32px;
+}
+
+/* Remove ugly browser number controls */
+
+.nova-scheduler input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.nova-scheduler input[type="number"]::-webkit-inner-spin-button,
+.nova-scheduler input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+/* Cleaner process delete buttons */
+
+.nova-scheduler td button,
+.nova-scheduler button.remove-process,
+.nova-scheduler button.delete-process {
+    width: 27px;
+    min-width: 27px;
+    height: 27px;
+    min-height: 27px;
+}
+
+/* Run button */
+
+.nova-scheduler button.run-simulation,
+.nova-scheduler button[class*="run"] {
+    min-height: 32px;
+    padding: 6px 13px;
+}
+
+/* Add process */
+
+.nova-scheduler button.add-process,
+.nova-scheduler button[class*="add"] {
+    min-height: 32px;
+    padding: 6px 12px;
+}
+
+/* Reset */
+
+.nova-scheduler button.reset,
+.nova-scheduler button[class*="reset"] {
+    min-height: 32px;
+}
+
+/* Prevent accidental overflow */
+
+.nova-scheduler,
+.nova-scheduler section,
+.nova-scheduler .scheduler-section,
+.nova-scheduler .scheduler-panel {
+    max-width: 100%;
+}
+
+/* Better window content */
+
+.nova-window-content:has(.nova-scheduler) {
+    overflow: hidden;
+}
+
+.nova-window-content:has(.nova-scheduler) .nova-scheduler {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   RESULT AREA — KEEP IT COMPACT
+   ========================================================= */
+
+.nova-scheduler .results,
+.nova-scheduler .scheduler-results,
+.nova-scheduler .simulation-results {
+    margin-top: 12px;
+}
+
+.nova-scheduler .metrics,
+.nova-scheduler .statistics,
+.nova-scheduler .averages {
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.nova-scheduler .metric,
+.nova-scheduler .statistic,
+.nova-scheduler .average {
+    padding: 10px 12px;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+    .nova-scheduler {
+        padding: 14px;
+    }
+
+    .nova-scheduler :is(.algorithm-grid,
+        .algorithms,
+        .algorithm-list,
+        [class*="algorithm-grid"],
+        [class*="algorithm-list"]) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .nova-scheduler :is(.algorithm-grid,
+        .algorithms,
+        .algorithm-list,
+        [class*="algorithm-grid"],
+        [class*="algorithm-list"]) {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-scheduler .metrics,
+    .nova-scheduler .statistics,
+    .nova-scheduler .averages {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   NOVAOS SCHEDULER — SIMULATION RESULTS
+   ========================================================= */
+
+.scheduler-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.scheduler-eyebrow {
+    margin-bottom: 5px;
+    color: var(--nova-ui-accent-text);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+}
+
+.scheduler-header h1,
+.scheduler-result-header h2 {
+    margin: 0;
+    color: var(--nova-ui-text-strong);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.scheduler-header p,
+.scheduler-result-header p {
+    margin: 5px 0 0;
+    color: var(--nova-ui-text-soft);
+    font-size: 11px;
+}
+
+.scheduler-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border: 1px solid var(--nova-ui-success-border);
+    border-radius: 5px;
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-success);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.scheduler-status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 8px rgba(69, 213, 138, 0.7);
+}
+
+.scheduler-section {
+    margin-bottom: 14px;
+    padding: 16px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--nova-ui-accent) 72%, transparent);
+}
+
+.scheduler-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.scheduler-section-heading h2 {
+    margin: 0;
+    color: var(--nova-ui-text-strong);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.scheduler-section-heading p {
+    margin: 4px 0 0;
+    color: var(--nova-ui-text-soft);
+    font-size: 10px;
+}
+
+.scheduler-algorithm-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.scheduler-algorithm-card {
+    min-height: 78px;
+    padding: 11px 9px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.15s ease,
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+.scheduler-algorithm-card:hover {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    transform: translateY(-1px);
+}
+
+.scheduler-algorithm-card.selected {
+    border-color: var(--nova-ui-accent-border);
+    background: linear-gradient(145deg,
+            color-mix(in srgb, var(--nova-ui-accent) 35%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 32%, transparent));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nova-ui-accent) 8%, transparent),
+        0 0 18px color-mix(in srgb, var(--nova-ui-accent) 8%, transparent);
+}
+
+.scheduler-algorithm-card strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--nova-ui-text-strong);
+    font-size: 10px;
+}
+
+.scheduler-algorithm-card span {
+    display: block;
+    color: var(--nova-ui-text-soft);
+    font-size: 8px;
+    line-height: 1.35;
+}
+
+.scheduler-algorithm-card small {
+    display: block;
+    margin-top: 7px;
+    color: var(--nova-ui-accent-text);
+    font-size: 7px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.scheduler-quantum {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 10px;
+    padding: 9px 11px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-quantum label {
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.scheduler-quantum input {
+    width: 70px;
+    height: 29px;
+    padding: 0 8px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.scheduler-quantum span {
+    color: var(--nova-ui-accent-text);
+    font-size: 8px;
+}
+
+.scheduler-selected-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 8px 10px;
+    border-left: 2px solid var(--nova-ui-accent-border);
+    background: color-mix(in srgb, var(--nova-ui-accent) 6%, transparent);
+}
+
+.scheduler-selected-info span {
+    color: var(--nova-ui-accent-text);
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.scheduler-selected-info strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 10px;
+}
+
+.scheduler-selected-info small {
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+}
+
+.scheduler-process-heading {
+    align-items: center;
+}
+
+.scheduler-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.scheduler-button {
+    min-height: 31px;
+    padding: 0 12px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 9px;
+    font-weight: 700;
+    transition: 0.15s ease;
+}
+
+.scheduler-button.secondary {
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.scheduler-button.secondary:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.scheduler-button.primary {
+    border-color: var(--nova-ui-accent-border);
+    background: linear-gradient(135deg,
+            var(--nova-ui-surface-2),
+            var(--nova-ui-surface-2));
+    color: var(--nova-ui-text-strong);
+    box-shadow: 0 5px 18px color-mix(in srgb, var(--nova-ui-accent) 18%, transparent);
+}
+
+.scheduler-button.primary:hover:not(:disabled) {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+}
+
+.scheduler-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.scheduler-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+}
+
+.scheduler-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+}
+
+.scheduler-table thead {
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-table th {
+    height: 31px;
+    padding: 0 10px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-muted);
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-align: left;
+}
+
+.scheduler-table td {
+    height: 43px;
+    padding: 5px 10px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-text-strong);
+    font-size: 9px;
+}
+
+.scheduler-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.scheduler-table tbody tr:hover {
+    background: color-mix(in srgb, var(--nova-ui-accent) 6%, transparent);
+}
+
+.scheduler-table input {
+    width: 100%;
+    height: 31px;
+    padding: 0 9px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px;
+    outline: none;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-size: 9px;
+}
+
+.scheduler-table input:focus {
+    border-color: var(--nova-ui-accent-border);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--nova-ui-accent) 8%, transparent);
+}
+
+.scheduler-delete {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 5px;
+    background: var(--nova-ui-bg);
+    color: var(--nova-ui-danger);
+    cursor: pointer;
+}
+
+.scheduler-delete:hover:not(:disabled) {
+    border-color: var(--nova-ui-danger-border);
+    background: var(--nova-ui-bg);
+}
+
+.scheduler-delete:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.scheduler-run-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.scheduler-error {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 5px;
+    background: var(--nova-ui-bg);
+    color: var(--nova-ui-danger);
+    font-size: 9px;
+}
+
+.scheduler-error strong {
+    color: var(--nova-ui-danger);
+    font-size: 9px;
+}
+
+/* =========================================================
+   RESULTS
+   ========================================================= */
+
+.scheduler-results {
+    border-color: var(--nova-ui-accent-border);
+}
+
+.scheduler-result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 14px;
+}
+
+.scheduler-complete {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border: 1px solid var(--nova-ui-success-border);
+    border-radius: 5px;
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-success);
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.scheduler-complete span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 7px rgba(70, 213, 138, 0.6);
+}
+
+.scheduler-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.scheduler-summary-card {
+    padding: 12px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-summary-card span,
+.scheduler-averages span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--nova-ui-accent-text);
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.scheduler-summary-card strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 17px;
+}
+
+.scheduler-summary-card small {
+    margin-left: 5px;
+    color: var(--nova-ui-accent-text);
+    font-size: 7px;
+}
+
+.scheduler-result-block {
+    margin-top: 12px;
+}
+
+.scheduler-result-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 7px;
+}
+
+.scheduler-result-title h3 {
+    margin: 0;
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+}
+
+.scheduler-result-title span {
+    color: var(--nova-ui-muted);
+    font-size: 8px;
+}
+
+.scheduler-gantt-wrapper {
+    padding: 14px 12px 9px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    overflow-x: auto;
+}
+
+.scheduler-gantt {
+    display: flex;
+    min-width: 600px;
+    height: 58px;
+}
+
+.scheduler-gantt-segment {
+    min-width: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid var(--nova-ui-accent-border);
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    background: linear-gradient(135deg,
+            color-mix(in srgb, var(--nova-ui-accent) 55%, transparent),
+            color-mix(in srgb, var(--nova-ui-accent) 48%, transparent));
+}
+
+.scheduler-gantt-segment:first-child {
+    border-left: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px 0 0 4px;
+}
+
+.scheduler-gantt-segment:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.scheduler-gantt-segment strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 10px;
+}
+
+.scheduler-gantt-segment span {
+    color: var(--nova-ui-text-strong);
+    font-size: 7px;
+}
+
+.scheduler-gantt-scale {
+    min-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+    color: var(--nova-ui-accent-text);
+    font-family: monospace;
+    font-size: 8px;
+}
+
+.scheduler-empty-result {
+    padding: 30px;
+    border: 1px dashed var(--nova-ui-accent-border);
+    border-radius: 5px;
+    color: var(--nova-ui-muted);
+    font-size: 9px;
+    text-align: center;
+}
+
+.results-table {
+    min-width: 850px;
+}
+
+.metric-highlight {
+    color: var(--nova-ui-accent-text) !important;
+    font-weight: 700;
+}
+
+.scheduler-averages {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.scheduler-averages>div {
+    padding: 11px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-averages strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 15px;
+}
+
+@media (max-width: 1100px) {
+    .scheduler-algorithm-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .scheduler-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+
+    .scheduler-header,
+    .scheduler-result-header,
+    .scheduler-process-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .scheduler-algorithm-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scheduler-summary-grid,
+    .scheduler-averages {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .scheduler-section {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .scheduler-algorithm-grid,
+    .scheduler-summary-grid,
+    .scheduler-averages {
+        grid-template-columns: 1fr;
+    }
+
+    .scheduler-scheduler {
+        padding: 12px;
+    }
+}
+
+/* =========================================================
+   NOVAOS SCHEDULER — COMPLETE UI STYLING
+   ========================================================= */
+
+.nova-scheduler {
+    width: 100%;
+    min-height: 100%;
+    padding: 24px;
+    color: var(--nova-ui-text-strong);
+    background: radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--nova-ui-accent) 8%, transparent), transparent 30%),
+        radial-gradient(circle at 90% 100%, color-mix(in srgb, var(--nova-ui-accent) 8%, transparent), transparent 35%),
+        var(--nova-ui-surface-2);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.nova-scheduler h1,
+.nova-scheduler h2,
+.nova-scheduler h3,
+.nova-scheduler p {
+    margin: 0;
+}
+
+.scheduler-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.scheduler-eyebrow {
+    margin-bottom: 7px;
+    color: var(--nova-ui-accent-text);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.scheduler-header h1 {
+    color: var(--nova-ui-text-strong);
+    font-size: 25px;
+    font-weight: 750;
+    letter-spacing: -0.035em;
+}
+
+.scheduler-header p {
+    margin-top: 5px;
+    color: var(--nova-ui-text-soft);
+    font-size: 11px;
+}
+
+.scheduler-status,
+.scheduler-result-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 11px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-soft);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+}
+
+.scheduler-status span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #5c7185;
+}
+
+.scheduler-status.complete {
+    border-color: var(--nova-ui-success-border);
+    color: var(--nova-ui-success);
+    background: var(--nova-ui-success-bg);
+}
+
+.scheduler-status.complete span {
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 9px rgba(66, 211, 146, 0.65);
+}
+
+.scheduler-panel {
+    margin-bottom: 14px;
+    padding: 18px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--nova-ui-accent) 75%, transparent);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.scheduler-section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.scheduler-section-heading h2 {
+    color: var(--nova-ui-text-strong);
+    font-size: 13px;
+    font-weight: 720;
+}
+
+.scheduler-section-heading p {
+    margin-top: 4px;
+    color: var(--nova-ui-muted);
+    font-size: 9px;
+}
+
+.scheduler-algorithm-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.scheduler-algorithm-card {
+    min-height: 78px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 11px 8px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: linear-gradient(180deg, var(--nova-ui-surface-2), var(--nova-ui-surface-2));
+    color: var(--nova-ui-text-strong);
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.15s ease,
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+.scheduler-algorithm-card:hover {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    transform: translateY(-1px);
+}
+
+.scheduler-algorithm-card.selected {
+    border-color: var(--nova-ui-accent-border);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--nova-ui-accent) 45%, transparent), color-mix(in srgb, var(--nova-ui-accent) 75%, transparent));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nova-ui-accent) 12%, transparent);
+}
+
+.scheduler-algorithm-card strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.scheduler-algorithm-card span {
+    color: var(--nova-ui-text-soft);
+    font-size: 8px;
+}
+
+.scheduler-algorithm-card small {
+    color: var(--nova-ui-accent-text);
+    font-size: 7px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.scheduler-selected-info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 9px;
+    padding: 9px 11px;
+    border: 1px solid var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-muted);
+    font-size: 8px;
+}
+
+.scheduler-selected-info strong {
+    color: var(--nova-ui-text-strong);
+}
+
+.scheduler-quantum {
+    margin-top: 10px;
+}
+
+.scheduler-quantum label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.scheduler-quantum label>span {
+    color: var(--nova-ui-accent-text);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.scheduler-quantum input {
+    width: 100px;
+}
+
+.scheduler-process-heading {
+    align-items: center;
+}
+
+.scheduler-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.scheduler-actions button,
+.scheduler-run-button {
+    min-height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    cursor: pointer;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.scheduler-actions button:hover {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.scheduler-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+}
+
+.scheduler-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+}
+
+.scheduler-table thead {
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-table th {
+    padding: 9px 11px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-accent-text);
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-align: left;
+}
+
+.scheduler-table td {
+    padding: 8px 11px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+}
+
+.scheduler-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.scheduler-table tbody tr:hover {
+    background: color-mix(in srgb, var(--nova-ui-accent) 8%, transparent);
+}
+
+.scheduler-table input {
+    width: 100%;
+    min-width: 0;
+    height: 32px;
+    padding: 0 9px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    outline: none;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font: inherit;
+    font-size: 9px;
+}
+
+.scheduler-table input:focus {
+    border-color: var(--nova-ui-accent-border);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--nova-ui-accent) 10%, transparent);
+}
+
+.scheduler-pid {
+    color: var(--nova-ui-text-strong) !important;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-weight: 700;
+}
+
+.scheduler-delete {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 5px;
+    background: var(--nova-ui-bg);
+    color: var(--nova-ui-danger);
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.scheduler-delete:hover:not(:disabled) {
+    background: var(--nova-ui-danger-bg);
+    border-color: var(--nova-ui-danger-border);
+}
+
+.scheduler-delete:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.scheduler-run-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.scheduler-run-button {
+    min-width: 110px;
+    border-color: var(--nova-ui-accent-border);
+    background: linear-gradient(135deg, var(--nova-ui-surface-2), var(--nova-ui-surface-2));
+    color: var(--nova-ui-text-strong);
+}
+
+.scheduler-run-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--nova-ui-surface-2), var(--nova-ui-surface-2));
+}
+
+.scheduler-run-button:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.scheduler-error {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 14px;
+    padding: 11px 13px;
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 5px;
+    background: var(--nova-ui-bg);
+}
+
+.scheduler-error strong {
+    color: var(--nova-ui-danger);
+    font-size: 10px;
+}
+
+.scheduler-error span {
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+}
+
+.scheduler-results {
+    border-color: var(--nova-ui-accent-border);
+}
+
+.scheduler-result-badge {
+    border-color: var(--nova-ui-success-border);
+    color: var(--nova-ui-success);
+    background: var(--nova-ui-success-bg);
+}
+
+.scheduler-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.scheduler-metric-grid>div {
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-metric-grid span,
+.scheduler-bottom-metrics span,
+.scheduler-analysis-card>span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--nova-ui-accent-text);
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+}
+
+.scheduler-metric-grid strong {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    color: var(--nova-ui-text-strong);
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.scheduler-metric-grid small {
+    color: var(--nova-ui-accent-text);
+    font-size: 7px;
+    font-weight: 500;
+}
+
+.scheduler-gantt-section {
+    margin-bottom: 18px;
+}
+
+.scheduler-subheading {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 9px;
+}
+
+.scheduler-subheading h3 {
+    color: var(--nova-ui-text-strong);
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.scheduler-subheading span {
+    color: var(--nova-ui-accent-text);
+    font-size: 8px;
+}
+
+.scheduler-gantt {
+    width: 100%;
+    min-height: 68px;
+    display: flex;
+    overflow: hidden;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-gantt-block {
+    min-width: 4%;
+    min-height: 66px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px;
+    border-right: 1px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(135deg, var(--nova-ui-surface-2), var(--nova-ui-surface-2));
+    color: var(--nova-ui-text-strong);
+    text-align: center;
+}
+
+.scheduler-gantt-block:nth-child(2n) {
+    background: linear-gradient(135deg, var(--nova-ui-surface-2), var(--nova-ui-surface-2));
+}
+
+.scheduler-gantt-block:nth-child(3n) {
+    background: linear-gradient(135deg, var(--nova-ui-surface-2), var(--nova-ui-surface-2));
+}
+
+.scheduler-gantt-block.idle {
+    background: repeating-linear-gradient(135deg,
+            var(--nova-ui-surface-2),
+            var(--nova-ui-surface-2) 7px,
+            var(--nova-ui-surface-2) 7px,
+            var(--nova-ui-surface-2) 14px);
+    color: var(--nova-ui-muted);
+}
+
+.scheduler-gantt-block strong {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.scheduler-gantt-block span {
+    color: var(--nova-ui-text-strong);
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 7px;
+}
+
+.scheduler-time-axis {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 2px 0;
+    color: var(--nova-ui-accent-text);
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 7px;
+}
+
+.scheduler-results-table {
+    min-width: 900px;
+}
+
+.scheduler-results-table td {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 8px;
+}
+
+.scheduler-bottom-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.scheduler-bottom-metrics>div {
+    padding: 11px 13px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-bottom-metrics strong {
+    color: var(--nova-ui-text-strong);
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+}
+
+.scheduler-analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.scheduler-analysis-card {
+    padding: 13px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-analysis-card p {
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+.scheduler-observations {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.scheduler-observations>div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px;
+    border-left: 2px solid var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+}
+
+.scheduler-observations strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 9px;
+}
+
+.scheduler-observations span {
+    color: var(--nova-ui-text-soft);
+    font-size: 8px;
+    line-height: 1.55;
+}
+
+.scheduler-observations b {
+    color: var(--nova-ui-text-strong);
+    font-family: monospace;
+}
+
+.scheduler-empty {
+    padding: 25px;
+    border: 1px dashed var(--nova-ui-accent-border);
+    border-radius: 5px;
+    color: var(--nova-ui-muted);
+    font-size: 9px;
+    text-align: center;
+}
+
+@media (max-width: 1000px) {
+    .scheduler-algorithm-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .scheduler-metric-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scheduler-bottom-metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scheduler-observations {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .nova-scheduler {
+        padding: 14px;
+    }
+
+    .scheduler-header,
+    .scheduler-section-heading {
+        flex-direction: column;
+    }
+
+    .scheduler-algorithm-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scheduler-analysis-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .scheduler-metric-grid,
+    .scheduler-bottom-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .scheduler-actions {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   NOVAOS - SCHEDULER TYPOGRAPHY BOOST
+   ========================================================= */
+
+.nova-scheduler {
+    font-size: 15px;
+}
+
+/* Main heading */
+.nova-scheduler h1,
+.nova-scheduler h2,
+.nova-scheduler h3 {
+    letter-spacing: -0.02em;
+}
+
+.nova-scheduler h1 {
+    font-size: 30px;
+}
+
+.nova-scheduler h2 {
+    font-size: 20px;
+}
+
+.nova-scheduler h3 {
+    font-size: 16px;
+}
+
+/* Header / descriptive text */
+.nova-scheduler p {
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+/* Small labels */
+.nova-scheduler label {
+    font-size: 12px;
+}
+
+/* Algorithm cards */
+.nova-scheduler button {
+    font-size: 12px;
+}
+
+.nova-scheduler input,
+.nova-scheduler select {
+    font-size: 13px;
+}
+
+/* Algorithm card title */
+.nova-scheduler [class*="algorithm"] strong,
+.nova-scheduler [class*="algorithm"] b {
+    font-size: 14px;
+}
+
+/* Process table */
+.nova-scheduler table {
+    font-size: 12px;
+}
+
+.nova-scheduler th {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+}
+
+.nova-scheduler td {
+    font-size: 12px;
+}
+
+/* Result statistics */
+.nova-scheduler [class*="stat"] {
+    font-size: 13px;
+}
+
+/* Gantt labels */
+.nova-scheduler [class*="gantt"] {
+    font-size: 12px;
+}
+
+/* Analysis section */
+.nova-scheduler [class*="analysis"] {
+    font-size: 13px;
+}
+
+.nova-scheduler [class*="analysis"] p {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Improve readability of metric values */
+.nova-scheduler strong {
+    font-weight: 700;
+}
+
+/* Don't let the larger typography cause horizontal overflow */
+.nova-scheduler {
+    overflow-x: hidden;
+}
+
+/* Slightly larger window title */
+.nova-window-title {
+    font-size: 14px;
+}
+
+.nova-window-controls button {
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   NOVAOS - SCHEDULER SECONDARY TEXT READABILITY
+   ========================================================= */
+
+/* Small eyebrow / section labels */
+.nova-scheduler [class*="eyebrow"],
+.nova-scheduler [class*="label"],
+.nova-scheduler [class*="section-label"] {
+    font-size: 11px !important;
+    letter-spacing: 0.08em;
+}
+
+/* Subtitles and descriptions */
+.nova-scheduler [class*="subtitle"],
+.nova-scheduler [class*="description"],
+.nova-scheduler [class*="subtext"] {
+    font-size: 13px !important;
+    line-height: 1.5;
+}
+
+/* Algorithm cards */
+.nova-scheduler [class*="algorithm"] {
+    font-size: 13px;
+}
+
+.nova-scheduler [class*="algorithm"] small,
+.nova-scheduler [class*="algorithm"] span {
+    font-size: 12px !important;
+}
+
+/* Preemptive / non-preemptive indicators */
+.nova-scheduler [class*="preempt"] {
+    font-size: 11px !important;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* Selected policy strip */
+.nova-scheduler [class*="selected"] {
+    font-size: 12px;
+}
+
+.nova-scheduler [class*="selected"] strong,
+.nova-scheduler [class*="selected"] b {
+    font-size: 13px !important;
+}
+
+/* Process table headers */
+.nova-scheduler th {
+    font-size: 10px !important;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+}
+
+/* Process table values */
+.nova-scheduler td {
+    font-size: 13px !important;
+}
+
+/* Inputs */
+.nova-scheduler input,
+.nova-scheduler select {
+    font-size: 13px !important;
+}
+
+/* Result / metric labels */
+.nova-scheduler [class*="metric"] span,
+.nova-scheduler [class*="stat"] span,
+.nova-scheduler [class*="result"] span {
+    font-size: 10px !important;
+    letter-spacing: 0.07em;
+}
+
+/* Result / metric values */
+.nova-scheduler [class*="metric"] strong,
+.nova-scheduler [class*="stat"] strong,
+.nova-scheduler [class*="result"] strong {
+    font-size: 17px !important;
+}
+
+/* Gantt chart */
+.nova-scheduler [class*="gantt"] span,
+.nova-scheduler [class*="timeline"] span {
+    font-size: 11px !important;
+}
+
+/* Analysis */
+.nova-scheduler [class*="analysis"] h4,
+.nova-scheduler [class*="analysis"] strong {
+    font-size: 13px !important;
+}
+
+.nova-scheduler [class*="analysis"] p,
+.nova-scheduler [class*="analysis"] span {
+    font-size: 12px !important;
+    line-height: 1.6;
+}
+
+/* Buttons */
+.nova-scheduler button {
+    font-size: 12px !important;
+}
+
+/* Keep primary headings strong */
+.nova-scheduler h1 {
+    font-size: 30px !important;
+}
+
+.nova-scheduler h2 {
+    font-size: 20px !important;
+}
+
+.nova-scheduler h3 {
+    font-size: 16px !important;
+}
+
+/* General readability for muted text */
+.nova-scheduler {
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   NOVAOS - FINAL ANALYSIS TEXT READABILITY
+   ========================================================= */
+
+.nova-scheduler [class*="analysis"] [class*="card"] {
+    font-size: 13px !important;
+}
+
+.nova-scheduler [class*="analysis"] [class*="card"] p {
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+}
+
+.nova-scheduler [class*="analysis"] [class*="card"] span {
+    font-size: 11px !important;
+}
+
+.nova-scheduler [class*="analysis"] [class*="card"] strong,
+.nova-scheduler [class*="analysis"] [class*="card"] h4 {
+    font-size: 13px !important;
+}
+
+
+/* =========================================================
+   NOVAOS - UNIFORM SCHEDULER TYPOGRAPHY
+   ========================================================= */
+
+.nova-scheduler {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Main headings */
+.nova-scheduler h1 {
+    font-size: 28px !important;
+    line-height: 1.2;
+}
+
+.nova-scheduler h2 {
+    font-size: 20px !important;
+    line-height: 1.3;
+}
+
+.nova-scheduler h3 {
+    font-size: 15px !important;
+    line-height: 1.35;
+}
+
+/* Normal descriptive text */
+.nova-scheduler p {
+    font-size: 13px !important;
+    line-height: 1.55;
+}
+
+/* Small labels - keep them smaller, but consistent */
+.nova-scheduler label,
+.nova-scheduler th,
+.nova-scheduler .label,
+.nova-scheduler [class*="label"] {
+    font-size: 10px !important;
+    line-height: 1.4;
+}
+
+/* Tables */
+.nova-scheduler table {
+    font-size: 12px !important;
+}
+
+.nova-scheduler th {
+    font-size: 10px !important;
+    font-weight: 750;
+}
+
+.nova-scheduler td {
+    font-size: 12px !important;
+}
+
+/* Inputs */
+.nova-scheduler input,
+.nova-scheduler select {
+    font-size: 12px !important;
+}
+
+/* Buttons */
+.nova-scheduler button {
+    font-size: 12px !important;
+}
+
+/* Metric values */
+.nova-scheduler [class*="metric"] strong,
+.nova-scheduler [class*="stat"] strong {
+    font-size: 16px !important;
+}
+
+/* Analysis cards */
+.nova-scheduler [class*="analysis"] p,
+.nova-scheduler [class*="analysis"] span,
+.nova-scheduler [class*="analysis"] div {
+    font-size: 12px !important;
+    line-height: 1.55;
+}
+
+/* Analysis card headings */
+.nova-scheduler [class*="analysis"] h3,
+.nova-scheduler [class*="analysis"] strong {
+    font-size: 12px !important;
+}
+
+/* Gantt labels */
+.nova-scheduler [class*="gantt"] {
+    font-size: 11px;
+}
+
+/* Keep the window title independent */
+.nova-window-titlebar {
+    font-size: 13px;
+}
+
+.nova-window-title {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   NOVAOS - SCHEDULER ANALYSIS TYPOGRAPHY BALANCE
+   ========================================================= */
+
+.nova-scheduler [class*="analysis"] {
+    font-size: 13px !important;
+}
+
+.nova-scheduler [class*="analysis"] h2 {
+    font-size: 20px !important;
+}
+
+.nova-scheduler [class*="analysis"] h3 {
+    font-size: 15px !important;
+}
+
+.nova-scheduler [class*="analysis"] p {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+}
+
+.nova-scheduler [class*="analysis"] span {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+}
+
+/* Bottom explanatory cards */
+.nova-scheduler [class*="analysis"]>div>div {
+    font-size: 13px !important;
+}
+
+.nova-scheduler [class*="analysis"]>div>div p {
+    font-size: 13px !important;
+}
+
+/* Make the small section labels readable but still secondary */
+.nova-scheduler [class*="analysis"] [class*="label"] {
+    font-size: 10px !important;
+    letter-spacing: 0.08em;
+}
+
+/* Keep metric numbers prominent */
+.nova-scheduler [class*="analysis"] strong {
+    font-size: 13px !important;
+}
+
+
+/* =========================================================
+   NOVAOS - FINAL SCHEDULER BOTTOM ROW TYPOGRAPHY FIX
+   ========================================================= */
+
+/* Bottom informational row */
+.nova-scheduler [class*="callout"],
+.nova-scheduler [class*="insight"],
+.nova-scheduler [class*="note"],
+.nova-scheduler [class*="footer"] {
+    font-size: 13px !important;
+}
+
+/* Headings such as CPU Completion / CPU Idle / Preemption */
+.nova-scheduler [class*="callout"] h4,
+.nova-scheduler [class*="insight"] h4,
+.nova-scheduler [class*="note"] h4,
+.nova-scheduler [class*="footer"] h4 {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+}
+
+/* Body text inside those blocks */
+.nova-scheduler [class*="callout"] p,
+.nova-scheduler [class*="insight"] p,
+.nova-scheduler [class*="note"] p,
+.nova-scheduler [class*="footer"] p {
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+}
+
+/* Catch the actual final information row even if it has
+   a different class name */
+.nova-scheduler>*:last-child {
+    font-size: 13px !important;
+}
+
+.nova-scheduler>*:last-child p {
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+}
+
+.nova-scheduler>*:last-child h4,
+.nova-scheduler>*:last-child h5,
+.nova-scheduler>*:last-child strong {
+    font-size: 13px !important;
+}
+
+/* Prevent the fixed taskbar from visually crowding the row */
+.nova-scheduler {
+    padding-bottom: 28px;
+}
+
+
+/* =========================================================
+   NOVAOS - FINAL FORCE UNIFORM SCHEDULER TYPOGRAPHY
+   ========================================================= */
+
+/* Force all Scheduler content to a readable base size.
+   !important overrides the tiny utility/text classes. */
+.nova-scheduler,
+.nova-scheduler * {
+    font-size: 13px !important;
+}
+
+/* Main page title */
+.nova-scheduler h1 {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+}
+
+/* Major section headings */
+.nova-scheduler h2 {
+    font-size: 20px !important;
+    line-height: 1.3 !important;
+}
+
+/* Subsection headings */
+.nova-scheduler h3 {
+    font-size: 15px !important;
+    line-height: 1.35 !important;
+}
+
+/* Small metadata / labels */
+.nova-scheduler th,
+.nova-scheduler label {
+    font-size: 10px !important;
+}
+
+/* Table content */
+.nova-scheduler td {
+    font-size: 12px !important;
+}
+
+/* Buttons and controls */
+.nova-scheduler button,
+.nova-scheduler input,
+.nova-scheduler select {
+    font-size: 12px !important;
+}
+
+/* =========================================================
+   FINAL THREE INFORMATION BLOCKS
+   CPU Completion / CPU Idle / Preemption
+   ========================================================= */
+
+/* Make their headings clearly match the other cards */
+.nova-scheduler h4,
+.nova-scheduler h5 {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+}
+
+/* Make explanatory text readable */
+.nova-scheduler h4+p,
+.nova-scheduler h5+p {
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+}
+
+/* Catch nested text regardless of the original utility classes */
+.nova-scheduler h4~*,
+.nova-scheduler h5~* {
+    font-size: 12px !important;
+}
+
+/* Never let tiny inherited text appear in the analysis area */
+.nova-scheduler p {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+}
+
+
+/* =========================================================
+   NOVAOS PROCESS MANAGER
+   Dedicated application styling
+   ========================================================= */
+
+.nova-process-manager {
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+    color: var(--nova-ui-text-strong);
+    background: var(--nova-ui-surface-2);
+    font-family: inherit;
+}
+
+.nova-process-manager *,
+.nova-process-manager *::before,
+.nova-process-manager *::after {
+    box-sizing: border-box;
+}
+
+/* HEADER */
+
+.nova-pm-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.nova-pm-eyebrow {
+    margin-bottom: 8px;
+    color: var(--nova-ui-accent-text);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+
+.nova-process-manager .nova-pm-header h1 {
+    margin: 0 0 8px;
+    color: var(--nova-ui-text-strong);
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+}
+
+.nova-process-manager .nova-pm-header p {
+    margin: 0;
+    max-width: 700px;
+    color: var(--nova-ui-text-soft);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.nova-pm-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.nova-pm-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 34px;
+    padding: 0 11px;
+    border: 1px solid var(--nova-ui-success-border);
+    border-radius: 6px;
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-success);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.nova-pm-live span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 8px rgba(66, 217, 148, 0.55);
+}
+
+.nova-process-manager .nova-pm-refresh {
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.nova-process-manager .nova-pm-refresh:hover:not(:disabled) {
+    background: var(--nova-ui-surface-2);
+    border-color: var(--nova-ui-accent-border);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-process-manager .nova-pm-refresh:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+/* ERROR */
+
+.nova-pm-error {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 7px;
+    background: var(--nova-ui-bg);
+    color: var(--nova-ui-danger);
+    font-size: 12px;
+}
+
+.nova-pm-error strong {
+    color: var(--nova-ui-text-strong);
+    font-weight: 750;
+}
+
+/* STAT CARDS */
+
+.nova-pm-stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.nova-pm-stat {
+    min-height: 92px;
+    padding: 16px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-pm-stat.running {
+    border-color: var(--nova-ui-success-border);
+    background: var(--nova-ui-success-bg);
+}
+
+.nova-pm-stat-label {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--nova-ui-accent-text);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+}
+
+.nova-pm-stat strong {
+    display: block;
+    color: var(--nova-ui-text-strong);
+    font-size: 25px;
+    line-height: 1;
+    font-weight: 750;
+}
+
+.nova-pm-stat.running strong {
+    color: var(--nova-ui-success);
+}
+
+/* MAIN PANEL */
+
+.nova-pm-panel {
+    overflow: hidden;
+    margin-bottom: 18px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 8px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-pm-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+}
+
+.nova-pm-panel-header h2 {
+    margin: 0 0 5px;
+    color: var(--nova-ui-text-strong);
+    font-size: 17px;
+    line-height: 1.3;
+    font-weight: 750;
+}
+
+.nova-pm-panel-header p {
+    margin: 0;
+    color: var(--nova-ui-accent-text);
+    font-size: 12px;
+}
+
+.nova-pm-updated {
+    color: var(--nova-ui-accent-text);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+/* TABLE */
+
+.nova-pm-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.nova-pm-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.nova-pm-table thead {
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-pm-table th {
+    padding: 11px 13px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-accent-text);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.nova-pm-table td {
+    padding: 13px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-text-soft);
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.nova-pm-table tbody tr {
+    transition: background 0.12s ease;
+}
+
+.nova-pm-table tbody tr:hover {
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-pm-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.nova-pm-pid {
+    color: var(--nova-ui-text-strong) !important;
+    font-weight: 750;
+}
+
+.nova-pm-mono {
+    color: var(--nova-ui-text-soft) !important;
+    font-variant-numeric: tabular-nums;
+}
+
+/* APPLICATION */
+
+.nova-pm-app {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 160px;
+}
+
+.nova-pm-app-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-accent-text);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.nova-pm-app>div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.nova-pm-app strong {
+    overflow: hidden;
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nova-pm-app span:not(.nova-pm-app-icon) {
+    overflow: hidden;
+    color: var(--nova-ui-accent-text);
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* PROCESS STATE */
+
+.nova-pm-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-soft);
+    font-size: 10px;
+    font-weight: 750;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.nova-pm-state i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7890a4;
+}
+
+.nova-pm-state.running {
+    border-color: var(--nova-ui-success-border);
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-success);
+}
+
+.nova-pm-state.running i {
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 6px rgba(66, 217, 148, 0.5);
+}
+
+.nova-pm-state.ready {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-accent-text);
+}
+
+.nova-pm-state.ready i {
+    background: var(--nova-ui-accent);
+}
+
+.nova-pm-state.waiting {
+    border-color: var(--nova-ui-warning-border);
+    background: var(--nova-ui-warning-bg);
+    color: var(--nova-ui-warning);
+}
+
+.nova-pm-state.waiting i {
+    background: var(--nova-ui-warning-bg);
+}
+
+.nova-pm-state.terminated {
+    border-color: var(--nova-ui-danger-border);
+    background: var(--nova-ui-danger-bg);
+    color: var(--nova-ui-danger);
+}
+
+.nova-pm-state.terminated i {
+    background: var(--nova-ui-danger-bg);
+}
+
+.nova-pm-state.new {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+/* ACTION BUTTONS */
+
+.nova-pm-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nova-process-manager .nova-pm-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-soft);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.nova-process-manager .nova-pm-actions button:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-process-manager .nova-pm-actions button.danger {
+    border-color: var(--nova-ui-danger-border);
+    background: var(--nova-ui-bg);
+    color: var(--nova-ui-danger);
+}
+
+.nova-process-manager .nova-pm-actions button.danger:hover:not(:disabled) {
+    border-color: var(--nova-ui-danger-border);
+    background: var(--nova-ui-danger-bg);
+    color: var(--nova-ui-danger);
+}
+
+.nova-process-manager .nova-pm-actions button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+/* EMPTY / LOADING */
+
+.nova-pm-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    padding: 30px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+}
+
+.nova-pm-empty strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 14px;
+}
+
+.nova-pm-empty span {
+    max-width: 420px;
+    color: var(--nova-ui-accent-text);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.nova-pm-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 5px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 8px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-soft);
+    font-size: 20px;
+}
+
+.nova-pm-spinner {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
+    border: 3px solid var(--nova-ui-accent-border);
+    border-top-color: var(--nova-ui-accent-border);
+    border-radius: 50%;
+    animation: nova-pm-spin 0.8s linear infinite;
+}
+
+@keyframes nova-pm-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* INFORMATION CARDS */
+
+.nova-pm-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.nova-pm-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 120px;
+    padding: 16px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-pm-info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-accent-text);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.nova-pm-info strong {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.nova-pm-info p {
+    margin: 0;
+    color: var(--nova-ui-accent-text);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+    .nova-pm-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .nova-pm-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .nova-process-manager {
+        padding: 16px;
+    }
+
+    .nova-pm-header {
+        flex-direction: column;
+    }
+
+    .nova-pm-header-actions {
+        width: 100%;
+    }
+
+    .nova-pm-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nova-pm-panel-header {
+        flex-direction: column;
+    }
+}
+
+/* =========================================================
+   PROCESS MANAGER — ACTION COLUMN FIX
+   ========================================================= */
+
+.nova-process-manager .nova-pm-table {
+    table-layout: auto;
+}
+
+.nova-process-manager .nova-pm-table th:last-child,
+.nova-process-manager .nova-pm-table td:last-child {
+    width: 170px;
+    min-width: 170px;
+    white-space: nowrap;
+}
+
+.nova-process-manager .nova-pm-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.nova-process-manager .nova-pm-actions button {
+    flex: 0 0 auto;
+    min-width: 72px;
+    height: 34px;
+    padding: 0 10px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nova-process-manager .nova-pm-actions button.danger {
+    min-width: 82px;
+}
+
+@media (max-width: 900px) {
+    .nova-process-manager .nova-pm-table {
+        min-width: 1100px;
+    }
+
+    .nova-process-manager .nova-pm-table-wrap {
+        overflow-x: auto;
+    }
+}
+
+/* =========================================================
+   NOVAOS MEMORY MANAGER
+   ========================================================= */
+
+.nova-memory-manager {
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 26px;
+    color: var(--nova-ui-text-strong);
+    background: var(--nova-ui-surface-2);
+    font-family: Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.nova-memory-manager *,
+.nova-memory-manager *::before,
+.nova-memory-manager *::after {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.nova-mm-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.nova-mm-eyebrow {
+    margin-bottom: 10px;
+    color: var(--nova-ui-accent-text);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+.nova-mm-header h1 {
+    margin: 0;
+    color: var(--nova-ui-text-strong);
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+}
+
+.nova-mm-header p {
+    margin: 8px 0 0;
+    color: var(--nova-ui-text-soft);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.nova-mm-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+}
+
+.nova-mm-live {
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    border: 1px solid var(--nova-ui-success-border);
+    border-radius: 6px;
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-success);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.nova-mm-live span {
+    width: 7px;
+    height: 7px;
+    display: block;
+    border-radius: 50%;
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 8px rgba(69, 213, 150, 0.5);
+}
+
+.nova-mm-refresh {
+    height: 35px;
+    padding: 0 15px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.nova-mm-refresh:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-mm-refresh:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.nova-mm-error {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 12px 15px;
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 6px;
+    background: var(--nova-ui-danger-bg);
+    color: var(--nova-ui-text-strong);
+    font-size: 11px;
+}
+
+.nova-mm-error strong {
+    color: var(--nova-ui-text-strong);
+}
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.nova-mm-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.nova-mm-stat {
+    min-width: 0;
+    min-height: 100px;
+    padding: 17px 18px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-mm-stat>span {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--nova-ui-accent-text);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.nova-mm-stat strong {
+    display: block;
+    color: var(--nova-ui-text-strong);
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 750;
+}
+
+.nova-mm-stat small {
+    display: block;
+    margin-top: 8px;
+    color: var(--nova-ui-muted);
+    font-size: 10px;
+}
+
+/* =========================================================
+   GRID / PANELS
+   ========================================================= */
+
+.nova-mm-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.nova-mm-panel {
+    min-width: 0;
+    margin-bottom: 14px;
+    padding: 20px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 7px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-mm-grid .nova-mm-panel {
+    margin-bottom: 0;
+}
+
+.nova-mm-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 17px;
+}
+
+.nova-mm-panel-header h2 {
+    margin: 0;
+    color: var(--nova-ui-text-strong);
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 750;
+}
+
+.nova-mm-panel-header p {
+    margin: 5px 0 0;
+    color: var(--nova-ui-muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.nova-mm-count {
+    flex-shrink: 0;
+    color: var(--nova-ui-text-soft);
+    font-family: "SFMono-Regular",
+        Consolas,
+        monospace;
+    font-size: 10px;
+    font-weight: 650;
+}
+
+/* =========================================================
+   ALLOCATION FORM
+   ========================================================= */
+
+.nova-mm-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: end;
+    gap: 12px;
+}
+
+.nova-mm-form label {
+    display: block;
+    min-width: 0;
+}
+
+.nova-mm-form label>span {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.nova-mm-form input {
+    width: 100%;
+    height: 39px;
+    padding: 0 11px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    outline: none;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 11px;
+}
+
+.nova-mm-form input::placeholder {
+    color: var(--nova-ui-accent-text);
+}
+
+.nova-mm-form input:focus {
+    border-color: var(--nova-ui-accent-border);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--nova-ui-accent) 12%, transparent);
+}
+
+.nova-mm-form input:disabled {
+    opacity: 0.55;
+}
+
+.nova-mm-form>button {
+    height: 39px;
+    padding: 0 15px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 750;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.nova-mm-form>button:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-mm-form>button:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+/* =========================================================
+   ALLOCATION ALGORITHMS
+   ========================================================= */
+
+.nova-mm-algorithms {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.nova-mm-algorithms button {
+    min-width: 0;
+    min-height: 67px;
+    padding: 11px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    text-align: left;
+    cursor: pointer;
+}
+
+.nova-mm-algorithms button:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-mm-algorithms button.active {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    box-shadow: inset 3px 0 0 var(--nova-ui-accent-border);
+}
+
+.nova-mm-algorithms button strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--nova-ui-text-strong);
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.nova-mm-algorithms button span {
+    display: block;
+    color: var(--nova-ui-accent-text);
+    font-family: "SFMono-Regular",
+        Consolas,
+        monospace;
+    font-size: 8px;
+}
+
+.nova-mm-algorithms button.active strong {
+    color: var(--nova-ui-accent-text);
+}
+
+.nova-mm-algorithms button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+/* =========================================================
+   UTILIZATION
+   ========================================================= */
+
+.nova-mm-percentage {
+    flex-shrink: 0;
+    color: var(--nova-ui-success);
+    font-family: "SFMono-Regular",
+        Consolas,
+        monospace;
+    font-size: 18px;
+}
+
+.nova-mm-progress {
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-mm-progress>div {
+    height: 100%;
+    min-width: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg,
+            var(--nova-ui-surface-2),
+            var(--nova-ui-accent));
+    transition: width 0.25s ease;
+}
+
+.nova-mm-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7px;
+    color: var(--nova-ui-accent-text);
+    font-family: "SFMono-Regular",
+        Consolas,
+        monospace;
+    font-size: 9px;
+}
+
+/* =========================================================
+   MEMORY BLOCK MAP
+   ========================================================= */
+
+.nova-mm-map {
+    width: 100%;
+    min-height: 58px;
+    display: flex;
+    overflow: hidden;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-mm-block {
+    min-width: 2px;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-right: 1px solid var(--nova-ui-accent-border);
+    transition: opacity 0.15s ease,
+        filter 0.15s ease;
+}
+
+.nova-mm-block:last-child {
+    border-right: 0;
+}
+
+.nova-mm-block.free {
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-accent-text);
+}
+
+.nova-mm-block.allocated {
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-mm-block:hover {
+    filter: brightness(1.2);
+}
+
+.nova-mm-block span {
+    padding: 0 6px;
+    overflow: hidden;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.nova-mm-empty {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px dashed var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-mm-empty.compact {
+    min-height: 90px;
+    color: var(--nova-ui-muted);
+    font-size: 10px;
+}
+
+.nova-mm-empty strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+}
+
+.nova-mm-empty span {
+    color: var(--nova-ui-muted);
+    font-size: 10px;
+    text-align: center;
+}
+
+.nova-mm-empty-icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 3px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 50%;
+    color: var(--nova-ui-text-soft);
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.nova-mm-spinner {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--nova-ui-accent-border);
+    border-top-color: var(--nova-ui-accent-border);
+    border-radius: 50%;
+    animation: nova-mm-spin 0.8s linear infinite;
+}
+
+@keyframes nova-mm-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   ALLOCATION TABLE
+   ========================================================= */
+
+.nova-mm-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+}
+
+.nova-mm-table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+    font-size: 10px;
+}
+
+.nova-mm-table thead {
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-mm-table th {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-accent-text);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-align: left;
+}
+
+.nova-mm-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-text-soft);
+    vertical-align: middle;
+}
+
+.nova-mm-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.nova-mm-table tbody tr:hover {
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-mm-mono {
+    color: var(--nova-ui-text-strong) !important;
+    font-family: "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+    font-size: 10px;
+}
+
+.nova-mm-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 76px;
+    padding: 5px 8px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px;
+    background: var(--nova-ui-surface-2);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.nova-mm-status i {
+    width: 5px;
+    height: 5px;
+    display: block;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.nova-mm-status.free {
+    color: var(--nova-ui-text-soft);
+}
+
+.nova-mm-status.allocated {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-accent-text);
+}
+
+.nova-mm-release {
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 4px;
+    background: var(--nova-ui-bg);
+    color: var(--nova-ui-danger);
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.nova-mm-release:hover:not(:disabled) {
+    border-color: var(--nova-ui-danger-border);
+    background: var(--nova-ui-danger-bg);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-mm-release:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+.nova-mm-muted {
+    color: var(--nova-ui-accent-text);
+}
+
+/* =========================================================
+   RAW MEMORY MAP
+   ========================================================= */
+
+.nova-mm-map-data {
+    max-height: 240px;
+    margin: 0;
+    padding: 14px;
+    overflow: auto;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-soft);
+    font-family: "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+    font-size: 9px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* =========================================================
+   FOOTER INFORMATION
+   ========================================================= */
+
+.nova-mm-footer {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 13px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-accent-text);
+    font-size: 9px;
+}
+
+.nova-mm-footer strong {
+    color: var(--nova-ui-text-soft);
+    font-family: "SFMono-Regular",
+        Consolas,
+        monospace;
+    font-size: 9px;
+}
+
+.nova-mm-footer>span:not(.nova-mm-updated) {
+    white-space: nowrap;
+}
+
+.nova-mm-updated {
+    margin-left: auto;
+    color: var(--nova-ui-accent-text);
+    font-family: "SFMono-Regular",
+        Consolas,
+        monospace;
+    font-size: 9px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+    .nova-mm-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nova-mm-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .nova-memory-manager {
+        padding: 18px;
+    }
+
+    .nova-mm-header {
+        flex-direction: column;
+    }
+
+    .nova-mm-header-actions {
+        width: 100%;
+    }
+
+    .nova-mm-form {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-mm-algorithms {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-mm-footer {
+        flex-wrap: wrap;
+        padding: 10px 12px;
+    }
+
+    .nova-mm-updated {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+
+/* =========================================================
+   NOVAOS - I/O MANAGER
+   ========================================================= */
+
+.nova-io-manager {
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+.nova-io-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 22px;
+}
+
+.nova-io-title-block {
+    min-width: 0;
+}
+
+.nova-io-eyebrow {
+    margin-bottom: 7px;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.58;
+}
+
+.nova-io-title-block h1 {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+}
+
+.nova-io-title-block p {
+    max-width: 650px;
+    margin: 7px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    opacity: 0.62;
+}
+
+.nova-io-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.nova-io-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 34px;
+    padding: 0 11px;
+    border: 1px solid rgba(80, 220, 150, 0.22);
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+}
+
+.nova-io-live i,
+.nova-io-device-status i,
+.nova-io-status i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.nova-io-live i {
+    background: currentColor;
+}
+
+.nova-io-refresh {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.045);
+    color: inherit;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.nova-io-refresh:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.nova-io-refresh:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.nova-io-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding: 11px 13px;
+    border: 1px solid rgba(255, 90, 90, 0.22);
+    border-radius: 9px;
+    background: rgba(255, 70, 70, 0.07);
+    font-size: 12px;
+}
+
+.nova-io-error span {
+    flex: 1;
+}
+
+.nova-io-error button {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Statistics */
+
+.nova-io-stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 11px;
+    margin-bottom: 18px;
+}
+
+.nova-io-stat-card {
+    min-width: 0;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.nova-io-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 11px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.055);
+}
+
+.nova-io-stat-card>span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    opacity: 0.5;
+}
+
+.nova-io-stat-card>strong {
+    display: block;
+    font-size: 23px;
+    line-height: 1.1;
+}
+
+/* Panels */
+
+.nova-io-panel {
+    margin-bottom: 17px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+    overflow: hidden;
+}
+
+.nova-io-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px 17px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.nova-io-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+}
+
+.nova-io-section-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 31px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.055);
+    flex-shrink: 0;
+}
+
+.nova-io-panel-heading h2 {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.25;
+}
+
+.nova-io-panel-heading p {
+    margin: 3px 0 0;
+    font-size: 11px;
+    line-height: 1.4;
+    opacity: 0.5;
+}
+
+.nova-io-device-summary {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.nova-io-device-summary strong {
+    font-size: 17px;
+}
+
+.nova-io-device-summary span {
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+    opacity: 0.48;
+}
+
+/* Devices */
+
+.nova-io-device-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    padding: 15px;
+}
+
+.nova-io-device-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.nova-io-device-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.055);
+    flex-shrink: 0;
+}
+
+.nova-io-device-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.nova-io-device-info strong {
+    overflow: hidden;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.nova-io-device-info span {
+    overflow: hidden;
+    font-size: 10px;
+    opacity: 0.45;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.nova-io-device-status,
+.nova-io-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.nova-io-device-status.available i,
+.nova-io-status.completed i {
+    background: currentColor;
+}
+
+.nova-io-device-status.busy i,
+.nova-io-status.active i {
+    background: currentColor;
+}
+
+.nova-io-device-status.offline i,
+.nova-io-status.cancelled i {
+    background: currentColor;
+}
+
+.nova-io-device-status.available,
+.nova-io-status.completed {
+    opacity: 0.85;
+}
+
+.nova-io-device-status.busy,
+.nova-io-status.active {
+    opacity: 0.9;
+}
+
+.nova-io-device-status.offline,
+.nova-io-status.cancelled {
+    opacity: 0.65;
+}
+
+.nova-io-device-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.055);
+    font-size: 10px;
+    opacity: 0.62;
+}
+
+.nova-io-device-footer strong {
+    font-size: 12px;
+    opacity: 1;
+}
+
+.nova-io-device-footer span:last-child {
+    margin-left: auto;
+}
+
+/* Tables */
+
+.nova-io-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.nova-io-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+.nova-io-table th {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+    text-align: left;
+    white-space: nowrap;
+    opacity: 0.46;
+}
+
+.nova-io-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.nova-io-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.nova-io-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.nova-io-mono {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 10px !important;
+}
+
+.nova-io-operation {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 43px;
+    padding: 3px 7px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.05em;
+}
+
+.nova-io-operation.read {
+    opacity: 0.85;
+}
+
+.nova-io-operation.write {
+    opacity: 0.95;
+}
+
+.nova-io-status {
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.nova-io-status.queued {
+    opacity: 0.65;
+}
+
+.nova-io-status.unknown {
+    opacity: 0.45;
+}
+
+.nova-io-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nova-io-action {
+    min-height: 25px;
+    padding: 0 8px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.035);
+    color: inherit;
+    font: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.nova-io-action:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.nova-io-action:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.nova-io-action.execute {
+    opacity: 0.9;
+}
+
+.nova-io-action.cancel {
+    opacity: 0.65;
+}
+
+/* Empty state */
+
+.nova-io-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 95px;
+    padding: 20px;
+    font-size: 11px;
+    opacity: 0.45;
+}
+
+/* Footer */
+
+.nova-io-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 2px 15px;
+    font-size: 10px;
+    opacity: 0.48;
+}
+
+.nova-io-footer strong {
+    opacity: 1;
+}
+
+/* Responsive */
+
+@media (max-width: 1050px) {
+    .nova-io-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .nova-io-device-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .nova-io-manager {
+        padding: 16px;
+    }
+
+    .nova-io-header {
+        flex-direction: column;
+    }
+
+    .nova-io-header-actions {
+        width: 100%;
+    }
+
+    .nova-io-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nova-io-device-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   PROCESS MANAGER - CREATE PROCESS PANEL
+   ========================================================= */
+
+.nova-process-manager .nova-pm-create-panel {
+    margin-bottom: 24px;
+    padding: 22px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 10px;
+    background: var(--nova-ui-surface-2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.nova-process-manager .nova-pm-create-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.nova-process-manager .nova-pm-create-header h2 {
+    margin: 4px 0 0;
+    color: var(--nova-ui-text-strong);
+    font-size: 18px;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.nova-process-manager .nova-pm-form-grid {
+    display: grid;
+    grid-template-columns: minmax(170px, 1.4fr) minmax(110px, 0.7fr) minmax(150px, 1fr) minmax(130px, 0.9fr) minmax(130px, 0.9fr) auto;
+    gap: 14px;
+    align-items: end;
+}
+
+.nova-process-manager .nova-pm-form-grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.nova-process-manager .nova-pm-form-grid label>span {
+    color: var(--nova-ui-accent-text);
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.nova-process-manager .nova-pm-form-grid input {
+    width: 100%;
+    height: 38px;
+    box-sizing: border-box;
+    padding: 0 11px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    outline: none;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 13px;
+    transition: border-color 0.15s ease,
+        background 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.nova-process-manager .nova-pm-form-grid input::placeholder {
+    color: var(--nova-ui-muted);
+}
+
+.nova-process-manager .nova-pm-form-grid input:hover {
+    border-color: var(--nova-ui-accent-border);
+}
+
+.nova-process-manager .nova-pm-form-grid input:focus {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--nova-ui-accent) 12%, transparent);
+}
+
+.nova-process-manager .nova-pm-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    white-space: nowrap;
+}
+
+.nova-process-manager .nova-pm-form-actions button {
+    height: 38px;
+    padding: 0 14px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.nova-process-manager .nova-pm-form-actions button:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-process-manager .nova-pm-form-actions button:last-child {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-process-manager .nova-pm-form-actions button:last-child:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-process-manager .nova-pm-form-actions button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* CREATE PROCESS HEADER BUTTON */
+
+.nova-process-manager .nova-pm-create-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 34px;
+    padding: 0 12px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: border-color 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+.nova-process-manager .nova-pm-create-button:hover {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+/* =========================================================
+   PROCESS MANAGER - RESPONSIVE CREATE FORM
+   ========================================================= */
+
+@media (max-width: 1200px) {
+    .nova-process-manager .nova-pm-form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nova-process-manager .nova-pm-form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    .nova-process-manager .nova-pm-form-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 700px) {
+    .nova-process-manager .nova-pm-create-panel {
+        padding: 16px;
+    }
+
+    .nova-process-manager .nova-pm-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-process-manager .nova-pm-form-group.full {
+        grid-column: auto;
+    }
+
+    .nova-process-manager .nova-pm-form-actions {
+        grid-column: auto;
+        justify-content: flex-start;
+    }
+
+    .nova-process-manager .nova-pm-header-actions {
+        flex-wrap: wrap;
+    }
+}
+
+/* =========================================================
+   SYNCHRONIZATION MANAGER
+   ========================================================= */
+
+.nova-sync-manager {
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+    color: var(--nova-ui-text-strong);
+    background: var(--nova-ui-surface-2);
+    font-family: inherit;
+}
+
+.nova-sync-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.nova-sync-eyebrow {
+    margin-bottom: 7px;
+    color: var(--nova-ui-accent-text);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.13em;
+}
+
+.nova-sync-header h1 {
+    margin: 0 0 8px;
+    color: var(--nova-ui-text-strong);
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 750;
+}
+
+.nova-sync-header p {
+    margin: 0;
+    max-width: 700px;
+    color: var(--nova-ui-text-soft);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.nova-sync-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.nova-sync-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 32px;
+    padding: 0 11px;
+    border: 1px solid var(--nova-ui-success-border);
+    border-radius: 6px;
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-success);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+}
+
+.nova-sync-live>span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 8px rgba(77, 227, 157, 0.7);
+}
+
+.nova-sync-refresh,
+.nova-sync-create {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 34px;
+    padding: 0 12px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.nova-sync-refresh:hover:not(:disabled),
+.nova-sync-create:hover {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-sync-refresh:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* ERROR */
+
+.nova-sync-error {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    border: 1px solid var(--nova-ui-danger-border);
+    border-radius: 7px;
+    background: var(--nova-ui-bg);
+    color: var(--nova-ui-danger);
+}
+
+.nova-sync-error strong {
+    font-size: 12px;
+}
+
+.nova-sync-error span {
+    font-size: 12px;
+    color: var(--nova-ui-danger);
+}
+
+/* CREATE PANELS */
+
+.nova-sync-create-panel {
+    margin-bottom: 18px;
+    padding: 20px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 9px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-sync-create-panel h2,
+.nova-sync-control-panel h2,
+.nova-sync-panel h2 {
+    margin: 0;
+    color: var(--nova-ui-text-strong);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.nova-sync-form-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.nova-sync-form-row label,
+.nova-sync-control-panel label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: var(--nova-ui-accent-text);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.nova-sync-form-row label {
+    min-width: 220px;
+}
+
+.nova-sync-form-row input,
+.nova-sync-control-panel input {
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    outline: none;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.nova-sync-form-row input:focus,
+.nova-sync-control-panel input:focus {
+    border-color: var(--nova-ui-accent-border);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--nova-ui-accent) 12%, transparent);
+}
+
+.nova-sync-form-row button {
+    height: 36px;
+    padding: 0 13px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.nova-sync-form-row button:hover {
+    background: var(--nova-ui-surface-2);
+    border-color: var(--nova-ui-accent-border);
+}
+
+/* STATISTICS */
+
+.nova-sync-stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.nova-sync-stat {
+    min-height: 82px;
+    box-sizing: border-box;
+    padding: 16px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 8px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-sync-stat span {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--nova-ui-accent-text);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+}
+
+.nova-sync-stat strong {
+    color: var(--nova-ui-text-strong);
+    font-size: 25px;
+    line-height: 1;
+}
+
+/* PROCESS CONTROL */
+
+.nova-sync-control-panel {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 18px;
+    padding: 20px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 9px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-sync-control-panel p {
+    margin: 7px 0 0;
+    color: var(--nova-ui-text-soft);
+    font-size: 12px;
+}
+
+.nova-sync-control-panel label {
+    width: 220px;
+    flex-shrink: 0;
+}
+
+/* TABLE PANELS */
+
+.nova-sync-panel {
+    margin-bottom: 18px;
+    overflow: hidden;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 9px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-sync-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+}
+
+.nova-sync-panel-header p {
+    margin: 6px 0 0;
+    color: var(--nova-ui-text-soft);
+    font-size: 11px;
+}
+
+.nova-sync-panel-header>span {
+    color: var(--nova-ui-accent-text);
+    font-size: 11px;
+}
+
+.nova-sync-table-wrap {
+    overflow-x: auto;
+}
+
+.nova-sync-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.nova-sync-table th {
+    height: 38px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-accent-text);
+    text-align: left;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+}
+
+.nova-sync-table td {
+    height: 58px;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--nova-ui-accent-border);
+    color: var(--nova-ui-text-strong);
+    font-size: 12px;
+}
+
+.nova-sync-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.nova-sync-table tbody tr:hover {
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-sync-mono {
+    font-family: "Cascadia Mono", "Consolas", monospace;
+}
+
+/* STATES */
+
+.nova-sync-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+}
+
+.nova-sync-state i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+
+.nova-sync-state.available {
+    border-color: var(--nova-ui-success-border);
+    background: var(--nova-ui-success-bg);
+    color: var(--nova-ui-success);
+}
+
+.nova-sync-state.available i {
+    background: var(--nova-ui-success-bg);
+}
+
+.nova-sync-state.locked {
+    border-color: var(--nova-ui-danger-border);
+    background: var(--nova-ui-bg);
+    color: var(--nova-ui-danger);
+}
+
+.nova-sync-state.locked i {
+    background: var(--nova-ui-danger-bg);
+}
+
+.nova-sync-count {
+    display: inline-flex;
+    min-width: 28px;
+    justify-content: center;
+    padding: 5px 8px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: "Cascadia Mono", "Consolas", monospace;
+    font-weight: 700;
+}
+
+/* ACTIONS */
+
+.nova-sync-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.nova-sync-actions button {
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 5px;
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.nova-sync-actions button:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-sync-actions button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+/* EMPTY */
+
+.nova-sync-empty {
+    padding: 28px 20px;
+    color: var(--nova-ui-muted);
+    text-align: center;
+    font-size: 12px;
+}
+
+/* FOOTER */
+
+.nova-sync-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 2px 10px;
+    color: var(--nova-ui-accent-text);
+    font-size: 10px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+    .nova-sync-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .nova-sync-form-row {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 700px) {
+    .nova-sync-manager {
+        padding: 16px;
+    }
+
+    .nova-sync-header {
+        flex-direction: column;
+    }
+
+    .nova-sync-control-panel {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .nova-sync-control-panel label {
+        width: 100%;
+    }
+
+    .nova-sync-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nova-sync-form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nova-sync-form-row label {
+        min-width: 0;
+    }
+}
+
+/* =========================================================
+   DEADLOCK MANAGER
+   ========================================================= */
+
+.nova-deadlock-manager {
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 22px;
+    color: var(--nova-text, var(--nova-ui-text-strong));
+    background: radial-gradient(circle at 90% 0%,
+            color-mix(in srgb, var(--nova-ui-accent) 8%, transparent),
+            transparent 35%),
+        var(--nova-ui-surface-2);
+    font-family: inherit;
+}
+
+.nova-deadlock-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.nova-deadlock-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+.nova-deadlock-title svg {
+    color: var(--nova-ui-accent-text);
+}
+
+.nova-deadlock-subtitle {
+    margin-top: 5px;
+    color: var(--nova-ui-text-soft);
+    font-size: 12px;
+}
+
+.nova-deadlock-live {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 9px;
+    border: 1px solid rgba(75, 210, 130, 0.25);
+    border-radius: 5px;
+    color: var(--nova-ui-success);
+    background: rgba(45, 170, 100, 0.06);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+}
+
+.nova-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--nova-ui-success-bg);
+    box-shadow: 0 0 7px rgba(80, 214, 138, 0.7);
+}
+
+/* Alerts */
+
+.nova-deadlock-alert {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    padding: 9px 11px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.nova-deadlock-alert-success {
+    border: 1px solid rgba(70, 210, 130, 0.25);
+    background: rgba(70, 210, 130, 0.07);
+    color: var(--nova-ui-success);
+}
+
+.nova-deadlock-alert-error {
+    border: 1px solid rgba(240, 90, 90, 0.3);
+    background: rgba(240, 90, 90, 0.08);
+    color: var(--nova-ui-danger);
+}
+
+/* Stats */
+
+.nova-deadlock-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.nova-deadlock-stat {
+    min-height: 72px;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-deadlock-stat span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.nova-deadlock-stat strong {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nova-safe {
+    color: var(--nova-ui-success);
+}
+
+.nova-unsafe {
+    color: var(--nova-ui-danger);
+}
+
+/* Grid */
+
+.nova-deadlock-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+/* Panels */
+
+.nova-deadlock-panel {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 15px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 6px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-deadlock-wide {
+    margin-bottom: 12px;
+}
+
+.nova-deadlock-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 13px;
+    color: var(--nova-ui-text-strong);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.nova-deadlock-panel-title svg {
+    color: var(--nova-ui-accent-text);
+}
+
+/* Forms */
+
+.nova-deadlock-form {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 12px;
+}
+
+.nova-deadlock-manager input,
+.nova-deadlock-manager select {
+    box-sizing: border-box;
+    min-width: 0;
+    height: 32px;
+    padding: 0 9px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px;
+    outline: none;
+    color: var(--nova-ui-text-strong);
+    background: var(--nova-ui-surface-2);
+    font: inherit;
+    font-size: 11px;
+}
+
+.nova-deadlock-manager input:focus,
+.nova-deadlock-manager select:focus {
+    border-color: var(--nova-ui-accent-border);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--nova-ui-accent) 12%, transparent);
+}
+
+.nova-deadlock-form input:first-child {
+    flex: 1;
+}
+
+.nova-deadlock-form input[type="number"] {
+    width: 85px;
+}
+
+.nova-deadlock-manager button {
+    height: 32px;
+    padding: 0 11px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px;
+    color: var(--nova-ui-text-strong);
+    background: var(--nova-ui-surface-2);
+    cursor: pointer;
+    font: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    transition: background 120ms ease,
+        border-color 120ms ease,
+        transform 120ms ease;
+}
+
+.nova-deadlock-manager button:hover:not(:disabled) {
+    border-color: var(--nova-ui-accent-border);
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-deadlock-manager button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.nova-deadlock-manager button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Resource list */
+
+.nova-deadlock-resource-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nova-deadlock-resource {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px;
+    background: var(--nova-ui-surface-2);
+    font-size: 11px;
+}
+
+.nova-deadlock-resource span {
+    color: var(--nova-ui-text-strong);
+}
+
+.nova-deadlock-resource strong {
+    color: var(--nova-ui-text-strong);
+}
+
+/* Empty */
+
+.nova-empty-state {
+    padding: 12px 10px;
+    border: 1px dashed var(--nova-ui-accent-border);
+    border-radius: 4px;
+    color: var(--nova-ui-muted);
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Vectors */
+
+.nova-deadlock-vector-label {
+    margin-bottom: 7px;
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.nova-deadlock-vector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.nova-deadlock-vector label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nova-deadlock-vector label span {
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.nova-deadlock-vector input {
+    width: 55px;
+}
+
+/* Table */
+
+.nova-deadlock-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.nova-deadlock-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+}
+
+.nova-deadlock-table th,
+.nova-deadlock-table td {
+    padding: 8px 7px;
+    border: 1px solid var(--nova-ui-accent-border);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.nova-deadlock-table th {
+    color: var(--nova-ui-text-soft);
+    background: var(--nova-ui-surface-2);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.nova-deadlock-table td {
+    color: var(--nova-ui-text-strong);
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-deadlock-table tbody tr:hover td {
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-table-empty {
+    padding: 18px !important;
+    color: var(--nova-ui-muted) !important;
+}
+
+.nova-process-select {
+    width: auto;
+    height: 25px !important;
+    padding: 0 8px !important;
+    border-color: transparent !important;
+    background: transparent !important;
+    color: var(--nova-ui-text-strong) !important;
+    font-size: 10px !important;
+}
+
+.nova-process-select:hover:not(:disabled) {
+    background: var(--nova-ui-surface-2) !important;
+}
+
+.nova-process-select.active {
+    border-color: var(--nova-ui-accent-border) !important;
+    background: var(--nova-ui-surface-2) !important;
+    color: var(--nova-ui-text-strong) !important;
+}
+
+.nova-deadlocked-row td {
+    background: rgba(190, 65, 65, 0.08) !important;
+    border-color: rgba(190, 65, 65, 0.2);
+}
+
+.nova-deadlocked-row .nova-process-select {
+    color: var(--nova-ui-danger) !important;
+}
+
+/* Available */
+
+.nova-deadlock-available {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,
+            minmax(80px, 1fr));
+    gap: 7px;
+}
+
+.nova-deadlock-available>div {
+    padding: 10px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px;
+    background: var(--nova-ui-surface-2);
+    text-align: center;
+}
+
+.nova-deadlock-available span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.nova-deadlock-available strong {
+    font-size: 16px;
+}
+
+/* Operations */
+
+.nova-deadlock-operation {
+    margin-top: 13px;
+    padding-top: 12px;
+    border-top: 1px solid var(--nova-ui-accent-border);
+}
+
+.nova-deadlock-operation:first-of-type {
+    margin-top: 12px;
+}
+
+.nova-deadlock-operation button {
+    margin-top: 8px;
+}
+
+/* Analysis */
+
+.nova-deadlock-actions-panel {
+    margin-bottom: 12px;
+}
+
+.nova-deadlock-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.nova-deadlock-actions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nova-deadlock-actions button:first-child {
+    border-color: rgba(70, 190, 120, 0.35);
+    background: rgba(55, 150, 95, 0.1);
+}
+
+.nova-deadlock-actions button:nth-child(2) {
+    border-color: rgba(210, 90, 90, 0.35);
+    background: rgba(160, 65, 65, 0.1);
+}
+
+.nova-deadlock-results {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 13px;
+}
+
+.nova-deadlock-results>div {
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--nova-ui-accent-border);
+    border-radius: 4px;
+    background: var(--nova-ui-surface-2);
+}
+
+.nova-deadlock-results span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--nova-ui-text-soft);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.nova-deadlock-results strong {
+    display: block;
+    overflow-wrap: anywhere;
+    color: var(--nova-ui-text-strong);
+    font-size: 11px;
+}
+
+/* Footer */
+
+.nova-deadlock-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--nova-ui-muted);
+    font-size: 9px;
+}
+
+/* Responsive */
+
+@media (max-width: 700px) {
+    .nova-deadlock-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nova-deadlock-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nova-deadlock-results {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .nova-deadlock-manager {
+        padding: 14px;
+    }
+
+    .nova-deadlock-header {
+        flex-direction: column;
+    }
+
+    .nova-deadlock-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .nova-deadlock-form {
+        flex-wrap: wrap;
+    }
+
+    .nova-deadlock-form input:first-child {
+        min-width: 100%;
+    }
+}
+
+/* =========================================================
+   NOVAOS — TASKBAR SAFE WINDOW BOUNDS
+   ========================================================= */
+
+/*
+ * The taskbar is fixed at 58px height.
+ *
+ * All maximized application windows must stay above it.
+ * This rule intentionally comes LAST so it overrides the
+ * older duplicated maximized-window rules.
+ */
+
+.nova-window.maximized {
+    position: fixed !important;
+
+    top: 18px !important;
+    right: 18px !important;
+    bottom: 76px !important;
+    left: 18px !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+/*
+ * Keep the window content scrollable inside the
+ * taskbar-safe maximized window.
+ */
+
+.nova-window.maximized .nova-window-content {
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+}
+
+/*
+ * Never allow a maximized application to create a
+ * second viewport-sized page behind the taskbar.
+ */
+
+.nova-window-layer {
+    overflow: visible;
+}
+
+/* =========================================================
+   NOVAOS — WINDOW CONTENT SCROLL MODEL
+   ========================================================= */
+
+.nova-window {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.nova-window-header {
+    flex: 0 0 auto !important;
+}
+
+.nova-window-content {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    overflow: auto !important;
+    box-sizing: border-box !important;
+}
+
+.nova-window.maximized {
+    bottom: 76px !important;
+}
