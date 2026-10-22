@@ -1057,8 +1057,8 @@ export default function Segmentation() {
                     min-height: 100%;
                     box-sizing: border-box;
                     padding: 12px;
-                    background: #0b1220;
-                    color: #e7edf7;
+                    background: var(--nova-bg-1, #0d1324);
+                    color: var(--nova-text, #f1f5ff);
                     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
                     font-size: 12px;
                 }
@@ -1081,12 +1081,12 @@ export default function Segmentation() {
                     margin: 0;
                     font-size: 18px;
                     font-weight: 700;
-                    color: #f4f7fb;
+                    color: var(--nova-text, #f1f5ff);
                 }
 
                 .nova-seg-subtitle {
                     margin-top: 4px;
-                    color: #8290a7;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 10px;
                 }
 
@@ -1136,15 +1136,15 @@ export default function Segmentation() {
                 }
 
                 .nova-seg-stat {
-                    border: 1px solid #26344b;
-                    background: #101a2c;
+                    border: 1px solid var(--nova-border, #252f48);
+                    background: var(--nova-surface-strong, #171e32);
                     border-radius: 6px;
                     padding: 10px;
                     min-height: 70px;
                 }
 
                 .nova-seg-stat-label {
-                    color: #8491a8;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 8px;
                     font-weight: 700;
                     letter-spacing: .06em;
@@ -1153,7 +1153,7 @@ export default function Segmentation() {
 
                 .nova-seg-stat-value {
                     margin-top: 6px;
-                    color: #f4f7fb;
+                    color: var(--nova-text, #f1f5ff);
                     font-size: 16px;
                     font-weight: 700;
                 }
@@ -1171,8 +1171,8 @@ export default function Segmentation() {
                 }
 
                 .nova-seg-panel {
-                    border: 1px solid #26344b;
-                    background: #0f192b;
+                    border: 1px solid var(--nova-border, #252f48);
+                    background: var(--nova-surface, #12182a);
                     border-radius: 7px;
                     overflow: hidden;
                 }
@@ -1183,12 +1183,12 @@ export default function Segmentation() {
                     justify-content: space-between;
                     gap: 8px;
                     padding: 10px;
-                    border-bottom: 1px solid #26344b;
+                    border-bottom: 1px solid var(--nova-border-soft, rgba(148, 163, 184, 0.10));
                 }
 
                 .nova-seg-panel-title {
                     margin: 0;
-                    color: #edf2fa;
+                    color: var(--nova-text, #f1f5ff);
                     font-size: 11px;
                     font-weight: 700;
                 }
@@ -1219,9 +1219,9 @@ export default function Segmentation() {
                 .nova-seg-process {
                     width: 100%;
                     text-align: left;
-                    border: 1px solid #273750;
-                    background: #111d32;
-                    color: #dfe7f3;
+                    border: 1px solid var(--nova-border, #252f48);
+                    background: var(--nova-surface-strong, #171e32);
+                    color: var(--nova-text, #f1f5ff);
                     border-radius: 6px;
                     padding: 8px;
                     cursor: pointer;
@@ -1263,8 +1263,8 @@ export default function Segmentation() {
 
                 .nova-seg-table th {
                     padding: 7px;
-                    border-bottom: 1px solid #29374e;
-                    color: #75839a;
+                    border-bottom: 1px solid var(--nova-border, #252f48);
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 8px;
                     text-align: left;
                     text-transform: uppercase;
@@ -1273,8 +1273,8 @@ export default function Segmentation() {
 
                 .nova-seg-table td {
                     padding: 8px 7px;
-                    border-bottom: 1px solid #1d2a40;
-                    color: #cbd5e3;
+                    border-bottom: 1px solid var(--nova-border-soft, rgba(148, 163, 184, 0.10));
+                    color: var(--nova-text-secondary, #aebbd1);
                     font-size: 9px;
                 }
 
@@ -1330,9 +1330,9 @@ export default function Segmentation() {
                 .nova-seg-input,
                 .nova-seg-select {
                     width: 100%;
-                    border: 1px solid #293850;
-                    background: #080f1d;
-                    color: #dfe7f3;
+                    border: 1px solid var(--nova-border, #252f48);
+                    background: var(--nova-surface, #12182a);
+                    color: var(--nova-text, #f1f5ff);
                     border-radius: 5px;
                     padding: 8px;
                     outline: none;

@@ -1998,8 +1998,8 @@ function Paging() {
                     min-height: 100%;
                     overflow-y: auto;
                     padding: 24px;
-                    background: #f6f7fb;
-                    color: #182033;
+                    background: var(--nova-bg-1, #0d1324);
+                    color: var(--nova-text, #f1f5ff);
                     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
                 }
 
@@ -2022,7 +2022,7 @@ function Paging() {
                     font-size: 11px;
                     font-weight: 800;
                     letter-spacing: 0.14em;
-                    color: #6c7190;
+                    color: var(--nova-text-muted, #71809a);
                 }
 
                 .paging-header h1 {
@@ -2035,7 +2035,7 @@ function Paging() {
                 .paging-header p {
                     max-width: 720px;
                     margin: 8px 0 0;
-                    color: #6f768d;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 13px;
                     line-height: 1.5;
                 }
@@ -2054,8 +2054,8 @@ function Paging() {
                     width: fit-content;
                     padding: 5px 9px;
                     border-radius: 999px;
-                    border: 1px solid #dfe3ed;
-                    background: #fff;
+                    border: 1px solid var(--nova-border, #252f48);
+                    background: var(--nova-surface-strong, #171e32);
                     font-size: 10px;
                     font-weight: 800;
                     letter-spacing: 0.04em;
@@ -2065,7 +2065,7 @@ function Paging() {
                     width: 7px;
                     height: 7px;
                     border-radius: 50%;
-                    background: #98a0b5;
+                    background: var(--nova-text-muted, #71809a);
                 }
 
                 .paging-status.success {
@@ -2093,7 +2093,7 @@ function Paging() {
                 }
 
                 .paging-updated {
-                    color: #858ba0;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 10px;
                 }
 
@@ -2104,9 +2104,9 @@ function Paging() {
                     gap: 10px;
                     margin-bottom: 16px;
                     padding: 11px 13px;
-                    border: 1px solid #e2e5ee;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 10px;
-                    background: #fff;
+                    background: var(--nova-surface-strong, #171e32);
                     font-size: 12px;
                 }
 
@@ -2123,7 +2123,7 @@ function Paging() {
 
                 .paging-result span {
                     display: block;
-                    color: #70778d;
+                    color: var(--nova-text-muted, #71809a);
                     line-height: 1.4;
                 }
 
@@ -2145,15 +2145,15 @@ function Paging() {
                 .paging-metric {
                     min-width: 0;
                     padding: 13px;
-                    border: 1px solid #e1e4ed;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 10px;
-                    background: #fff;
+                    background: var(--nova-surface-strong, #171e32);
                 }
 
                 .paging-metric-label,
                 .paging-metric-detail {
                     display: block;
-                    color: #7b8195;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 10px;
                 }
 
@@ -2176,9 +2176,9 @@ function Paging() {
 
                 .paging-panel {
                     min-width: 0;
-                    border: 1px solid #e1e4ed;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 12px;
-                    background: #fff;
+                    background: var(--nova-surface, #12182a);
                     overflow: hidden;
                 }
 
@@ -2188,7 +2188,7 @@ function Paging() {
 
                 .paging-panel-header {
                     padding: 15px 16px 11px;
-                    border-bottom: 1px solid #eceef4;
+                    border-bottom: 1px solid var(--nova-border-soft, rgba(148, 163, 184, 0.10));
                 }
 
                 .paging-panel-header h2 {
@@ -2199,7 +2199,7 @@ function Paging() {
 
                 .paging-panel-header p {
                     margin: 4px 0 0;
-                    color: #7b8195;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 11px;
                     line-height: 1.4;
                 }
@@ -2223,10 +2223,10 @@ function Paging() {
                     align-items: center;
                     width: 100%;
                     padding: 9px 10px;
-                    border: 1px solid #e3e6ee;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 8px;
-                    background: #fbfcfe;
-                    color: #454c61;
+                    background: var(--nova-surface-strong, #171e32);
+                    color: var(--nova-text-secondary, #aebbd1);
                     text-align: left;
                     cursor: pointer;
                     font: inherit;
@@ -2234,12 +2234,12 @@ function Paging() {
                 }
 
                 .paging-process-item:hover {
-                    border-color: #c5cad8;
+                    border-color: var(--nova-border-strong, #34405f);
                 }
 
                 .paging-process-item.selected {
-                    border-color: #858ca8;
-                    background: #f1f2f7;
+                    border-color: var(--nova-memory, #8b5cf6);
+                    background: var(--nova-memory-soft, rgba(139, 92, 246, 0.12));
                 }
 
                 .paging-process-pid {
@@ -2257,15 +2257,15 @@ function Paging() {
 
                 .selected-process-info > div {
                     padding: 10px;
-                    border: 1px solid #e4e7ee;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 8px;
-                    background: #fafbfc;
+                    background: var(--nova-surface-strong, #171e32);
                 }
 
                 .selected-process-info span {
                     display: block;
                     margin-bottom: 4px;
-                    color: #7a8094;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 9px;
                     font-weight: 700;
                 }
@@ -2273,7 +2273,7 @@ function Paging() {
                 .selected-process-info strong {
                     display: block;
                     overflow: hidden;
-                    color: #30374a;
+                    color: var(--nova-text, #f1f5ff);
                     font-size: 12px;
                     text-overflow: ellipsis;
                     white-space: nowrap;
@@ -2296,7 +2296,7 @@ function Paging() {
                 }
 
                 .paging-field span {
-                    color: #6f768b;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 10px;
                     font-weight: 700;
                 }
@@ -2305,18 +2305,18 @@ function Paging() {
                     width: 100%;
                     height: 36px;
                     padding: 0 10px;
-                    border: 1px solid #dfe3ec;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 7px;
                     outline: none;
-                    background: #fbfcfe;
-                    color: #182033;
+                    background: var(--nova-surface-strong, #171e32);
+                    color: var(--nova-text, #f1f5ff);
                     font: inherit;
                     font-size: 12px;
                 }
 
                 .paging-field input:focus {
-                    border-color: #9299b5;
-                    background: #fff;
+                    border-color: var(--nova-memory, #8b5cf6);
+                    background: var(--nova-surface, #12182a);
                 }
 
                 .paging-field input:disabled {
@@ -2334,10 +2334,10 @@ function Paging() {
                 .paging-button {
                     min-height: 34px;
                     padding: 0 12px;
-                    border: 1px solid #dfe3ec;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 7px;
-                    background: #fff;
-                    color: #30374c;
+                    background: var(--nova-surface-strong, #171e32);
+                    color: var(--nova-text, #f1f5ff);
                     cursor: pointer;
                     font: inherit;
                     font-size: 11px;
@@ -2347,7 +2347,7 @@ function Paging() {
 
                 .paging-button:hover:not(:disabled) {
                     transform: translateY(-1px);
-                    border-color: #b9bfd0;
+                    border-color: var(--nova-border-strong, #34405f);
                 }
 
                 .paging-button:disabled {
@@ -2356,13 +2356,13 @@ function Paging() {
                 }
 
                 .paging-button.primary {
-                    border-color: #5e6687;
-                    background: #59617f;
+                    border-color: var(--nova-memory, #8b5cf6);
+                    background: var(--nova-memory, #8b5cf6);
                     color: #fff;
                 }
 
                 .paging-button.secondary {
-                    background: #f1f2f7;
+                    background: var(--nova-surface, #12182a);
                 }
 
                 .paging-button.danger {
@@ -2388,8 +2388,8 @@ function Paging() {
 
                 .paging-table th {
                     padding: 9px 8px;
-                    border-bottom: 1px solid #e5e8ef;
-                    color: #737a90;
+                    border-bottom: 1px solid var(--nova-border, #252f48);
+                    color: var(--nova-text-muted, #71809a);
                     text-align: left;
                     font-size: 9px;
                     text-transform: uppercase;
@@ -2398,7 +2398,7 @@ function Paging() {
 
                 .paging-table td {
                     padding: 9px 8px;
-                    border-bottom: 1px solid #eef0f5;
+                    border-bottom: 1px solid var(--nova-border-soft, rgba(148, 163, 184, 0.10));
                     vertical-align: middle;
                 }
 
@@ -2414,10 +2414,10 @@ function Paging() {
 
                 .paging-small-button {
                     padding: 5px 7px;
-                    border: 1px solid #dfe3eb;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 5px;
-                    background: #fff;
-                    color: #4a5165;
+                    background: var(--nova-surface-strong, #171e32);
+                    color: var(--nova-text-secondary, #aebbd1);
                     cursor: pointer;
                     font: inherit;
                     font-size: 9px;
@@ -2443,19 +2443,19 @@ function Paging() {
                 .paging-frame {
                     min-height: 76px;
                     padding: 9px;
-                    border: 1px solid #e1e4ed;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 8px;
-                    background: #fafbfc;
+                    background: var(--nova-surface-strong, #171e32);
                 }
 
                 .paging-frame.used {
-                    border-color: #b8bfd2;
-                    background: #f0f2f7;
+                    border-color: var(--nova-memory, #8b5cf6);
+                    background: var(--nova-memory-soft, rgba(139, 92, 246, 0.12));
                 }
 
                 .paging-frame-number {
                     margin-bottom: 9px;
-                    color: #777e93;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 9px;
                     font-weight: 800;
                     text-transform: uppercase;
@@ -2465,12 +2465,12 @@ function Paging() {
                     display: flex;
                     flex-direction: column;
                     gap: 3px;
-                    color: #747b8f;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 9px;
                 }
 
                 .paging-frame-status strong {
-                    color: #353c50;
+                    color: var(--nova-text, #f1f5ff);
                     font-size: 10px;
                 }
 
@@ -2482,15 +2482,15 @@ function Paging() {
 
                 .translation-result > div {
                     padding: 10px;
-                    border: 1px solid #e4e7ee;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 8px;
-                    background: #fafbfc;
+                    background: var(--nova-surface-strong, #171e32);
                 }
 
                 .translation-result span {
                     display: block;
                     margin-bottom: 5px;
-                    color: #7a8094;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 9px;
                     font-weight: 700;
                 }
@@ -2514,7 +2514,7 @@ function Paging() {
                 }
 
                 .paging-activity-grid .paging-metric {
-                    background: #fafbfc;
+                    background: var(--nova-surface-strong, #171e32);
                 }
 
                 .paging-empty {
@@ -2525,13 +2525,13 @@ function Paging() {
                     gap: 5px;
                     min-height: 80px;
                     padding: 20px 10px;
-                    color: #888fa2;
+                    color: var(--nova-text-muted, #71809a);
                     text-align: center;
                     font-size: 11px;
                 }
 
                 .paging-empty strong {
-                    color: #596078;
+                    color: var(--nova-text-secondary, #aebbd1);
                 }
 
                 .paging-date,
@@ -2546,10 +2546,10 @@ function Paging() {
                     gap: 18px;
                     margin-top: 14px;
                     padding: 11px 13px;
-                    border: 1px solid #e1e4ed;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 10px;
-                    background: #fff;
-                    color: #777e92;
+                    background: var(--nova-surface, #12182a);
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 10px;
                 }
 
@@ -2558,7 +2558,7 @@ function Paging() {
                 }
 
                 .paging-footer strong {
-                    color: #333a4e;
+                    color: var(--nova-text, #f1f5ff);
                 }
 
                 .paging-footer .paging-button {

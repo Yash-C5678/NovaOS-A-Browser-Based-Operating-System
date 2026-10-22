@@ -1,4 +1,4 @@
-﻿import {
+import {
     useCallback,
     useEffect,
     useMemo,
@@ -695,20 +695,8 @@ function ProcessManager() {
                     padding: 22px;
                     overflow: auto;
 
-                    background:
-                        radial-gradient(
-                            circle at 100% 0%,
-                            rgba(124, 92, 255, 0.12),
-                            transparent 32%
-                        ),
-                        radial-gradient(
-                            circle at 0% 100%,
-                            rgba(59, 130, 246, 0.08),
-                            transparent 30%
-                        ),
-                        #f7f8ff;
-
-                    color: #17152b;
+                    background: var(--nova-bg-1, #0d1324);
+                    color: var(--nova-text, #f1f5ff);
 
                     font-family:
                         Inter,
@@ -800,14 +788,14 @@ function ProcessManager() {
                     line-height: 1.1;
                     letter-spacing: -0.035em;
 
-                    color: #17142e;
+                    color: var(--nova-text, #f1f5ff);
                 }
 
 
                 .nova-pm-header p {
                     margin: 7px 0 0;
 
-                    color: #716d87;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 13px;
                     line-height: 1.5;
                 }
@@ -832,18 +820,18 @@ function ProcessManager() {
 
                     border:
                         1px solid
-                        #dddaf0;
+                        var(--nova-border, #252f48);
 
                     border-radius: 10px;
 
                     background:
-                        rgba(255, 255, 255, 0.82);
+                        var(--nova-surface-strong, #171e32);
 
                     font-size: 10px;
                     font-weight: 800;
                     letter-spacing: 0.08em;
 
-                    color: #68637d;
+                    color: var(--nova-text-secondary, #aebbd1);
 
                     box-shadow:
                         0 3px 14px
@@ -949,12 +937,12 @@ function ProcessManager() {
 
                     border:
                         1px solid
-                        #e0ddf1;
+                        var(--nova-border, #252f48);
 
                     border-radius: 13px;
 
                     background:
-                        rgba(255, 255, 255, 0.84);
+                        var(--nova-surface-strong, #171e32);
 
                     box-shadow:
                         0 5px 18px
@@ -1005,7 +993,7 @@ function ProcessManager() {
 
 
                 .nova-pm-stat-label {
-                    color: #77728f;
+                    color: var(--nova-text-muted, #71809a);
 
                     font-size: 9px;
                     font-weight: 800;
@@ -1023,7 +1011,7 @@ function ProcessManager() {
 
                     font-weight: 800;
 
-                    color: #27223f;
+                    color: var(--nova-text, #f1f5ff);
                 }
 
 
@@ -1051,12 +1039,12 @@ function ProcessManager() {
                 .nova-pm-panel {
                     border:
                         1px solid
-                        #dfdced;
+                        var(--nova-border, #252f48);
 
                     border-radius: 15px;
 
                     background:
-                        rgba(255, 255, 255, 0.88);
+                        var(--nova-surface, #12182a);
 
                     box-shadow:
                         0 7px 25px
@@ -1077,7 +1065,7 @@ function ProcessManager() {
 
                     border-bottom:
                         1px solid
-                        #ebe9f4;
+                        var(--nova-border-soft, rgba(148, 163, 184, 0.10));
                 }
 
 
@@ -1086,7 +1074,7 @@ function ProcessManager() {
                     align-items: center;
                     gap: 9px;
 
-                    color: #28223f;
+                    color: var(--nova-text, #f1f5ff);
 
                     font-size: 13px;
                     font-weight: 800;
@@ -1133,10 +1121,10 @@ function ProcessManager() {
 
                     border-bottom:
                         1px solid
-                        #ebe9f4;
+                        var(--nova-border-soft, rgba(148, 163, 184, 0.10));
 
                     background:
-                        #fafaff;
+                        var(--nova-surface-strong, #171e32);
                 }
 
 
@@ -1155,15 +1143,15 @@ function ProcessManager() {
 
                     border:
                         1px solid
-                        #dedbec;
+                        var(--nova-border, #252f48);
 
-                    border-radius: 9px;
+                    border-radius: 99px;
 
                     outline: none;
 
-                    background: white;
+                    background: var(--nova-surface, #12182a);
 
-                    color: #29243f;
+                    color: var(--nova-text, #f1f5ff);
 
                     font-size: 11px;
 
@@ -1205,15 +1193,15 @@ function ProcessManager() {
 
                     border:
                         1px solid
-                        #dedbec;
+                        var(--nova-border, #252f48);
 
                     border-radius: 9px;
 
                     outline: none;
 
-                    background: white;
+                    background: var(--nova-surface, #12182a);
 
-                    color: #403a58;
+                    color: var(--nova-text, #f1f5ff);
 
                     font-size: 11px;
                     font-weight: 700;
@@ -1251,13 +1239,13 @@ function ProcessManager() {
                         10px 12px;
 
                     background:
-                        #f7f6fd;
+                        var(--nova-surface-strong, #171e32);
 
                     border-bottom:
                         1px solid
-                        #e7e4f0;
+                        var(--nova-border, #252f48);
 
-                    color: #858097;
+                    color: var(--nova-text-muted, #71809a);
 
                     font-size: 9px;
                     font-weight: 800;
@@ -1273,9 +1261,9 @@ function ProcessManager() {
 
                     border-bottom:
                         1px solid
-                        #eeeef5;
+                        var(--nova-border-soft, rgba(148, 163, 184, 0.10));
 
-                    color: #48425d;
+                    color: var(--nova-text-secondary, #aebbd1);
 
                     font-size: 11px;
 
@@ -1293,17 +1281,13 @@ function ProcessManager() {
 
                 .nova-pm-table tbody tr:hover {
                     background:
-                        #f8f7ff;
+                        var(--nova-surface-hover, rgba(255, 255, 255, 0.04));
                 }
 
 
                 .nova-pm-table tbody tr.selected {
                     background:
-                        linear-gradient(
-                            90deg,
-                            #f0edff,
-                            #faf9ff
-                        );
+                        var(--nova-process-soft, rgba(59, 130, 246, 0.14));
                 }
 
 
@@ -1560,16 +1544,12 @@ function ProcessManager() {
 
                     border:
                         1px solid
-                        #e3dff4;
+                        var(--nova-border, #252f48);
 
                     border-radius: 12px;
 
                     background:
-                        linear-gradient(
-                            135deg,
-                            #f7f4ff,
-                            #fbfbff
-                        );
+                        var(--nova-surface-strong, #171e32);
 
                     margin-bottom: 13px;
                 }

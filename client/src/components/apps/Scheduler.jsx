@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const API_BASE = "http://localhost:5000/api";
 
@@ -422,16 +422,18 @@ function Scheduler() {
     };
 
     const removeProcess = (index) => {
-        if (processes.length <= 1) {
-            return;
-        }
-
         setProcesses((current) =>
             current.filter(
                 (_, processIndex) =>
                     processIndex !== index
             )
         );
+    };
+
+    const clearAll = () => {
+        setProcesses([]);
+        setResult(null);
+        setError("");
     };
 
     const reset = () => {
@@ -463,7 +465,16 @@ function Scheduler() {
                 })
             );
 
+            const pidSet = new Set();
             for (const process of cleanProcesses) {
+                const lowerPid = process.pid.toLowerCase();
+                if (pidSet.has(lowerPid)) {
+                    throw new Error(
+                        `Process ID '${process.pid}' must be unique.`
+                    );
+                }
+                pidSet.add(lowerPid);
+
                 if (
                     !Number.isInteger(
                         process.arrivalTime
@@ -1713,9 +1724,16 @@ function Scheduler() {
                     <div className="scheduler-actions">
                         <button
                             type="button"
+                            onClick={clearAll}
+                        >
+                            Clear All
+                        </button>
+
+                        <button
+                            type="button"
                             onClick={reset}
                         >
-                            Reset
+                            Reset Defaults
                         </button>
 
                         <button
@@ -1740,112 +1758,119 @@ function Scheduler() {
                         </thead>
 
                         <tbody>
-                            {processes.map(
-                                (process, index) => (
-                                    <tr
-                                        key={`${index}-${process.pid}`}
-                                    >
-                                        <td>
-                                            <input
-                                                value={
-                                                    process.pid
-                                                }
-                                                onChange={(
-                                                    event
-                                                ) =>
-                                                    updateProcess(
-                                                        index,
-                                                        "pid",
+                            {processes.length === 0 ? (
+                                <tr>
+                                    <td colSpan="5" style={{ textAlign: "center", padding: "20px", color: "var(--scheduler-muted)" }}>
+                                        No processes in table. Click <strong>+ Add Process</strong> to add a process.
+                                    </td>
+                                </tr>
+                            ) : (
+                                processes.map(
+                                    (process, index) => (
+                                        <tr
+                                            key={`${index}-${process.pid}`}
+                                        >
+                                            <td>
+                                                <input
+                                                    value={
+                                                        process.pid
+                                                    }
+                                                    onChange={(
                                                         event
-                                                            .target
-                                                            .value
-                                                    )
-                                                }
-                                            />
-                                        </td>
+                                                    ) =>
+                                                        updateProcess(
+                                                            index,
+                                                            "pid",
+                                                            event
+                                                                .target
+                                                                .value
+                                                        )
+                                                    }
+                                                />
+                                            </td>
 
-                                        <td>
-                                            <input
-                                                type="number"
-                                                min="0"
-                                                step="1"
-                                                value={
-                                                    process.arrivalTime
-                                                }
-                                                onChange={(
-                                                    event
-                                                ) =>
-                                                    updateProcess(
-                                                        index,
-                                                        "arrivalTime",
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    step="1"
+                                                    value={
+                                                        process.arrivalTime
+                                                    }
+                                                    onChange={(
                                                         event
-                                                            .target
-                                                            .value
-                                                    )
-                                                }
-                                            />
-                                        </td>
+                                                    ) =>
+                                                        updateProcess(
+                                                            index,
+                                                            "arrivalTime",
+                                                            event
+                                                                .target
+                                                                .value
+                                                        )
+                                                    }
+                                                />
+                                            </td>
 
-                                        <td>
-                                            <input
-                                                type="number"
-                                                min="1"
-                                                step="1"
-                                                value={
-                                                    process.burstTime
-                                                }
-                                                onChange={(
-                                                    event
-                                                ) =>
-                                                    updateProcess(
-                                                        index,
-                                                        "burstTime",
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    step="1"
+                                                    value={
+                                                        process.burstTime
+                                                    }
+                                                    onChange={(
                                                         event
-                                                            .target
-                                                            .value
-                                                    )
-                                                }
-                                            />
-                                        </td>
+                                                    ) =>
+                                                        updateProcess(
+                                                            index,
+                                                            "burstTime",
+                                                            event
+                                                                .target
+                                                                .value
+                                                        )
+                                                    }
+                                                />
+                                            </td>
 
-                                        <td>
-                                            <input
-                                                type="number"
-                                                value={
-                                                    process.priority
-                                                }
-                                                onChange={(
-                                                    event
-                                                ) =>
-                                                    updateProcess(
-                                                        index,
-                                                        "priority",
+                                            <td>
+                                                <input
+                                                    type="number"
+                                                    value={
+                                                        process.priority
+                                                    }
+                                                    onChange={(
                                                         event
-                                                            .target
-                                                            .value
-                                                    )
-                                                }
-                                            />
-                                        </td>
+                                                    ) =>
+                                                        updateProcess(
+                                                            index,
+                                                            "priority",
+                                                            event
+                                                                .target
+                                                                .value
+                                                        )
+                                                    }
+                                                />
+                                            </td>
 
-                                        <td>
-                                            <button
-                                                type="button"
-                                                className="scheduler-delete"
-                                                disabled={
-                                                    processes.length <=
-                                                    1
-                                                }
-                                                onClick={() =>
-                                                    removeProcess(
-                                                        index
-                                                    )
-                                                }
-                                            >
-                                                ×
-                                            </button>
-                                        </td>
-                                    </tr>
+                                            <td>
+                                                <button
+                                                    type="button"
+                                                    className="scheduler-delete"
+                                                    disabled={
+                                                        processes.length === 0
+                                                    }
+                                                    onClick={() =>
+                                                        removeProcess(
+                                                            index
+                                                        )
+                                                    }
+                                                >
+                                                    ×
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )
                                 )
                             )}
                         </tbody>

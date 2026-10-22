@@ -352,7 +352,8 @@ function Calculator() {
                     flex-direction: column;
                     padding: 18px;
                     box-sizing: border-box;
-                    background: #f5f7fa;
+                    background: var(--nova-bg-1, #0d1324);
+                    color: var(--nova-text, #f1f5ff);
                     font-family:
                         Inter,
                         system-ui,
@@ -367,8 +368,9 @@ function Calculator() {
                     padding: 18px;
                     margin-bottom: 14px;
                     border-radius: 14px;
-                    background: #111827;
-                    color: white;
+                    background: var(--nova-surface-strong, #171e32);
+                    border: 1px solid var(--nova-border, #252f48);
+                    color: var(--nova-text, #f1f5ff);
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-end;
@@ -381,7 +383,7 @@ function Calculator() {
                     min-height: 22px;
                     width: 100%;
                     text-align: right;
-                    color: #9ca3af;
+                    color: var(--nova-text-muted, #71809a);
                     font-size: 13px;
                     margin-bottom: 6px;
                     overflow: hidden;
@@ -409,10 +411,10 @@ function Calculator() {
                 }
 
                 .calculator-button {
-                    border: 1px solid #d8dde5;
+                    border: 1px solid var(--nova-border, #252f48);
                     border-radius: 12px;
-                    background: white;
-                    color: #1f2937;
+                    background: var(--nova-surface, #12182a);
+                    color: var(--nova-text, #f1f5ff);
                     font-size: 20px;
                     font-weight: 500;
                     cursor: pointer;
@@ -424,8 +426,8 @@ function Calculator() {
                 }
 
                 .calculator-button:hover {
-                    background: #eef2f7;
-                    border-color: #c7ced8;
+                    background: var(--nova-surface-hover, #1d2640);
+                    border-color: var(--nova-border-hover, #3b496c);
                 }
 
                 .calculator-button:active {
@@ -434,23 +436,25 @@ function Calculator() {
 
                 .calculator-button.function {
                     font-size: 17px;
-                    background: #e9edf3;
+                    background: var(--nova-surface-strong, #171e32);
+                    color: var(--nova-text-secondary, #aebbd1);
                 }
 
                 .calculator-button.operator {
-                    background: #e6ebf2;
+                    background: var(--nova-surface-strong, #171e32);
+                    color: var(--nova-accent, #3b82f6);
                     font-weight: 600;
                 }
 
                 .calculator-button.equals {
-                    background: #111827;
+                    background: var(--nova-accent, #3b82f6);
                     color: white;
-                    border-color: #111827;
+                    border-color: var(--nova-accent, #3b82f6);
                     font-weight: 600;
                 }
 
                 .calculator-button.equals:hover {
-                    background: #1f2937;
+                    background: var(--nova-accent-hover, #2563eb);
                 }
 
                 .calculator-button.zero {
@@ -461,7 +465,7 @@ function Calculator() {
                     margin-top: 12px;
                     text-align: center;
                     font-size: 11px;
-                    color: #8a94a3;
+                    color: var(--nova-text-muted, #71809a);
                 }
 
                 @media (max-width: 420px) {

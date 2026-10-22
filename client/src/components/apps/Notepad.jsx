@@ -399,8 +399,8 @@ export default function Notepad({
                         display: flex;
                         flex-direction: column;
                         overflow: hidden;
-                        background: #07111d;
-                        color: #dbe7f3;
+                        background: var(--nova-bg-1, #0d1324);
+                        color: var(--nova-text, #f1f5ff);
                         font-family:
                             Inter,
                             ui-sans-serif,
@@ -422,8 +422,8 @@ export default function Notepad({
                         align-items: center;
                         gap: 5px;
                         padding: 7px 10px;
-                        border-bottom: 1px solid rgba(120, 155, 195, 0.13);
-                        background: #0b1827;
+                        border-bottom: 1px solid var(--nova-border, #252f48);
+                        background: var(--nova-surface-strong, #171e32);
                     }
 
                     .nova-notepad-button {
@@ -470,14 +470,14 @@ export default function Notepad({
                         flex: 1;
                         padding: 0 10px;
                         overflow: hidden;
-                        color: #7e93aa;
+                        color: var(--nova-text-muted, #71809a);
                         font-size: 10px;
                         text-overflow: ellipsis;
                         white-space: nowrap;
                     }
 
                     .nova-notepad-title strong {
-                        color: #cbd9e7;
+                        color: var(--nova-text, #f1f5ff);
                     }
 
                     .nova-notepad-dirty {
@@ -502,14 +502,8 @@ export default function Notepad({
                         border: 0;
                         outline: 0;
                         padding: 18px 20px;
-                        background:
-                            linear-gradient(
-                                90deg,
-                                rgba(255,255,255,0.018) 0,
-                                rgba(255,255,255,0) 55px
-                            ),
-                            #06101b;
-                        color: #c4d3e2;
+                        background: var(--nova-surface, #12182a);
+                        color: var(--nova-text, #f1f5ff);
                         font-family:
                             "SFMono-Regular",
                             Consolas,
@@ -535,9 +529,9 @@ export default function Notepad({
                         align-items: center;
                         gap: 9px;
                         padding: 0 11px;
-                        border-top: 1px solid rgba(120, 155, 195, 0.1);
-                        background: #08131f;
-                        color: #566b82;
+                        border-top: 1px solid var(--nova-border, #252f48);
+                        background: var(--nova-surface-strong, #171e32);
+                        color: var(--nova-text-muted, #71809a);
                         font-family:
                             "SFMono-Regular",
                             Consolas,
@@ -575,9 +569,9 @@ export default function Notepad({
                     .nova-notepad-dialog {
                         width: min(410px, 90vw);
                         overflow: hidden;
-                        border: 1px solid rgba(105, 150, 205, 0.28);
+                        border: 1px solid var(--nova-border, #252f48);
                         border-radius: 12px;
-                        background: #0b1827;
+                        background: var(--nova-surface-strong, #171e32);
                         box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
                     }
 
@@ -586,8 +580,8 @@ export default function Notepad({
                         align-items: center;
                         gap: 8px;
                         padding: 14px 15px;
-                        border-bottom: 1px solid rgba(120, 155, 195, 0.12);
-                        color: #dce7f2;
+                        border-bottom: 1px solid var(--nova-border-soft, rgba(148, 163, 184, 0.10));
+                        color: var(--nova-text, #f1f5ff);
                         font-size: 12px;
                         font-weight: 700;
                     }
@@ -608,11 +602,11 @@ export default function Notepad({
                         width: 100%;
                         height: 37px;
                         padding: 0 10px;
-                        border: 1px solid rgba(110, 145, 185, 0.2);
+                        border: 1px solid var(--nova-border, #252f48);
                         border-radius: 7px;
                         outline: 0;
-                        background: #06101b;
-                        color: #dce8f4;
+                        background: var(--nova-surface, #12182a);
+                        color: var(--nova-text, #f1f5ff);
                         font-family:
                             "SFMono-Regular",
                             Consolas,

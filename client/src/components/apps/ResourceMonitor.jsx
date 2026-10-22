@@ -610,10 +610,10 @@ function ResourceMonitor() {
                     padding: 20px;
 
                     background:
-                        #f6f7fb;
+                        var(--nova-bg-1, #0d1324);
 
                     color:
-                        #242238;
+                        var(--nova-text, #f1f5ff);
 
                     font-family:
                         Inter,
@@ -659,13 +659,13 @@ function ResourceMonitor() {
                     font-size: 25px;
                     line-height: 1.15;
 
-                    color: #222038;
+                    color: var(--nova-text, #f1f5ff);
                 }
 
                 .nrm-title-block p {
                     margin: 6px 0 0;
 
-                    color: #77768a;
+                    color: var(--nova-text-muted, #71809a);
 
                     font-size: 12px;
                 }
@@ -679,15 +679,15 @@ function ResourceMonitor() {
 
                     border:
                         1px solid
-                        #dfe1e9;
+                        var(--nova-border, #252f48);
 
                     border-radius: 9px;
 
                     background:
-                        #ffffff;
+                        var(--nova-surface-strong, #171e32);
 
                     color:
-                        #66677a;
+                        var(--nova-text-secondary, #aebbd1);
 
                     font-size: 10px;
                     font-weight: 700;
@@ -749,12 +749,12 @@ function ResourceMonitor() {
 
                     border:
                         1px solid
-                        #e1e2e9;
+                        var(--nova-border, #252f48);
 
                     border-radius: 12px;
 
                     background:
-                        #ffffff;
+                        var(--nova-surface-strong, #171e32);
 
                     box-shadow:
                         0 4px 14px
@@ -771,7 +771,7 @@ function ResourceMonitor() {
 
                 .nrm-card-label {
                     color:
-                        #858597;
+                        var(--nova-text-muted, #71809a);
 
                     font-size: 9px;
                     font-weight: 800;
@@ -793,15 +793,15 @@ function ResourceMonitor() {
                     border-radius: 8px;
 
                     background:
-                        #f0effa;
+                        var(--nova-surface, #12182a);
 
                     color:
-                        #6254b8;
+                        var(--nova-memory, #a855f7);
                 }
 
                 .nrm-card-value {
                     color:
-                        #25233a;
+                        var(--nova-text, #f1f5ff);
 
                     font-size: 24px;
                     font-weight: 800;
@@ -813,7 +813,7 @@ function ResourceMonitor() {
                     margin-top: 5px;
 
                     color:
-                        #8b8b9a;
+                        var(--nova-text-muted, #71809a);
 
                     font-size: 9px;
                 }
@@ -876,12 +876,12 @@ function ResourceMonitor() {
 
                     border:
                         1px solid
-                        #e1e2e9;
+                        var(--nova-border, #252f48);
 
                     border-radius: 12px;
 
                     background:
-                        #ffffff;
+                        var(--nova-surface, #12182a);
 
                     box-shadow:
                         0 4px 14px
@@ -897,12 +897,12 @@ function ResourceMonitor() {
 
                     border-bottom:
                         1px solid
-                        #ececf1;
+                        var(--nova-border-soft, rgba(148, 163, 184, 0.10));
                 }
 
                 .nrm-panel-title {
                     color:
-                        #302d45;
+                        var(--nova-text, #f1f5ff);
 
                     font-size: 12px;
                     font-weight: 800;
@@ -912,7 +912,7 @@ function ResourceMonitor() {
                     margin-top: 3px;
 
                     color:
-                        #8b8b9a;
+                        var(--nova-text-muted, #71809a);
 
                     font-size: 9px;
                 }
@@ -1012,14 +1012,14 @@ function ResourceMonitor() {
 
                 .nrm-memory-big strong {
                     color:
-                        #28253e;
+                        var(--nova-text, #f1f5ff);
 
                     font-size: 28px;
                 }
 
                 .nrm-memory-big span {
                     color:
-                        #858597;
+                        var(--nova-text-muted, #71809a);
 
                     font-size: 10px;
                 }
@@ -1034,7 +1034,7 @@ function ResourceMonitor() {
 
                     border-bottom:
                         1px solid
-                        #eeeeF2;
+                        var(--nova-border-soft, rgba(148, 163, 184, 0.10));
 
                     font-size: 10px;
                 }
@@ -1045,12 +1045,12 @@ function ResourceMonitor() {
 
                 .nrm-memory-row span {
                     color:
-                        #898998;
+                        var(--nova-text-muted, #71809a);
                 }
 
                 .nrm-memory-row strong {
                     color:
-                        #4b485d;
+                        var(--nova-text, #f1f5ff);
                 }
 
 
@@ -1074,19 +1074,19 @@ function ResourceMonitor() {
 
                     border:
                         1px solid
-                        #ececf1;
+                        var(--nova-border, #252f48);
 
                     border-radius: 8px;
 
                     background:
-                        #fafafd;
+                        var(--nova-surface-strong, #171e32);
                 }
 
                 .nrm-process-stat span {
                     display: block;
 
                     color:
-                        #9292a0;
+                        var(--nova-text-muted, #71809a);
 
                     font-size: 8px;
 
@@ -1100,7 +1100,7 @@ function ResourceMonitor() {
                     margin-top: 3px;
 
                     color:
-                        #403d54;
+                        var(--nova-text, #f1f5ff);
 
                     font-size: 15px;
                 }
@@ -1129,10 +1129,10 @@ function ResourceMonitor() {
                         8px 10px;
 
                     background:
-                        #f8f8fb;
+                        var(--nova-surface-strong, #171e32);
 
                     color:
-                        #888896;
+                        var(--nova-text-muted, #71809a);
 
                     font-size: 8px;
                     font-weight: 800;
@@ -1149,10 +1149,10 @@ function ResourceMonitor() {
 
                     border-top:
                         1px solid
-                        #eeeeF2;
+                        var(--nova-border-soft, rgba(148, 163, 184, 0.10));
 
                     color:
-                        #514e61;
+                        var(--nova-text-secondary, #aebbd1);
 
                     font-size: 10px;
                 }
@@ -1252,17 +1252,17 @@ function ResourceMonitor() {
 
                     border:
                         1px solid
-                        #ececf1;
+                        var(--nova-border, #252f48);
 
                     border-radius: 8px;
 
                     background:
-                        #fbfbfd;
+                        var(--nova-surface-strong, #171e32);
                 }
 
                 .nrm-io-label {
                     color:
-                        #787889;
+                        var(--nova-text-muted, #71809a);
 
                     font-size:
                         9px;
@@ -1270,7 +1270,7 @@ function ResourceMonitor() {
 
                 .nrm-io-value {
                     color:
-                        #3f3c51;
+                        var(--nova-text, #f1f5ff);
 
                     font-size:
                         13px;
@@ -1302,7 +1302,7 @@ function ResourceMonitor() {
 
                     border-bottom:
                         1px solid
-                        #eeeeF2;
+                        var(--nova-border-soft, rgba(148, 163, 184, 0.10));
                 }
 
                 .nrm-info-row:last-child {
@@ -1312,7 +1312,7 @@ function ResourceMonitor() {
 
                 .nrm-info-row span {
                     color:
-                        #898998;
+                        var(--nova-text-muted, #71809a);
 
                     font-size:
                         9px;
@@ -1320,7 +1320,7 @@ function ResourceMonitor() {
 
                 .nrm-info-row strong {
                     color:
-                        #454257;
+                        var(--nova-text, #f1f5ff);
 
                     font-size:
                         10px;
@@ -1341,7 +1341,7 @@ function ResourceMonitor() {
                     gap: 10px;
 
                     color:
-                        #9999a7;
+                        var(--nova-text-muted, #71809a);
 
                     font-size:
                         9px;
